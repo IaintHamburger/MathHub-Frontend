@@ -1,38 +1,45 @@
 {
-	"name": "client",
-	"private": true,
-	"version": "0.0.0",
-	"type": "module",
-	"scripts": {
-		"dev": "vite",
-		"build": "vite build",
-		"lint": "biome lint .",
-		"format": "biome format .",
-		"format:fix": "biome format --fix",
-		"preview": "vite preview"
-	},
-	"dependencies": {
-		"@uiw/react-md-editor": "^4.0.6",
-		"katex": "^0.16.22",
-		"react": "^18.3.1",
-		"react-dom": "^18.3.1",
-		"react-latex-next": "^3.0.0",
-		"react-markdown": "^10.1.0",
-		"react-router-dom": "^7.3.0",
-		"rehype-katex": "^7.0.1",
-		"remark-math": "^6.0.0"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "1.9.4",
-		"@tailwindcss/vite": "^4.1.6",
-		"@types/react": "^19.0.10",
-		"@types/react-dom": "^19.0.4",
-		"@vitejs/plugin-react": "^4.3.4",
-		"biome": "^0.3.3",
-		"globals": "^15.15.0",
-		"install": "^0.13.0",
-		"npm": "^11.3.0",
-		"tailwindcss": "^4.1.6",
-		"vite": "^6.2.0"
-	}
+  "name": "mathhub-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "biome lint .",
+    "format": "biome format .",
+    "format:fix": "biome format --fix",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit",
+    "build:ts": "tsc --noEmit && vite build"
+  },
+  "dependencies": {
+    "@uiw/react-md-editor": "^4.0.6",
+    "katex": "^0.16.22",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-latex-next": "^3.0.0",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.3.0",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "biome": "^0.3.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@tailwindcss/vite": "^4.1.6",
+    "@types/node": "^22.15.21",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
+    "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.21",
+    "globals": "^15.15.0",
+    "install": "^0.13.0",
+    "npm": "^11.3.0",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.6",
+    "typescript": "^5.8.3",
+    "vite": "^6.2.0"
+  }
 }

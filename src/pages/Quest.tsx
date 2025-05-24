@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
+import type { QuestItem, QuestListResponse } from '@/types/api';
 
-const Quest = () => {
-    const [data, setData] = useState([]);           // 查詢題目
-    const [loading, setLoading] = useState(true);   // 載入狀態
+const Quest = (): React.JSX.Element => {
+    const [data, setData] = useState<QuestItem[]>([]);           // 查詢題目
+    const [loading, setLoading] = useState<boolean>(true);   // 載入狀態
 
     useEffect(() => {
         fetch("http://localhost:5000/quest/getList?begin=0&end=9")
-            .then((res) => res.json())
-            .then((data) => {
+            .then((res: Response) => res.json())
+            .then((data: QuestListResponse) => {
                 setData(data);
                 setLoading(false);
             })
-            .catch((error) => {
-                console.error(error);
+            .catch((error: Error) => {
+                console.error('Failed to fetch quest list:', error);
                 setLoading(false);
             });
     }, []);
@@ -34,7 +35,7 @@ const Quest = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map((item) => (
+                                {data.map((item: QuestItem) => (
                                     <tr key={item.id} className="border-t border-gray-700">
                                         <td className="p-2">
                                             <Link to={`/exam/${item.id}`} className="text-white hover:text-gray-300 transition-colors">

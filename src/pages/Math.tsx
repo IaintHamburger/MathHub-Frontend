@@ -1,6 +1,4 @@
-import React from 'react';
-
-const Math = () => {
+const MathPage = (): React.JSX.Element => {
     return (
         <div className="flex items-center flex-col justify-center min-h-screen bg-gray-900 text-white">
             <h1 className="text-5xl font-bold mb-8">數學天地</h1>
@@ -28,4 +26,4 @@ const Math = () => {
     );
 };
 
-export default Math; 
+export default MathPage;
