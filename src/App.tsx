@@ -1,71 +1,41 @@
-import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import "@/App.css";
-import About from "@/pages/About";
-import Home from "@/pages/Home";
-import Playground from "@/pages/Playground";
-import MathPage from "@/pages/Math";
-import Quest from "@/pages/Quest";
-import Exam from "@/pages/Exam";
+import { persistor, store } from "@/redux/store/app";
+import { Provider } from "react-redux";
+import { BrowserRouter as Router, useLocation } from "react-router-dom";
+import { PersistGate } from "redux-persist/integration/react";
+
+// Components
+import Header from "@/components/Header/Header";
+import { AuthProvider } from "@/hooks/useAuth";
+import AppRoutes from "@/routes/index";
+
+// 內部組件，在 Router 內部使用 useLocation
+function AppContent(): React.JSX.Element {
+  const location = useLocation();
+
+  // 檢查是否為管理員頁面
+  const isAdminPage = location.pathname.startsWith('/admin');
+
+  return (
+    <AuthProvider>
+      <div className="min-h-screen bg-gray-50">
+        {!isAdminPage && <Header />}
+        <main>
+          <AppRoutes />
+        </main>
+      </div>
+    </AuthProvider>
+  );
+}
+
 function App(): React.JSX.Element {
   return (
-    <Router>
-      <div>
-        <nav className="bg-gray-800">
-          <ul className="flex justify-center items-center gap-4 py-4">
-            <li>
-              <Link
-                to="/"
-                className="text-white hover:text-gray-300 transition-colors"
-              >
-                首頁
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/math"
-                className="text-white hover:text-gray-300 transition-colors"
-              >
-                數學天地
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/quest"
-                className="text-white hover:text-gray-300 transition-colors"
-              >
-                題目
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/about"
-                className="text-white hover:text-gray-300 transition-colors"
-              >
-                關於我們
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/playground"
-                className="text-white hover:text-gray-300 transition-colors"
-              >
-                Latex!
-              </Link>
-            </li>
-          </ul>
-        </nav>
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/math" element={<MathPage />} />
-          <Route path="/quest" element={<Quest />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/playground" element={<Playground />} />
-
-          <Route path="/exam/:questId" element={<Exam />} />
-        </Routes>
-      </div>
-    </Router>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Router>
+          <AppContent />
+        </Router>
+      </PersistGate>
+    </Provider>
   );
 }
 
