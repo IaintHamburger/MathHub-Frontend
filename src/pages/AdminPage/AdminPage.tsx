@@ -1,6 +1,7 @@
 import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg";
 import { Button } from "@/components/ui/button";
 import { type ReactNode, useState } from "react";
+import { useTranslation } from "react-i18next";
 import AnnouncementsPage from "./adminPages/AnnouncementsPage";
 import CommentsPage from "./adminPages/CommentsPage";
 import DashboardPage from "./adminPages/DashboardPage";
@@ -44,6 +45,8 @@ interface NavItemProps {
 }
 
 export default function AdminPage() {
+  const { t } = useTranslation();
+
   const [activeTab, setActiveTab] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
@@ -55,15 +58,13 @@ export default function AdminPage() {
           sidebarOpen ? "w-64" : "w-20"
         } bg-slate-800 border-r border-blue-400/20 transition-all duration-300 flex flex-col`}
       >
-        <div className="p-4 border-b border-blue-400/20 flex items-center justify-between">
+        <div className={`${sidebarOpen ? "justify-between" : "justify-center"} p-4 border-b border-blue-400/20 flex items-center`}>
           {sidebarOpen ? (
             <div className="flex items-center space-x-2">
               <MathCatLogo className="w-full h-auto"/>
-              <span className="font-bold text-lg">MathHub 管理</span>
+              <span className="font-bold text-lg">{t("adminPage.title")}</span>
             </div>
-          ) : (
-            <MathCatLogo className="mx-auto w-12 h-auto" />
-          )}
+          ) : null}
           <Button
             variant="ghost"
             size="icon"
@@ -77,56 +78,56 @@ export default function AdminPage() {
         <div className="flex-1 py-4 space-y-1">
           <NavItem
             icon={<Home size={20} />}
-            label="儀表板"
+            label={t("navigate.admin.dashboard")}
             active={activeTab === "dashboard"}
             onClick={() => setActiveTab("dashboard")}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<Users size={20} />}
-            label="帳號管理"
+            label={t("navigate.admin.users")}
             active={activeTab === "users"}
             onClick={() => setActiveTab("users")}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<MessageSquare size={20} />}
-            label="留言管理"
+            label={t("navigate.admin.comments")}
             active={activeTab === "comments"}
             onClick={() => setActiveTab("comments")}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<PlusCircle size={20} />}
-            label="審題/新增題目"
+            label={t("navigate.admin.problemsAdd")}
             active={activeTab === "problems-add"}
             onClick={() => setActiveTab("problems-add")}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<CheckCircle size={20} />}
-            label="修改題目狀態"
+            label={t("navigate.admin.problemsStatus")}
             active={activeTab === "problems-status"}
             onClick={() => setActiveTab("problems-status")}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<Flag size={20} />}
-            label="檢舉審核"
+            label={t("navigate.admin.reports")}
             active={activeTab === "reports"}
             onClick={() => setActiveTab("reports")}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<Bell size={20} />}
-            label="公告編輯"
+            label={t("navigate.admin.announcements")}
             active={activeTab === "announcements"}
             onClick={() => setActiveTab("announcements")}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<Settings size={20} />}
-            label="系統設定"
+            label={t("navigate.admin.settings")}
             active={activeTab === "settings"}
             onClick={() => setActiveTab("settings")}
             collapsed={!sidebarOpen}
@@ -216,7 +217,7 @@ function NavItem({ icon, label, active, onClick, collapsed }: NavItemProps) {
       className={`w-full flex items-center px-4 py-3 ${
         active
           ? "bg-blue-600/20 text-blue-400 border-l-4 border-blue-400"
-          : "text-blue-200 hover:bg-slate-700"
+          : "text-blue-200 border-l-4 border-transparent hover:bg-slate-700"
       } transition-colors`}
       onClick={onClick}
     >
