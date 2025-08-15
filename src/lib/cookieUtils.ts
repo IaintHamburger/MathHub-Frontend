@@ -84,8 +84,7 @@ export const cookieUtils = {
 	// 清除所有認證相關的 Cookie
 	clearAuthCookies: () => {
 		cookieUtils.deleteCookie('accessToken');
-		cookieUtils.deleteCookie('idToken');
-		// 注意：refreshToken 不應該存在於 Cookie 中，應該在 localStorage
+		// refreshToken 現在透過 HttpOnly Cookie 管理，由後端自動處理
 	},
 };
 
@@ -100,46 +99,16 @@ export const tokenUtils = {
 		}
 	},
 
-	// 設定 id token 到 localStorage
-	setIdToken: (token: string, expiresIn?: number) => {
-		localStorage.setItem('idToken', token);
-		if (expiresIn) {
-			const expiryTime = Date.now() + expiresIn * 1000;
-			localStorage.setItem('idTokenExpiry', expiryTime.toString());
-		}
-	},
-
-	// Refresh Token 由後端設定為 HttpOnly Cookie
-	// 前端不需要手動儲存，但保留方法以維持 API 一致性
-	setRefreshToken: (token: string) => {
-		// 注意：在 JWT + Refresh Token 架構中，Refresh Token 應該由後端設定為 HttpOnly Cookie
-		// 前端不應該手動儲存 refresh token，這會造成安全風險
-		console.warn('setRefreshToken: 在 JWT + Refresh Token 架構中，Refresh Token 應該由後端設定為 HttpOnly Cookie');
-	},
-
 	// 獲取 access token
 	getAccessToken: (): string | null => {
 		return localStorage.getItem('accessToken');
 	},
 
-	// 獲取 id token
-	getIdToken: (): string | null => {
-		return localStorage.getItem('idToken');
-	},
-
-	// 獲取 refresh token（從 Cookie，需要後端配合）
-	getRefreshToken: (): string | null => {
-		// 注意：在 JWT + Refresh Token 架構中，Refresh Token 應該設定為 HttpOnly Cookie
-		// 如果設定為 HttpOnly，前端無法直接讀取，這是安全的做法
-		// 這裡僅用於開發環境或非 HttpOnly 的情況
-		return cookieUtils.getCookie('refreshToken');
-	},
-
 	// 清除所有 tokens
 	clearTokens: () => {
 		localStorage.removeItem('accessToken');
-		localStorage.removeItem('idToken');
-		// Refresh Token 由後端清除 Cookie
+		localStorage.removeItem('accessTokenExpiry');
+		// refreshToken 由後端清除 HttpOnly Cookie
 	},
 
 	// 檢查 token 是否過期

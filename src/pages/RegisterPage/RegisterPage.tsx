@@ -1,9 +1,5 @@
 import type React from "react"
 
-import { ReactComponent as GitHubIcon } from "@/assets/icons/icon_github.svg"
-import { ReactComponent as GoogleIcon } from "@/assets/icons/icon_google.svg"
-import { ReactComponent as MicrosoftIcon } from "@/assets/icons/icon_microsoft.svg"
-import { ReactComponent as XIcon } from "@/assets/icons/icon_x.svg"
 import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,11 +8,13 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import SocialIcon from "@/components/ui/social-icon"
+import { useNavigation } from "@/hooks/useNavigation"
 import { ArrowLeft, Eye, EyeOff, Lock, Mail, User } from "lucide-react"
 import { useState } from "react"
 
-
 export default function RegisterPage() {
+  const { goToHome, goToLogin } = useNavigation();
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [formData, setFormData] = useState({
@@ -104,7 +102,7 @@ export default function RegisterPage() {
       // 這裡可以添加實際的註冊邏輯
       console.log("註冊資訊:", formData)
       // 註冊成功後跳轉到登入頁面
-      window.location.href = "/login"
+      goToLogin()
     }, 2000)
   }
 
@@ -129,15 +127,16 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 flex items-center justify-center p-4">
+    <div className="max-w-7xl mx-auto px-4 py-8 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Back Button */}
         <Button
           variant="ghost"
           className="text-blue-400 hover:text-blue-300 mb-6"
+          onClick={goToHome}
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          <a href="/">返回首頁</a>
+          返回首頁
         </Button>
 
         <Card className="bg-slate-800/50 border-blue-400/20 backdrop-blur-sm">
@@ -145,7 +144,7 @@ export default function RegisterPage() {
             <div className="flex justify-center mb-4">
               <MathCatLogo />
             </div>
-            <CardTitle className="text-2xl font-bold text-white">加入 MathHub</CardTitle>
+            <CardTitle className="text-2xl   text-white">加入 MathHub</CardTitle>
             <CardDescription className="text-blue-200">創建您的帳戶，開始個人化的數學學習體驗</CardDescription>
           </CardHeader>
           <CardContent>
@@ -335,44 +334,7 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {/* Social Login Icons */}
-              <div className="flex justify-center space-x-6">
-                {/* Google */}
-                <Button
-                  type="button"
-                  variant="ghost"
-                  className="w-12 h-12 rounded-full border border-blue-400/30 hover:bg-slate-700/50 p-0"
-                >
-                  <GoogleIcon />
-                </Button>
-
-                {/* GitHub */}
-                <Button
-                  type="button"
-                  variant="ghost"
-                  className="w-12 h-12 rounded-full border border-blue-400/30 hover:bg-slate-700/50 p-0"
-                >
-                  <GitHubIcon />
-                </Button>
-
-                {/* X (Twitter) */}
-                <Button
-                  type="button"
-                  variant="ghost"
-                  className="w-12 h-12 rounded-full border border-blue-400/30 hover:bg-slate-700/50 p-0"
-                >
-                  <XIcon />
-                </Button>
-
-                {/* Microsoft */}
-                <Button
-                  type="button"
-                  variant="ghost"
-                  className="w-12 h-12 rounded-full border border-blue-400/30 hover:bg-slate-700/50 p-0"
-                >
-                  <MicrosoftIcon />
-                </Button>
-              </div>
+              <SocialIcon />
 
               {/* Bottom Links */}
               <div className="flex justify-center space-x-6 text-sm pt-4">
@@ -485,7 +447,7 @@ export default function RegisterPage() {
               <p>我們收集以下類型的資訊：</p>
               <ul className="list-disc list-inside ml-4 mt-2 space-y-1">
                 <li>註冊資訊：用戶名稱、電子郵件、年級等</li>
-                <li>學習資料：答題記錄、學習進度、成績統��</li>
+                <li>學習資料：答題記錄、學習進度、成績統計</li>
                 <li>技術資訊：IP 地址、瀏覽器類型、設備資訊</li>
                 <li>使用資料：登入時間、功能使用情況</li>
               </ul>

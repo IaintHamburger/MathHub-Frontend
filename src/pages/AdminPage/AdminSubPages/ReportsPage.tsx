@@ -5,7 +5,7 @@ export default function ReportsPage() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold">檢舉審核</h2>
+        <h2 className="text-xl  ">檢舉審核</h2>
         <div className="flex space-x-2">
           <Button variant="outline" className="border-blue-400/30 text-blue-400 bg-transparent">
             全部

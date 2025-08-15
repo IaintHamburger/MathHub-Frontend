@@ -6,7 +6,7 @@ export default function ProblemsAddPage() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold">審題/新增題目</h2>
+        <h2 className="text-xl  ">審題/新增題目</h2>
         <Button className="bg-blue-600 hover:bg-blue-700">新增題目</Button>
       </div>
 

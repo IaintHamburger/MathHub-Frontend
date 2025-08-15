@@ -95,7 +95,7 @@ export default function LeaderBoardPage() {
       case 3:
         return <Award className="w-6 h-6 text-amber-600" />
       default:
-        return <span className="w-6 h-6 flex items-center justify-center text-blue-400 font-bold">{rank}</span>
+        return <span className="w-6 h-6 flex items-center justify-center text-blue-400  ">{rank}</span>
     }
   }
 
@@ -113,7 +113,7 @@ export default function LeaderBoardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+    <div className="">
       <div className="max-w-7xl mx-auto p-6">
         <div className="grid lg:grid-cols-4 gap-6">
           {/* Left Sidebar - Filters */}
@@ -246,7 +246,7 @@ export default function LeaderBoardPage() {
           <div className="lg:col-span-3">
             {/* Top 3 Podium */}
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-white text-center mb-6">本月前三名</h2>
+              <h2 className="text-2xl   text-white text-center mb-6">本月前三名</h2>
               <div className="flex justify-center items-end space-x-4">
                 {/* Second Place */}
                 <Card className="bg-slate-800/50 border-gray-400/30 w-48">
@@ -259,7 +259,7 @@ export default function LeaderBoardPage() {
                       <AvatarImage src="/placeholder.svg?height=64&width=64" />
                       <AvatarFallback>解</AvatarFallback>
                     </Avatar>
-                    <h3 className="text-white font-bold">解題高手</h3>
+                    <h3 className="text-white  ">解題高手</h3>
                     <p className="text-blue-200 text-sm">2720 分</p>
                   </CardContent>
                 </Card>
@@ -275,8 +275,8 @@ export default function LeaderBoardPage() {
                       <AvatarImage src="/placeholder.svg?height=80&width=80" />
                       <AvatarFallback>數</AvatarFallback>
                     </Avatar>
-                    <h3 className="text-white font-bold text-lg">數學天才</h3>
-                    <p className="text-yellow-400 font-bold">2850 分</p>
+                    <h3 className="text-white   text-lg">數學天才</h3>
+                    <p className="text-yellow-400  ">2850 分</p>
                   </CardContent>
                 </Card>
 
@@ -291,7 +291,7 @@ export default function LeaderBoardPage() {
                       <AvatarImage src="/placeholder.svg?height=64&width=64" />
                       <AvatarFallback>公</AvatarFallback>
                     </Avatar>
-                    <h3 className="text-white font-bold">公式達人</h3>
+                    <h3 className="text-white  ">公式達人</h3>
                     <p className="text-blue-200 text-sm">2650 分</p>
                   </CardContent>
                 </Card>
@@ -361,7 +361,7 @@ export default function LeaderBoardPage() {
                         <div className="flex items-center space-x-6 text-right">
                           <div>
                             <p
-                              className={`font-bold text-lg ${user.rank === currentUser.rank ? "text-orange-300" : "text-white"}`}
+                              className={`  text-lg ${user.rank === currentUser.rank ? "text-orange-300" : "text-white"}`}
                             >
                               {user.score}
                             </p>
@@ -404,7 +404,7 @@ export default function LeaderBoardPage() {
                   <div className="flex items-center justify-between p-4 rounded-lg bg-orange-500/20 border border-orange-400/30">
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center justify-center w-8">
-                        <span className="w-6 h-6 flex items-center justify-center text-orange-400 font-bold">
+                        <span className="w-6 h-6 flex items-center justify-center text-orange-400  ">
                           {currentUser.rank}
                         </span>
                       </div>
@@ -422,7 +422,7 @@ export default function LeaderBoardPage() {
                     </div>
                     <div className="flex items-center space-x-6 text-right">
                       <div>
-                        <p className="text-orange-300 font-bold text-lg">{currentUser.score}</p>
+                        <p className="text-orange-300   text-lg">{currentUser.score}</p>
                         <p className="text-orange-200 text-sm">總分</p>
                       </div>
                       <div>
@@ -452,15 +452,15 @@ export default function LeaderBoardPage() {
                   <div className="space-y-3">
                     <div className="flex justify-between">
                       <span className="text-blue-200">最高單日得分</span>
-                      <span className="text-white font-bold">285分</span>
+                      <span className="text-white  ">285分</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-blue-200">最長連勝</span>
-                      <span className="text-white font-bold">12題</span>
+                      <span className="text-white  ">12題</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-blue-200">完美解答</span>
-                      <span className="text-white font-bold">8次</span>
+                      <span className="text-white  ">8次</span>
                     </div>
                   </div>
                 </CardContent>

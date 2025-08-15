@@ -2,7 +2,7 @@ import { tokenUtils } from '@/lib/cookieUtils';
 import { initializeAuth, loginFailure, loginStart, loginSuccess, logout } from '@/redux/slices/AuthSlice';
 import type { RootState } from '@/redux/store/app';
 import { authAPI, cleanupTokenRefresh, setupTokenRefresh } from '@/services/authService';
-import type { LoginRequest, LoginResponse, UpdateProfileResponse, User } from '@/types/auth';
+import type { LoginRequest, UpdateProfileResponse, User } from '@/types/auth';
 import React, { createContext, useContext, useEffect, type ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -90,12 +90,11 @@ const useAuthInternal = (): AuthContextType => {
 		dispatch(loginStart());
 
 		try {
-			const response = (await authAPI.login(credentials)) as LoginResponse;
-
-			// 設定 tokens
-			tokenUtils.setAccessToken(response.accessToken);
-			tokenUtils.setIdToken(response.idToken);
-			// Refresh Token 由後端設定為 HttpOnly Cookie，前端不需要手動儲存
+			const response = (await authAPI.login(credentials)) as {
+				accessToken: string;
+				expiresIn: number;
+				user: User;
+			};
 
 			// 更新 Redux state
 			dispatch(

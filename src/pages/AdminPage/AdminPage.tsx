@@ -72,7 +72,7 @@ export default function AdminPage() {
           {sidebarOpen ? (
             <div className="flex items-center space-x-2">
               <MathCatLogo className="w-full h-auto" />
-              <span className="font-bold text-lg">{t("adminPage.title")}</span>
+              <span className="  text-lg">{t("adminPage.title")}</span>
             </div>
           ) : null}
           <Button
@@ -149,14 +149,14 @@ export default function AdminPage() {
       <div className="flex-1 overflow-auto">
         {/* 頂部導航欄 */}
         <header className="bg-slate-800 border-b border-blue-400/20 p-4 flex items-center justify-between">
-          <h1 className="text-xl font-bold">{t(`navigate.admin.${activeTab}`)}</h1>
+          <h1 className="text-xl  ">{t(`navigate.admin.${activeTab}`)}</h1>
           <div className="flex items-center space-x-2">
             <span className="text-sm text-blue-200">{userName}</span>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full bg-blue-600/20">
                   <div className="w-8 h-8 rounded-full flex items-center justify-center">
-                    <span className="font-bold">{userName.charAt(0) || "U"}</span>
+                    <span className=" ">{userName.charAt(0) || "U"}</span>
                   </div>
                 </Button>
               </DropdownMenuTrigger>

@@ -21,7 +21,7 @@ function StatCard({ title, value, icon, color }: {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-slate-400">{title}</p>
-            <p className="text-3xl font-bold text-white mt-1">{value}</p>
+            <p className="text-3xl   text-white mt-1">{value}</p>
           </div>
           <div className={`p-3 rounded-full ${bgColor[color]}`}>{icon}</div>
         </div>

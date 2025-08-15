@@ -183,7 +183,7 @@ $$f(x) = a(x - r_1)(x - r_2)$$
   const overallProgress = (completedChapters.length / concept.chapters.length) * 100
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+    <div className="">
       <div className="max-w-7xl mx-auto p-6">
         {/* Back Button */}
         <Button

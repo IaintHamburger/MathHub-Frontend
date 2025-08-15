@@ -38,7 +38,7 @@ export default function FaqsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+    <div className="">
       <div className="flex max-w-7xl mx-auto">
         {/* Sidebar */}
         <aside className="w-64 min-h-screen bg-slate-800/30 border-r border-blue-400/20 p-4">
@@ -93,13 +93,13 @@ export default function FaqsPage() {
         {/* Main Content */}
         <main className="flex-1 p-8">
           <div className="max-w-4xl">
-            <h1 className="text-4xl font-bold text-white mb-6">常見問題 FAQ</h1>
+            <h1 className="text-4xl   text-white mb-6">常見問題 FAQ</h1>
             <p className="text-blue-200 mb-8">在 MathHub 上學習數學之前，你需要先了解一些基本概念。</p>
             <p className="text-blue-200 mb-12">你可以按照以下步驟建立一個學習計畫。</p>
 
             {/* What is MathHub Section */}
             <section className="mb-12">
-              <h2 className="text-2xl font-bold text-white mb-6 border-b border-blue-400/20 pb-2">什麼是 MathHub</h2>
+              <h2 className="text-2xl   text-white mb-6 border-b border-blue-400/20 pb-2">什麼是 MathHub</h2>
               <div className="text-blue-200 space-y-4">
                 <p>
                   MathHub
@@ -122,7 +122,7 @@ export default function FaqsPage() {
 
             {/* How to Get Started Section */}
             <section className="mb-12">
-              <h2 className="text-2xl font-bold text-white mb-6 border-b border-blue-400/20 pb-2">如何開始使用</h2>
+              <h2 className="text-2xl   text-white mb-6 border-b border-blue-400/20 pb-2">如何開始使用</h2>
               <div className="text-blue-200 space-y-4">
                 <p>
                   首先，你需要導航到{" "}

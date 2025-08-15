@@ -54,13 +54,12 @@ export default function DailyProblemPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
-
+    <div className="">
       <div className="max-w-7xl mx-auto p-6">
         {/* Title Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-4xl font-bold text-white">每日一題</h1>
+            <h1 className="text-4xl   text-white">每日一題</h1>
             <div className="flex items-center space-x-4">
               <Select value={selectedGrade} onValueChange={setSelectedGrade}>
                 <SelectTrigger className="w-48 bg-slate-700/50 border-blue-400/30 text-white">
@@ -107,8 +106,8 @@ export default function DailyProblemPage() {
           {/* Date Display */}
           <Card className="bg-slate-800/50 border-blue-400/20">
             <CardContent className="p-8 text-center">
-              <div className="text-3xl font-bold text-white mb-2">May</div>
-              <div className="text-8xl font-bold text-blue-400 mb-2">5</div>
+              <div className="text-3xl   text-white mb-2">May</div>
+              <div className="text-8xl   text-blue-400 mb-2">5</div>
               <div className="text-blue-200 text-lg">2025</div>
             </CardContent>
           </Card>
@@ -204,7 +203,7 @@ export default function DailyProblemPage() {
               <div className="text-center p-4 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-lg border border-yellow-400/20">
                 <div className="flex items-center justify-center mb-2">
                   <Trophy className="w-8 h-8 text-yellow-400 mr-2" />
-                  <span className="text-2xl font-bold text-yellow-400">{userProgress.consecutiveDays}</span>
+                  <span className="text-2xl   text-yellow-400">{userProgress.consecutiveDays}</span>
                 </div>
                 <p className="text-yellow-200 font-medium">連續答題天數</p>
                 <p className="text-yellow-300 text-sm mt-1">🔥 保持熱度！</p>
@@ -212,7 +211,7 @@ export default function DailyProblemPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center p-3 bg-green-500/10 rounded-lg border border-green-400/20">
-                  <div className="text-2xl font-bold text-green-400 mb-1">{userProgress.correctAnswers}</div>
+                  <div className="text-2xl   text-green-400 mb-1">{userProgress.correctAnswers}</div>
                   <p className="text-green-200 text-sm">答對題數</p>
                   <div className="flex justify-center mt-1">
                     <CheckCircle className="w-4 h-4 text-green-400" />
@@ -220,7 +219,7 @@ export default function DailyProblemPage() {
                 </div>
 
                 <div className="text-center p-3 bg-blue-500/10 rounded-lg border border-blue-400/20">
-                  <div className="text-2xl font-bold text-blue-400 mb-1">{userProgress.lastCorrect}</div>
+                  <div className="text-2xl   text-blue-400 mb-1">{userProgress.lastCorrect}</div>
                   <p className="text-blue-200 text-sm">上次連續</p>
                   <div className="flex justify-center mt-1">
                     <Target className="w-4 h-4 text-blue-400" />
@@ -231,7 +230,7 @@ export default function DailyProblemPage() {
               <div className="p-3 bg-purple-500/10 rounded-lg border border-purple-400/20">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-purple-200 text-sm">本月進度</span>
-                  <span className="text-purple-400 font-bold">75%</span>
+                  <span className="text-purple-400  ">75%</span>
                 </div>
                 <div className="w-full bg-slate-700 rounded-full h-2">
                   <div
@@ -250,7 +249,7 @@ export default function DailyProblemPage() {
               <CardTitle className="text-white flex items-center justify-between">
                 <span className="flex items-center">
                   <CalendarIcon className="w-5 h-5 mr-2 text-blue-400" />
-                  <span className="text-2xl font-bold">2025 May</span>
+                  <span className="text-2xl  ">2025 May</span>
                 </span>
                 <div className="flex space-x-1">
                   <Button

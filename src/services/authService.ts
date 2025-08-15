@@ -78,10 +78,36 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}): Promise<
 export const authAPI = {
 	// 登入
 	login: async (credentials: { email: string; password: string }) => {
-		return apiRequest('/auth/login', {
+		const response = await fetch(`${API_BASE_URL}/auth/login`, {
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
 			body: JSON.stringify(credentials),
+			credentials: 'include', // 重要：啟用 Cookie 傳遞
 		});
+
+		if (!response.ok) {
+			const errorData = await response.json().catch(() => ({}));
+			throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+		}
+
+		const data = await response.json();
+
+		// 檢查回應格式
+		if (!data.success) {
+			throw new Error(data.message || '登入失敗');
+		}
+
+		// 只儲存 accessToken 到 localStorage
+		localStorage.setItem('accessToken', data.data.accessToken);
+
+		// refreshToken 由後端設定為 HttpOnly Cookie，前端不需要手動儲存
+		// 設定過期時間
+		const expiryTime = Date.now() + data.data.expiresIn * 1000;
+		localStorage.setItem('accessTokenExpiry', expiryTime.toString());
+
+		return data.data;
 	},
 
 	// 登出
@@ -94,23 +120,34 @@ export const authAPI = {
 	// 刷新 Token
 	refreshToken: async () => {
 		try {
+			// refreshToken 現在透過 HttpOnly Cookie 自動發送
+			// 不需要手動從 localStorage 讀取
 			const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				credentials: 'include', // 自動發送 HttpOnly Cookie (包含 refresh token)
+				credentials: 'include', // 重要：自動發送包含 refreshToken 的 Cookie
 			});
 
 			if (response.ok) {
 				const data = await response.json();
+
+				// 檢查回應格式
+				if (!data.success) {
+					throw new Error(data.message || 'Token 刷新失敗');
+				}
+
+				// 更新 accessToken
+				localStorage.setItem('accessToken', data.data.accessToken);
+
+				// refreshToken 由後端更新 Cookie，前端不需要手動處理
+				// 設定過期時間
+				const expiryTime = Date.now() + data.data.expiresIn * 1000;
+				localStorage.setItem('accessTokenExpiry', expiryTime.toString());
+
 				store.dispatch({
 					type: 'auth/refreshTokenSuccess',
-					payload: {
-						accessToken: data.accessToken,
-						idToken: data.idToken,
-						expiresIn: data.expiresIn,
-					},
 				});
 				return true;
 			}

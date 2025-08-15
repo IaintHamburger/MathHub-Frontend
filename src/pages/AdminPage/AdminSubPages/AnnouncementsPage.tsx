@@ -6,7 +6,7 @@ export default function AnnouncementsPage() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold">公告編輯</h2>
+        <h2 className="text-xl  ">公告編輯</h2>
         <Button className="bg-blue-600 hover:bg-blue-700">新增公告</Button>
       </div>
 

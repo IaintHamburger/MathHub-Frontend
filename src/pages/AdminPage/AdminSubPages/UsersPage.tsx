@@ -8,7 +8,7 @@ export default function UsersPage() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold">{t("userPage.title")}</h2>
+        <h2 className="text-xl  ">{t("userPage.title")}</h2>
         <Button className="bg-blue-600 hover:bg-blue-700">{t("userPage.btn.addUser")}</Button>
       </div>
 

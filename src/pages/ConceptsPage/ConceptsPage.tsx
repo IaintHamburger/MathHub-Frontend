@@ -171,7 +171,7 @@ export default function ConceptsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+    <div className="">
       <div className="max-w-7xl mx-auto p-6">
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -180,7 +180,7 @@ export default function ConceptsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-blue-200 text-sm">總觀念��</p>
-                  <p className="text-2xl font-bold text-white">{stats.total}</p>
+                  <p className="text-2xl   text-white">{stats.total}</p>
                 </div>
                 <Lightbulb className="w-8 h-8 text-blue-400" />
               </div>
@@ -192,7 +192,7 @@ export default function ConceptsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-blue-200 text-sm">已完成</p>
-                  <p className="text-2xl font-bold text-white">{stats.completed}</p>
+                  <p className="text-2xl   text-white">{stats.completed}</p>
                 </div>
                 <CheckCircle className="w-8 h-8 text-green-400" />
               </div>
@@ -207,7 +207,7 @@ export default function ConceptsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-blue-200 text-sm">學習中</p>
-                  <p className="text-2xl font-bold text-white">{stats.inProgress}</p>
+                  <p className="text-2xl   text-white">{stats.inProgress}</p>
                 </div>
                 <Target className="w-8 h-8 text-yellow-400" />
               </div>

@@ -135,7 +135,7 @@ $$\\Delta = b^2 - 4ac$$
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+    <div className="">
       <div className="max-w-7xl mx-auto p-6">
         {/* Back Button */}
         <Button
