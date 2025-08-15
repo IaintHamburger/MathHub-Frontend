@@ -40,10 +40,23 @@ const header = {
 // 後台 管理員 頁面
 const adminPage = {
   "adminPage.title": "MathHub 管理",
+
+  "adminPage.menuItem.userInfo": "個人資料",
+  "adminPage.menuItem.userStatistics": "解題統計",
+  "adminPage.menuItem.accountSettings": "帳號設定",
 }
 
 const userPage = {
+  "userPage.title": "用戶列表",
 
+  "userPage.table.id": "ID",
+  "userPage.table.name": "用戶名",
+  "userPage.table.email": "電子郵件",
+  "userPage.table.role": "角色",
+  "userPage.table.status": "狀態",
+  "userPage.table.action": "操作",
+
+  "userPage.btn.addUser": "新增用戶",
 }
 
 const zh_TW = Object.assign(

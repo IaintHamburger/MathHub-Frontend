@@ -1,15 +1,17 @@
 import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg";
 import { Button } from "@/components/ui/button";
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import AnnouncementsPage from "./adminPages/AnnouncementsPage";
-import CommentsPage from "./adminPages/CommentsPage";
-import DashboardPage from "./adminPages/DashboardPage";
-import ProblemsAddPage from "./adminPages/ProblemsAddPage";
-import ProblemsStatusPage from "./adminPages/ProblemsStatusPage";
-import ReportsPage from "./adminPages/ReportsPage";
-import SettingsPage from "./adminPages/SettingsPage";
-import UsersPage from "./adminPages/UsersPage";
+
+// 後台 管理員 頁面 子頁面
+import AnnouncementsPage from "./AdminSubPages/AnnouncementsPage";
+import CommentsPage from "./AdminSubPages/CommentsPage";
+import DashboardPage from "./AdminSubPages/DashboardPage";
+import ProblemsAddPage from "./AdminSubPages/ProblemsAddPage";
+import ProblemsStatusPage from "./AdminSubPages/ProblemsStatusPage";
+import ReportsPage from "./AdminSubPages/ReportsPage";
+import SettingsPage from "./AdminSubPages/SettingsPage";
+import UsersPage from "./AdminSubPages/UsersPage";
 
 import {
   DropdownMenu,
@@ -19,6 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { RootState } from "@/redux/store/app";
 import {
   BarChart3,
   Bell,
@@ -32,8 +35,9 @@ import {
   Settings,
   User,
   Users,
-  X
+  X,
 } from "lucide-react";
+import { useSelector } from "react-redux";
 
 // 定義類型
 interface NavItemProps {
@@ -47,8 +51,12 @@ interface NavItemProps {
 export default function AdminPage() {
   const { t } = useTranslation();
 
+  const { user } = useSelector((state: RootState) => state.authSlice);
+
   const [activeTab, setActiveTab] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const userName = useMemo(() => user?.name || "User", [user]);
 
   return (
     <div className="min-h-screen bg-slate-900 text-white flex">
@@ -58,10 +66,12 @@ export default function AdminPage() {
           sidebarOpen ? "w-64" : "w-20"
         } bg-slate-800 border-r border-blue-400/20 transition-all duration-300 flex flex-col`}
       >
-        <div className={`${sidebarOpen ? "justify-between" : "justify-center"} p-4 border-b border-blue-400/20 flex items-center`}>
+        <div
+          className={`${sidebarOpen ? "justify-between" : "justify-center"} p-4 border-b border-blue-400/20 flex items-center`}
+        >
           {sidebarOpen ? (
             <div className="flex items-center space-x-2">
-              <MathCatLogo className="w-full h-auto"/>
+              <MathCatLogo className="w-full h-auto" />
               <span className="font-bold text-lg">{t("adminPage.title")}</span>
             </div>
           ) : null}
@@ -101,14 +111,14 @@ export default function AdminPage() {
             icon={<PlusCircle size={20} />}
             label={t("navigate.admin.problemsAdd")}
             active={activeTab === "problems-add"}
-            onClick={() => setActiveTab("problems-add")}
+            onClick={() => setActiveTab("problemsAdd")}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<CheckCircle size={20} />}
             label={t("navigate.admin.problemsStatus")}
             active={activeTab === "problems-status"}
-            onClick={() => setActiveTab("problems-status")}
+            onClick={() => setActiveTab("problemsStatus")}
             collapsed={!sidebarOpen}
           />
           <NavItem
@@ -139,23 +149,14 @@ export default function AdminPage() {
       <div className="flex-1 overflow-auto">
         {/* 頂部導航欄 */}
         <header className="bg-slate-800 border-b border-blue-400/20 p-4 flex items-center justify-between">
-          <h1 className="text-xl font-bold">
-            {activeTab === "dashboard" && "儀表板"}
-            {activeTab === "users" && "帳號管理"}
-            {activeTab === "comments" && "留言管理"}
-            {activeTab === "problems-add" && "審題/新增題目"}
-            {activeTab === "problems-status" && "修改題目狀態"}
-            {activeTab === "reports" && "檢舉審核"}
-            {activeTab === "announcements" && "公告編輯"}
-            {activeTab === "settings" && "系統設定"}
-          </h1>
+          <h1 className="text-xl font-bold">{t(`navigate.admin.${activeTab}`)}</h1>
           <div className="flex items-center space-x-2">
-            <span className="text-sm text-blue-200">管理員</span>
+            <span className="text-sm text-blue-200">{userName}</span>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
-                    <span className="font-bold">A</span>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full bg-blue-600/20">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center">
+                    <span className="font-bold">{userName.charAt(0) || "U"}</span>
                   </div>
                 </Button>
               </DropdownMenuTrigger>
@@ -166,27 +167,27 @@ export default function AdminPage() {
               >
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none text-white">管理員</p>
-                    <p className="text-xs leading-none text-blue-200">admin@mathhub.com</p>
+                    <p className="text-sm font-medium leading-none text-white">{userName}</p>
+                    <p className="text-xs leading-none text-blue-200">{user?.email}</p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-blue-400/20" />
                 <DropdownMenuItem className="text-blue-200 hover:bg-slate-700 hover:text-white">
                   <User className="mr-2 h-4 w-4" />
-                  <span>個人資料</span>
+                  <span>{t("adminPage.menuItem.userInfo")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="text-blue-200 hover:bg-slate-700 hover:text-white">
                   <BarChart3 className="mr-2 h-4 w-4" />
-                  <span>解題統計</span>
+                  <span>{t("adminPage.menuItem.userStatistics")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="text-blue-200 hover:bg-slate-700 hover:text-white">
                   <Settings className="mr-2 h-4 w-4" />
-                  <span>帳號設定</span>
+                  <span>{t("adminPage.menuItem.accountSettings")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-blue-400/20" />
                 <DropdownMenuItem className="text-red-400 hover:bg-red-900/20 hover:text-red-300">
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>登出</span>
+                  <span>{t("header.logout")}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -198,8 +199,8 @@ export default function AdminPage() {
           {activeTab === "dashboard" && <DashboardPage />}
           {activeTab === "users" && <UsersPage />}
           {activeTab === "comments" && <CommentsPage />}
-          {activeTab === "problems-add" && <ProblemsAddPage />}
-          {activeTab === "problems-status" && <ProblemsStatusPage />}
+          {activeTab === "problemsAdd" && <ProblemsAddPage />}
+          {activeTab === "problemsStatus" && <ProblemsStatusPage />}
           {activeTab === "reports" && <ReportsPage />}
           {activeTab === "announcements" && <AnnouncementsPage />}
           {activeTab === "settings" && <SettingsPage />}
@@ -214,7 +215,7 @@ function NavItem({ icon, label, active, onClick, collapsed }: NavItemProps) {
   return (
     <button
       type="button"
-      className={`w-full flex items-center px-4 py-3 ${
+      className={`w-full flex items-center px-4 py-3 cursor-pointer ${
         active
           ? "bg-blue-600/20 text-blue-400 border-l-4 border-blue-400"
           : "text-blue-200 border-l-4 border-transparent hover:bg-slate-700"

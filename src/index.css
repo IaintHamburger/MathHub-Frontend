@@ -58,10 +58,6 @@ body {
 	min-height: 100vh;
 }
 
-button {
-	cursor: pointer;
-}
-
 @media (prefers-color-scheme: light) {
 	:root {
 		color: #213547;
