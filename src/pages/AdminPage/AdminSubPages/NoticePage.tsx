@@ -4,79 +4,77 @@ import type { TableColumn } from "@/components/ui/data-table";
 import { ActionButtonsRenderer, StatusRenderer } from "@/components/ui/table-renderers";
 import { useDataTable } from "@/hooks/useDataTable";
 
-interface User {
+interface Notice {
   id: number;
-  name: string;
-  email: string;
-  role: "admin" | "user";
-  status: "active" | "inactive";
+  title: string;
+  date: string;
+  status: "published" | "draft";
 }
 
-export default function UsersPage() {
+export default function NoticePage() {
   const { t } = useTranslation();
 
   // 模擬數據
-  const mockData: User[] = [
-    { id: 1, name: "用戶1", email: "user1@example.com", role: "admin", status: "active" },
-    { id: 2, name: "用戶2", email: "user2@example.com", role: "user", status: "active" },
-    { id: 3, name: "用戶3", email: "user3@example.com", role: "user", status: "inactive" },
-    { id: 4, name: "用戶4", email: "user4@example.com", role: "user", status: "active" },
-    { id: 5, name: "用戶5", email: "user5@example.com", role: "user", status: "inactive" },
+  const mockData: Notice[] = [
+    { id: 1, title: "系統公告 #1", date: "2023/06/11", status: "published" },
+    { id: 2, title: "系統公告 #2", date: "2023/06/12", status: "draft" },
+    { id: 3, title: "系統公告 #3", date: "2023/06/13", status: "published" },
+    { id: 4, title: "系統公告 #4", date: "2023/06/14", status: "draft" },
   ];
 
   const { data, currentPage, pageSize, totalItems, totalPages, setCurrentPage, setPageSize } =
-    useDataTable<User>(mockData, 10);
+    useDataTable<Notice>(mockData, 10);
 
-  const handleAddUser = () => {
-    console.log("新增用戶");
-    // TODO: 實作新增用戶邏輯
+  const handleAddNotice = () => {
+    console.log("新增公告");
+    // TODO: 實作新增公告邏輯
   };
 
-  const handleEdit = (row: User) => {
-    console.log("編輯用戶:", row.id);
+  const handleEdit = (row: Notice) => {
+    console.log("編輯公告:", row.id);
     // TODO: 實作編輯邏輯
   };
 
-  const handleDelete = (row: User) => {
-    console.log("刪除用戶:", row.id);
+  const handlePublish = (row: Notice) => {
+    console.log("發布公告:", row.id);
+    // TODO: 實作發布邏輯
+  };
+
+  const handleDelete = (row: Notice) => {
+    console.log("刪除公告:", row.id);
     // TODO: 實作刪除邏輯
   };
 
-  const columns: TableColumn<User>[] = [
+  const columns: TableColumn<Notice>[] = [
     {
       fieldKey: "id",
-      label: t("userPage.table.id"),
+      label: t("noticePage.table.id"),
       width: "80px",
     },
     {
-      fieldKey: "name",
-      label: t("userPage.table.name"),
+      fieldKey: "title",
+      label: t("noticePage.table.title"),
     },
     {
-      fieldKey: "email",
-      label: t("userPage.table.email"),
-    },
-    {
-      fieldKey: "role",
-      label: t("userPage.table.role"),
-      render: (value) => (value === "admin" ? "管理員" : "一般用戶"),
+      fieldKey: "date",
+      label: t("noticePage.table.date"),
     },
     {
       fieldKey: "status",
-      label: t("userPage.table.status"),
+      label: t("noticePage.table.status"),
       render: (value) => (
         <StatusRenderer
           value={value}
           statusMap={{
-            active: { label: "啟用", className: "bg-green-500/20 text-green-400" },
-            inactive: { label: "停用", className: "bg-red-500/20 text-red-400" },
+            published: { label: "已發布", className: "bg-green-500/20 text-green-400" },
+            draft: { label: "草稿", className: "bg-slate-500/20 text-slate-400" },
           }}
         />
       ),
     },
     {
       fieldKey: "actions",
-      label: t("userPage.table.action"),
+      label: t("noticePage.table.action"),
       width: "200px",
       render: (value, row) => (
         <ActionButtonsRenderer
@@ -85,6 +83,11 @@ export default function UsersPage() {
               label: "編輯",
               onClick: handleEdit,
               className: "text-blue-400 hover:text-blue-300",
+            },
+            {
+              label: "發布",
+              onClick: handlePublish,
+              className: "text-green-400 hover:text-green-300",
             },
             {
               label: "刪除",
@@ -101,10 +104,10 @@ export default function UsersPage() {
 
   return (
     <AdminPageLayout
-      title={t("userPage.title")}
+      title={t("noticePage.title")}
       actionButton={{
-        label: t("userPage.btn.addUser"),
-        onClick: handleAddUser,
+        label: t("noticePage.btn.addNotice"),
+        onClick: handleAddNotice,
       }}
       columns={columns}
       data={data}

@@ -5,7 +5,7 @@ import { LoginRouteGuard, PermissionDenied, RouteGuard } from "@/components/Rout
 import AdminPage from "@/pages/AdminPage/AdminPage";
 import CommentsPage from "@/pages/AdminPage/AdminSubPages/CommentsPage";
 import DashboardPage from "@/pages/AdminPage/AdminSubPages/DashboardPage";
-import NoticePage from "@/pages/AdminPage/AdminSubPages/NoticePage/NoticePage";
+import NoticePage from "@/pages/AdminPage/AdminSubPages/NoticePage";
 import ProblemsAddPage from "@/pages/AdminPage/AdminSubPages/ProblemsAddPage";
 import ProblemsStatusPage from "@/pages/AdminPage/AdminSubPages/ProblemsStatusPage";
 import ReportsPage from "@/pages/AdminPage/AdminSubPages/ReportsPage";
