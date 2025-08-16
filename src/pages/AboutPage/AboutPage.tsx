@@ -178,7 +178,7 @@ export default function AboutPage() {
                   <p className="text-blue-200 text-sm mb-4">{member.description}</p>
                   <div className="flex flex-wrap gap-1 justify-center">
                     {member.skills.map((skill, idx) => (
-                      // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                      // biome-ignore lint/suspicious/noArrayIndexKey: skills array is static
                       <Badge
                         key={`skill-${skill}-${idx}`}
                         variant="outline"

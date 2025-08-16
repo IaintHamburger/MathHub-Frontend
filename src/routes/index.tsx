@@ -1,6 +1,6 @@
+import { LoginRouteGuard, PermissionDenied, RouteGuard } from "@/components/RouteGuard/RouteGuard";
 import { Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { LoginRouteGuard, PermissionDenied, RouteGuard } from "@/components/RouteGuard/RouteGuard";
 import { type RouteConfig, routes } from "./routeConfig";
 
 // 載入中組件

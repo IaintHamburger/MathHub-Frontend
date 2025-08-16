@@ -16,19 +16,6 @@
     "lineWidth": 100,
     "lineEnding": "lf"
   },
-  "assist": {
-    "actions": {
-      "source": {
-        "organizeImports": "on"
-      }
-    }
-  },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true
-    }
-  },
   "javascript": {
     "formatter": {
       "quoteStyle": "double",
@@ -37,6 +24,12 @@
       "bracketSpacing": true,
       "bracketSameLine": false,
       "arrowParentheses": "always"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
     }
   }
 }

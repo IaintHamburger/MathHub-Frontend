@@ -3,7 +3,8 @@ import { logout, refreshTokenFailure } from "@/redux/slices/AuthSlice";
 import { store } from "@/redux/store/app";
 
 // API 基礎 URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api/v1";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const useCredentials = import.meta.env.VITE_USE_CREDENTIALS === "true";
 
 // 請求攔截器：自動添加 token
 const createAuthHeaders = (): HeadersInit => {
@@ -91,8 +92,7 @@ export const authAPI = {
         ...credentials,
         deviceID,
       }),
-      // FIXME
-      // credentials: 'include', // 暫時註解掉避免 CORS 錯誤
+      ...(useCredentials ? { credentials: "include" } : {}), // 重要：自動發送包含 refreshToken 的 Cookie
     });
 
     if (!response.ok) {
@@ -144,7 +144,7 @@ export const authAPI = {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // 重要：自動發送包含 refreshToken 的 Cookie
+        ...(useCredentials ? { credentials: "include" } : {}), // 重要：自動發送包含 refreshToken 的 Cookie
       });
 
       if (response.ok) {
