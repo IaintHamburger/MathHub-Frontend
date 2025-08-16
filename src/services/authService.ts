@@ -6,6 +6,100 @@ import { store } from "@/redux/store/app";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 const useCredentials = import.meta.env.VITE_USE_CREDENTIALS === "true";
 
+// 併發 API Queue 機制
+interface QueuedRequest {
+  endpoint: string;
+  options: RequestInit;
+  resolve: (value: unknown) => void;
+  reject: (error: Error) => void;
+}
+
+class AuthQueue {
+  private queue: QueuedRequest[] = [];
+  private isRefreshing = false;
+  private refreshAttempts = 0;
+  private readonly MAX_REFRESH_ATTEMPTS = 3;
+
+  // 加入請求到 Queue
+  enqueue(endpoint: string, options: RequestInit): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+      this.queue.push({ endpoint, options, resolve, reject });
+    });
+  }
+
+  // 處理 Queue 中的所有請求
+  async processQueue(newAccessToken: string) {
+    const requests = [...this.queue];
+    this.queue = [];
+
+    for (const request of requests) {
+      try {
+        const newOptions = {
+          ...request.options,
+          headers: {
+            ...request.options.headers,
+            Authorization: `Bearer ${newAccessToken}`,
+          },
+        };
+
+        const url = `${API_BASE_URL}${request.endpoint}`;
+        const response = await fetch(url, newOptions);
+
+        if (response.ok) {
+          const data = await response.json();
+          request.resolve(data);
+        } else {
+          request.reject(new Error(`HTTP error! status: ${response.status}`));
+        }
+      } catch (error) {
+        request.reject(error as Error);
+      }
+    }
+  }
+
+  // 清空 Queue 並拒絕所有請求
+  clearQueue(error: Error) {
+    const requests = [...this.queue];
+    this.queue = [];
+    requests.forEach((request) => {
+      request.reject(error);
+    });
+  }
+
+  // 檢查是否正在刷新
+  getRefreshing() {
+    return this.isRefreshing;
+  }
+
+  // 設定刷新狀態
+  setRefreshing(refreshing: boolean) {
+    this.isRefreshing = refreshing;
+  }
+
+  // 增加刷新嘗試次數
+  incrementRefreshAttempts() {
+    this.refreshAttempts++;
+  }
+
+  // 重置刷新嘗試次數
+  resetRefreshAttempts() {
+    this.refreshAttempts = 0;
+  }
+
+  // 檢查是否超過最大嘗試次數
+  hasExceededMaxAttempts() {
+    return this.refreshAttempts >= this.MAX_REFRESH_ATTEMPTS;
+  }
+
+  // 獲取當前嘗試次數
+  getRefreshAttempts() {
+    return this.refreshAttempts;
+  }
+}
+
+// 全域 Queue 實例
+const authQueue = new AuthQueue();
+
 // 請求攔截器：自動添加 token
 const createAuthHeaders = (): HeadersInit => {
   const accessToken = localStorage.getItem("accessToken");
@@ -23,6 +117,13 @@ const handleResponse = async (response: Response, originalRequest?: Request): Pr
     if (originalRequest) {
       store.dispatch(logout());
       throw new Error("認證已過期，請重新登入");
+    }
+
+    // 檢查是否超過最大嘗試次數
+    if (authQueue.hasExceededMaxAttempts()) {
+      // 強制登出並顯示錯誤訊息
+      store.dispatch(logout());
+      throw new Error("登入認證已失效，請重新登入後再試");
     }
 
     // Token 過期，嘗試刷新
@@ -92,7 +193,7 @@ export const authAPI = {
         ...credentials,
         deviceID,
       }),
-      ...(useCredentials ? { credentials: "include" } : {}), // 重要：自動發送包含 refreshToken 的 Cookie
+      ...(useCredentials ? { credentials: "include" } : {}),
     });
 
     if (!response.ok) {
@@ -115,6 +216,9 @@ export const authAPI = {
     const expiryTime = Date.now() + data.data.expiresIn.millisecond;
     localStorage.setItem("accessTokenExpiry", expiryTime.toString());
 
+    // 重置刷新嘗試次數
+    authQueue.resetRefreshAttempts();
+
     return data.data;
   },
 
@@ -131,20 +235,36 @@ export const authAPI = {
     // 登出成功後清除 deviceID
     deviceUtils.clearDeviceID();
 
+    // 清空 Queue 和重置狀態
+    authQueue.clearQueue(new Error("用戶已登出"));
+    authQueue.resetRefreshAttempts();
+
     return result;
   },
 
   // 刷新 Token
   refreshToken: async () => {
+    // 如果正在刷新，將請求加入 Queue
+    if (authQueue.getRefreshing()) {
+      return new Promise((resolve, reject) => {
+        authQueue.enqueue("/auth/refresh", { method: "POST" }).then(resolve).catch(reject);
+      });
+    }
+
+    // 設定刷新狀態
+    authQueue.setRefreshing(true);
+
     try {
+      // 增加刷新嘗試次數
+      authQueue.incrementRefreshAttempts();
+
       // refreshToken 現在透過 HttpOnly Cookie 自動發送
-      // 不需要手動從 localStorage 讀取
       const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        ...(useCredentials ? { credentials: "include" } : {}), // 重要：自動發送包含 refreshToken 的 Cookie
+        ...(useCredentials ? { credentials: "include" } : {}),
       });
 
       if (response.ok) {
@@ -163,16 +283,28 @@ export const authAPI = {
         const expiryTime = Date.now() + data.data.expiresIn * 1000;
         localStorage.setItem("accessTokenExpiry", expiryTime.toString());
 
+        // 重置刷新嘗試次數
+        authQueue.resetRefreshAttempts();
+
+        // 處理 Queue 中的所有請求
+        await authQueue.processQueue(data.data.accessToken);
+
         store.dispatch({
           type: "auth/refreshTokenSuccess",
         });
+
         return true;
       }
+
+      // 刷新失敗
       store.dispatch(refreshTokenFailure("Token 刷新失敗"));
       return false;
-    } catch (_error) {
+    } catch (error) {
       store.dispatch(refreshTokenFailure("Token 刷新失敗"));
       return false;
+    } finally {
+      // 重置刷新狀態
+      authQueue.setRefreshing(false);
     }
   },
 
@@ -340,3 +472,6 @@ export const cleanupTokenRefresh = () => {
     refreshInterval = null;
   }
 };
+
+// 導出 Queue 相關方法供外部使用
+export const getAuthQueue = () => authQueue;
