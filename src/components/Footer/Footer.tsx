@@ -1,14 +1,11 @@
-import { Button } from "@/components/ui/button";
 import type React from "react";
 import { useTranslation } from "react-i18next";
-
-
 import { ReactComponent as DiscordIcon } from "@/assets/icons/icon_discord.svg";
 import { ReactComponent as GitHubIcon } from "@/assets/icons/icon_github.svg";
+import { Button } from "@/components/ui/button";
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
-
 
   return (
     <footer className="bg-slate-800/50 backdrop-blur-sm border-t border-blue-400/20 py-6">
@@ -25,9 +22,9 @@ const Footer: React.FC = () => {
       </div>
       <div className="text-center mt-4">
         <p className="text-blue-200 text-sm">{t("footer.copyright")}</p>
-    </div>
-  </footer>
-  )
-}
+      </div>
+    </footer>
+  );
+};
 
 export default Footer;

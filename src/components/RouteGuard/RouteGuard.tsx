@@ -1,10 +1,9 @@
+import type { ReactNode } from "react";
+import { Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-
 import { useAuth } from "@/hooks/useAuth";
 import { useRoutePermission } from "@/hooks/useRouteGuard";
 import { tokenUtils } from "@/lib/cookieUtils";
-import type { ReactNode } from "react";
-import { Navigate } from "react-router-dom";
 
 interface RouteGuardProps {
   children: ReactNode;

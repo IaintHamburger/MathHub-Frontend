@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function ReportsPage() {
   return (
@@ -29,7 +29,9 @@ export default function ReportsPage() {
                     <span className="font-medium text-white">檢舉 #{i}</span>
                     <span
                       className={`px-2 py-1 rounded-full text-xs ${
-                        i === 1 ? "bg-yellow-500/20 text-yellow-400" : "bg-green-500/20 text-green-400"
+                        i === 1
+                          ? "bg-yellow-500/20 text-yellow-400"
+                          : "bg-green-500/20 text-green-400"
                       }`}
                     >
                       {i === 1 ? "待處理" : "已處理"}
@@ -100,5 +102,5 @@ export default function ReportsPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

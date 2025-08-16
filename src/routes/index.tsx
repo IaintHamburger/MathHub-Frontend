@@ -1,7 +1,7 @@
-import { LoginRouteGuard, PermissionDenied, RouteGuard } from '@/components/RouteGuard/RouteGuard';
-import { Suspense } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { type RouteConfig, routes } from './routeConfig';
+import { Suspense } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { LoginRouteGuard, PermissionDenied, RouteGuard } from "@/components/RouteGuard/RouteGuard";
+import { type RouteConfig, routes } from "./routeConfig";
 
 // 載入中組件
 const LoadingSpinner = () => (
@@ -15,7 +15,7 @@ const renderRoute = (route: RouteConfig) => {
   const RouteComponent = route.element;
 
   // 登入頁面特殊處理
-  if (['/login', '/register'].includes(route.path)) {
+  if (["/login", "/register"].includes(route.path)) {
     return (
       <LoginRouteGuard>
         <RouteComponent />
@@ -28,7 +28,7 @@ const renderRoute = (route: RouteConfig) => {
     return (
       <RouteGuard
         requireAuth={true}
-        redirectTo={route.redirectTo || '/login'}
+        redirectTo={route.redirectTo || "/login"}
         permissions={route.permissions}
         fallback={<PermissionDenied />}
       >
@@ -46,11 +46,7 @@ export default function AppRoutes() {
     <Suspense fallback={<LoadingSpinner />}>
       <Routes>
         {routes.map((route) => (
-          <Route
-            key={route.path}
-            path={route.path}
-            element={renderRoute(route)}
-          />
+          <Route key={route.path} path={route.path} element={renderRoute(route)} />
         ))}
 
         <Route path="*" element={<Navigate to="/" replace />} />

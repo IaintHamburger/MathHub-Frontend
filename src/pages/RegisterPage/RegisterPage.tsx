@@ -1,18 +1,29 @@
-import type React from "react"
-
-import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import SocialIcon from "@/components/ui/social-icon"
-import { useNavigation } from "@/hooks/useNavigation"
-import { authAPI } from "@/services/authService"
-import { ArrowLeft, Eye, EyeOff, Lock, Mail, User } from "lucide-react"
-import { useState } from "react"
+import { ArrowLeft, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import type React from "react";
+import { useState } from "react";
+import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import SocialIcon from "@/components/ui/social-icon";
+import { useNavigation } from "@/hooks/useNavigation";
+import { authAPI } from "@/services/authService";
 
 // 必填欄位配置 - 方便管理和修改
 const REQUIRED_FIELDS = {
@@ -22,12 +33,12 @@ const REQUIRED_FIELDS = {
   confirmPassword: { required: false, label: "確認密碼" },
   grade: { required: false, label: "年級" },
   agreeTerms: { required: false, label: "服務條款同意" },
-} as const
+} as const;
 
 export default function RegisterPage() {
   const { goToHome, goToLogin } = useNavigation();
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -36,11 +47,11 @@ export default function RegisterPage() {
     grade: "",
     agreeTerms: false,
     subscribeNewsletter: false,
-  })
-  const [isLoading, setIsLoading] = useState(false)
-  const [errors, setErrors] = useState<Record<string, string>>({})
-  const [showTermsDialog, setShowTermsDialog] = useState(false)
-  const [showPrivacyDialog, setShowPrivacyDialog] = useState(false)
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showTermsDialog, setShowTermsDialog] = useState(false);
+  const [showPrivacyDialog, setShowPrivacyDialog] = useState(false);
 
   const gradeOptions = [
     { value: "elementary-1", label: "國小一年級" },
@@ -57,50 +68,50 @@ export default function RegisterPage() {
     { value: "senior-3", label: "高中三年級" },
     { value: "university", label: "大學" },
     { value: "other", label: "其他" },
-  ]
+  ];
 
-    const validateForm = () => {
-    const newErrors: Record<string, string> = {}
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
 
     // 只檢查必填欄位
     for (const [field, config] of Object.entries(REQUIRED_FIELDS)) {
       if (config.required) {
-        const value = formData[field as keyof typeof formData]
+        const value = formData[field as keyof typeof formData];
 
-        if (field === 'username') {
-          if (!value || (typeof value === 'string' && !value.trim())) {
-            newErrors[field] = `請輸入${config.label}`
-          } else if (typeof value === 'string' && value.length < 2) {
-            newErrors[field] = `${config.label}至少需要2個字符`
+        if (field === "username") {
+          if (!value || (typeof value === "string" && !value.trim())) {
+            newErrors[field] = `請輸入${config.label}`;
+          } else if (typeof value === "string" && value.length < 2) {
+            newErrors[field] = `${config.label}至少需要2個字符`;
           }
-        } else if (field === 'email') {
-          if (!value || (typeof value === 'string' && !value.trim())) {
-            newErrors[field] = `請輸入${config.label}`
-          } else if (typeof value === 'string' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-            newErrors[field] = "請輸入有效的電子郵件格式"
+        } else if (field === "email") {
+          if (!value || (typeof value === "string" && !value.trim())) {
+            newErrors[field] = `請輸入${config.label}`;
+          } else if (typeof value === "string" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            newErrors[field] = "請輸入有效的電子郵件格式";
           }
-        } else if (field === 'password') {
+        } else if (field === "password") {
           if (!value) {
-            newErrors[field] = `請輸入${config.label}`
-          } else if (typeof value === 'string' && value.length < 6) {
-            newErrors[field] = `${config.label}至少需要6個字符`
+            newErrors[field] = `請輸入${config.label}`;
+          } else if (typeof value === "string" && value.length < 6) {
+            newErrors[field] = `${config.label}至少需要6個字符`;
           }
         }
       }
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!validateForm()) {
-      return
+      return;
     }
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       // 呼叫實際的註冊 API
@@ -108,45 +119,45 @@ export default function RegisterPage() {
         username: formData.username,
         email: formData.email,
         password: formData.password,
-      })
+      });
 
       // 註冊成功，跳轉到登入頁面
-      console.log("註冊成功!")
-      goToLogin()
+      console.log("註冊成功!");
+      goToLogin();
     } catch (error) {
-      console.error("註冊失敗:", error)
+      console.error("註冊失敗:", error);
       // 處理註冊錯誤
       setErrors({
-        general: error instanceof Error ? error.message : "註冊失敗，請稍後再試"
-      })
+        general: error instanceof Error ? error.message : "註冊失敗，請稍後再試",
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleInputChange = (field: string, value: string | boolean) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
+    setFormData((prev) => ({ ...prev, [field]: value }));
     // 清除該欄位的錯誤訊息
     if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: "" }))
+      setErrors((prev) => ({ ...prev, [field]: "" }));
     }
     // 清除通用錯誤訊息
     if (errors.general) {
-      setErrors((prev) => ({ ...prev, general: "" }))
+      setErrors((prev) => ({ ...prev, general: "" }));
     }
-  }
+  };
 
   const handleTermsClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setShowTermsDialog(true)
-  }
+    e.preventDefault();
+    e.stopPropagation();
+    setShowTermsDialog(true);
+  };
 
   const handlePrivacyClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setShowPrivacyDialog(true)
-  }
+    e.preventDefault();
+    e.stopPropagation();
+    setShowPrivacyDialog(true);
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 flex items-center justify-center p-4">
@@ -167,7 +178,9 @@ export default function RegisterPage() {
               <MathCatLogo />
             </div>
             <CardTitle className="text-2xl   text-white">加入 MathHub</CardTitle>
-            <CardDescription className="text-blue-200">創建您的帳戶，開始個人化的數學學習體驗</CardDescription>
+            <CardDescription className="text-blue-200">
+              創建您的帳戶，開始個人化的數學學習體驗
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -225,7 +238,10 @@ export default function RegisterPage() {
                 <Label htmlFor="grade" className="text-blue-200">
                   年級
                 </Label>
-                <Select value={formData.grade} onValueChange={(value) => handleInputChange("grade", value)}>
+                <Select
+                  value={formData.grade}
+                  onValueChange={(value) => handleInputChange("grade", value)}
+                >
                   <SelectTrigger
                     className={`bg-slate-700/50 border-blue-400/30 text-white ${errors.grade ? "border-red-400" : ""}`}
                   >
@@ -233,7 +249,11 @@ export default function RegisterPage() {
                   </SelectTrigger>
                   <SelectContent className="bg-slate-800 border-blue-400/30">
                     {gradeOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value} className="text-white hover:bg-slate-700">
+                      <SelectItem
+                        key={option.value}
+                        value={option.value}
+                        className="text-white hover:bg-slate-700"
+                      >
                         {option.label}
                       </SelectItem>
                     ))}
@@ -296,10 +316,16 @@ export default function RegisterPage() {
                     className="absolute right-2 top-1/2 transform -translate-y-1/2 text-blue-400 hover:text-blue-300 hover:bg-transparent"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
-                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showConfirmPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
                   </Button>
                 </div>
-                {errors.confirmPassword && <p className="text-red-400 text-sm">{errors.confirmPassword}</p>}
+                {errors.confirmPassword && (
+                  <p className="text-red-400 text-sm">{errors.confirmPassword}</p>
+                )}
               </div>
 
               {/* Terms Agreement */}
@@ -308,12 +334,17 @@ export default function RegisterPage() {
                   <Checkbox
                     id="agreeTerms"
                     checked={formData.agreeTerms}
-                    onCheckedChange={(checked) => handleInputChange("agreeTerms", checked as boolean)}
+                    onCheckedChange={(checked) =>
+                      handleInputChange("agreeTerms", checked as boolean)
+                    }
                     className={`border-blue-400/30 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 mt-1 ${
                       errors.agreeTerms ? "border-red-400" : ""
                     }`}
                   />
-                  <Label htmlFor="agreeTerms" className="text-blue-200 text-sm cursor-pointer leading-relaxed">
+                  <Label
+                    htmlFor="agreeTerms"
+                    className="text-blue-200 text-sm cursor-pointer leading-relaxed"
+                  >
                     我同意
                     <button
                       type="button"
@@ -338,17 +369,26 @@ export default function RegisterPage() {
                   <Checkbox
                     id="subscribeNewsletter"
                     checked={formData.subscribeNewsletter}
-                    onCheckedChange={(checked) => handleInputChange("subscribeNewsletter", checked as boolean)}
+                    onCheckedChange={(checked) =>
+                      handleInputChange("subscribeNewsletter", checked as boolean)
+                    }
                     className="border-blue-400/30 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 mt-1"
                   />
-                  <Label htmlFor="subscribeNewsletter" className="text-blue-200 text-sm cursor-pointer leading-relaxed">
+                  <Label
+                    htmlFor="subscribeNewsletter"
+                    className="text-blue-200 text-sm cursor-pointer leading-relaxed"
+                  >
                     訂閱電子報，接收最新的數學學習資源和活動資訊
                   </Label>
                 </div>
               </div>
 
               {/* Register Button */}
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white" disabled={isLoading}>
+              <Button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                disabled={isLoading}
+              >
                 {isLoading ? "註冊中..." : "創建帳戶"}
               </Button>
 
@@ -390,7 +430,6 @@ export default function RegisterPage() {
                   variant="link"
                   className="text-blue-400 hover:text-blue-300 p-0 ml-1"
                 >
-
                   <a href="/login">立即登入</a>
                 </Button>
               </div>
@@ -410,7 +449,8 @@ export default function RegisterPage() {
             <section>
               <h3 className="font-semibold text-blue-300 mb-2">1. 服務說明</h3>
               <p>
-                MathHub 是一個數學學習平台，提供個人化的數學學習體驗。我們致力於幫助學生提升數學能力，培養邏輯思維。
+                MathHub
+                是一個數學學習平台，提供個人化的數學學習體驗。我們致力於幫助學生提升數學能力，培養邏輯思維。
               </p>
             </section>
 
@@ -434,7 +474,9 @@ export default function RegisterPage() {
 
             <section>
               <h3 className="font-semibold text-blue-300 mb-2">4. 隱私保護</h3>
-              <p>我們重視用戶隱私，會按照隱私政策處理用戶資訊。用戶資料僅用於提供服務和改善用戶體驗。</p>
+              <p>
+                我們重視用戶隱私，會按照隱私政策處理用戶資訊。用戶資料僅用於提供服務和改善用戶體驗。
+              </p>
             </section>
 
             <section>
@@ -455,7 +497,10 @@ export default function RegisterPage() {
             </section>
           </div>
           <div className="flex justify-end pt-4">
-            <Button onClick={() => setShowTermsDialog(false)} className="bg-blue-600 hover:bg-blue-700">
+            <Button
+              onClick={() => setShowTermsDialog(false)}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
               我已閱讀
             </Button>
           </div>
@@ -467,7 +512,9 @@ export default function RegisterPage() {
         <DialogContent className="bg-slate-800 border-blue-400/20 text-white max-w-2xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-blue-400">隱私政策</DialogTitle>
-            <DialogDescription className="text-blue-200">我們如何收集、使用和保護您的個人資訊</DialogDescription>
+            <DialogDescription className="text-blue-200">
+              我們如何收集、使用和保護您的個人資訊
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 text-sm text-blue-100">
             <section>
@@ -517,7 +564,10 @@ export default function RegisterPage() {
 
             <section>
               <h3 className="font-semibold text-blue-300 mb-2">5. Cookie 使用</h3>
-              <p>我們使用 Cookie 和類似技術來改善用戶體驗，包括記住登入狀態、個人化設定和分析網站使用情況。</p>
+              <p>
+                我們使用 Cookie
+                和類似技術來改善用戶體驗，包括記住登入狀態、個人化設定和分析網站使用情況。
+              </p>
             </section>
 
             <section>
@@ -538,16 +588,21 @@ export default function RegisterPage() {
 
             <section>
               <h3 className="font-semibold text-blue-300 mb-2">8. 聯絡我們</h3>
-              <p>如對隱私政策有任何疑問，請透過客服功能或發送郵件至 privacy@mathhub.com 聯絡我們。</p>
+              <p>
+                如對隱私政策有任何疑問，請透過客服功能或發送郵件至 privacy@mathhub.com 聯絡我們。
+              </p>
             </section>
           </div>
           <div className="flex justify-end pt-4">
-            <Button onClick={() => setShowPrivacyDialog(false)} className="bg-blue-600 hover:bg-blue-700">
+            <Button
+              onClick={() => setShowPrivacyDialog(false)}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
               我已閱讀
             </Button>
           </div>
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

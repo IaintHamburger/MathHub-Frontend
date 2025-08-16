@@ -1,10 +1,10 @@
 const env = {
-  "env.title": "MathHub"
-}
+  "env.title": "MathHub",
+};
 
 const common = {
   "common.backToHome": "返回首頁",
-}
+};
 
 const navigate = {
   "navigate.dailyProblem": "每日一題",
@@ -26,7 +26,7 @@ const navigate = {
   "navigate.admin.reports": "檢舉審核",
   "navigate.admin.announcements": "公告編輯",
   "navigate.admin.settings": "系統設定",
-}
+};
 
 const header = {
   "header.user": "用戶",
@@ -34,7 +34,7 @@ const header = {
   "header.register": "註冊",
   "header.login": "登入",
   "header.logout": "登出",
-}
+};
 
 // 登入頁面
 const login = {
@@ -72,7 +72,7 @@ const login = {
   "login.error.loginFailed": "登入失敗",
   "login.error.rsaError": "RSA 加密錯誤",
   "login.error.rsaNotConfigured": "RSA 加密服務未設定，請檢查環境變數設定",
-}
+};
 
 // 後台 管理員 頁面
 const adminPage = {
@@ -81,7 +81,7 @@ const adminPage = {
   "adminPage.menuItem.userInfo": "個人資料",
   "adminPage.menuItem.userStatistics": "解題統計",
   "adminPage.menuItem.accountSettings": "帳號設定",
-}
+};
 
 const userPage = {
   "userPage.title": "用戶列表",
@@ -94,12 +94,12 @@ const userPage = {
   "userPage.table.action": "操作",
 
   "userPage.btn.addUser": "新增用戶",
-}
+};
 
 // 頁腳
 const footer = {
   "footer.copyright": "© 2025 MathHub. 讓數學學習變得更美好。",
-}
+};
 
 // 問題回報頁面
 const reportIssue = {
@@ -123,7 +123,8 @@ const reportIssue = {
   "reportIssue.form.issueTitle": "問題標題 *",
   "reportIssue.form.issueTitlePlaceholder": "簡短描述您遇到的問題",
   "reportIssue.form.description": "詳細描述 *",
-  "reportIssue.form.descriptionPlaceholder": "請詳細描述問題的情況，包括：\n1. 您在做什麼時遇到這個問題？\n2. 預期的結果是什麼？\n3. 實際發生了什麼？\n4. 如何重現這個問題？",
+  "reportIssue.form.descriptionPlaceholder":
+    "請詳細描述問題的情況，包括：\n1. 您在做什麼時遇到這個問題？\n2. 預期的結果是什麼？\n3. 實際發生了什麼？\n4. 如何重現這個問題？",
   "reportIssue.form.email": "您的電子郵件",
   "reportIssue.form.emailPlaceholder": "your@email.com",
   "reportIssue.form.emailHelp": "選填，用於回覆您的問題",
@@ -146,14 +147,15 @@ const reportIssue = {
   "reportIssue.priority.medium": "🟡 中 - 影響使用體驗",
   "reportIssue.priority.high": "🟠 高 - 重要功能異常",
   "reportIssue.priority.critical": "🔴 緊急 - 系統無法使用",
-}
+};
 
 // 遊樂場頁面
 const playground = {
-  "playground.defaultContent": "這是 **Markdown** 語法\n行內公式：$E = mc^2$\n區塊公式：$$\\int_0^\\infty x^2 dx$$",
+  "playground.defaultContent":
+    "這是 **Markdown** 語法\n行內公式：$E = mc^2$\n區塊公式：$$\\int_0^\\infty x^2 dx$$",
   "playground.nativeMarkdown": "原生 Markdown 渲染",
   "playground.reactMarkdown": "React Markdown 渲染",
-}
+};
 
 // 首頁
 const home = {
@@ -192,7 +194,7 @@ const home = {
   "home.concepts.title": "觀念",
   "home.concepts.description": "簡潔feature介紹",
   "home.concepts.search": "搜尋觀念",
-}
+};
 
 const zh_TW = Object.assign(
   {},

@@ -1,19 +1,24 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { AlertTriangle, FileText, MessageSquare, Users } from "lucide-react"
+import { AlertTriangle, FileText, MessageSquare, Users } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 // 統計卡片組件
-function StatCard({ title, value, icon, color }: {
-  title: string
-  value: string
-  icon: React.ReactNode
-  color: 'blue' | 'green' | 'yellow' | 'red'
+function StatCard({
+  title,
+  value,
+  icon,
+  color,
+}: {
+  title: string;
+  value: string;
+  icon: React.ReactNode;
+  color: "blue" | "green" | "yellow" | "red";
 }) {
   const bgColor = {
     blue: "bg-blue-500/20 text-blue-400",
     green: "bg-green-500/20 text-green-400",
     yellow: "bg-yellow-500/20 text-yellow-400",
     red: "bg-red-500/20 text-red-400",
-  }
+  };
 
   return (
     <Card className="bg-slate-800 border-blue-400/20">
@@ -27,7 +32,7 @@ function StatCard({ title, value, icon, color }: {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 // 儀表板內容
@@ -49,7 +54,10 @@ export default function DashboardPage() {
           <CardContent>
             <div className="space-y-4">
               {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="flex items-start space-x-4 pb-4 border-b border-blue-400/10">
+                <div
+                  key={i}
+                  className="flex items-start space-x-4 pb-4 border-b border-blue-400/10"
+                >
                   <div className="w-10 h-10 rounded-full bg-slate-700 flex-shrink-0" />
                   <div>
                     <p className="text-sm text-blue-200">用戶提交了新題目</p>
@@ -101,5 +109,5 @@ export default function DashboardPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

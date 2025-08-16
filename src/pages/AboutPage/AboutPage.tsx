@@ -1,20 +1,10 @@
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  Award,
-  BookOpen,
-  Calculator,
-  Heart,
-  Lightbulb,
-  Mail,
-  Target,
-  Users
-} from "lucide-react"
-
-import { ReactComponent as DiscordIcon } from "@/assets/icons/icon_discord.svg"
-import { ReactComponent as GitHubIcon } from "@/assets/icons/icon_github.svg"
-import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg"
+import { Award, BookOpen, Calculator, Heart, Lightbulb, Mail, Target, Users } from "lucide-react";
+import { ReactComponent as DiscordIcon } from "@/assets/icons/icon_discord.svg";
+import { ReactComponent as GitHubIcon } from "@/assets/icons/icon_github.svg";
+import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function AboutPage() {
   const teamMembers = [
@@ -46,7 +36,7 @@ export default function AboutPage() {
       avatar: "/placeholder.svg?height=80&width=80",
       skills: ["自動化測試", "性能優化", "錯誤追蹤"],
     },
-  ]
+  ];
 
   const features = [
     {
@@ -79,14 +69,14 @@ export default function AboutPage() {
       title: "智能提示",
       description: "遇到困難時提供適當的提示和解題思路",
     },
-  ]
+  ];
 
   const stats = [
     { label: "註冊用戶", value: "50,000+", icon: Users },
     { label: "題目數量", value: "10,000+", icon: BookOpen },
     { label: "每日活躍", value: "5,000+", icon: Target },
     { label: "社群貢獻", value: "1,000+", icon: Heart },
-  ]
+  ];
 
   return (
     <div className="">
@@ -106,7 +96,10 @@ export default function AboutPage() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           {stats.map((stat, index) => (
-            <Card key={`stat-${stat.label}-${index}`} className="bg-slate-800/50 border-blue-400/20 text-center">
+            <Card
+              key={`stat-${stat.label}-${index}`}
+              className="bg-slate-800/50 border-blue-400/20 text-center"
+            >
               <CardContent className="p-6">
                 <stat.icon className="w-8 h-8 text-blue-400 mx-auto mb-3" />
                 <div className="text-2xl   text-white mb-1">{stat.value}</div>
@@ -186,7 +179,11 @@ export default function AboutPage() {
                   <div className="flex flex-wrap gap-1 justify-center">
                     {member.skills.map((skill, idx) => (
                       // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                      <Badge key={`skill-${skill}-${idx}`} variant="outline" className="text-xs text-blue-300 border-blue-400/30">
+                      <Badge
+                        key={`skill-${skill}-${idx}`}
+                        variant="outline"
+                        className="text-xs text-blue-300 border-blue-400/30"
+                      >
                         {skill}
                       </Badge>
                     ))}
@@ -201,7 +198,9 @@ export default function AboutPage() {
         <Card className="bg-slate-800/50 border-blue-400/20 mb-8">
           <CardHeader>
             <CardTitle className="text-white text-2xl text-center">聯絡我們</CardTitle>
-            <CardDescription className="text-blue-200 text-center">有任何問題或建議，歡迎與我們聯繫</CardDescription>
+            <CardDescription className="text-blue-200 text-center">
+              有任何問題或建議，歡迎與我們聯繫
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex justify-center space-x-6">
@@ -231,5 +230,5 @@ export default function AboutPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

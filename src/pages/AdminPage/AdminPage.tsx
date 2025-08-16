@@ -1,27 +1,3 @@
-import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg";
-import { Button } from "@/components/ui/button";
-import { type ReactNode, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-
-// 後台 管理員 頁面 子頁面
-import AnnouncementsPage from "./AdminSubPages/AnnouncementsPage";
-import CommentsPage from "./AdminSubPages/CommentsPage";
-import DashboardPage from "./AdminSubPages/DashboardPage";
-import ProblemsAddPage from "./AdminSubPages/ProblemsAddPage";
-import ProblemsStatusPage from "./AdminSubPages/ProblemsStatusPage";
-import ReportsPage from "./AdminSubPages/ReportsPage";
-import SettingsPage from "./AdminSubPages/SettingsPage";
-import UsersPage from "./AdminSubPages/UsersPage";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import type { RootState } from "@/redux/store/app";
 import {
   BarChart3,
   Bell,
@@ -37,7 +13,29 @@ import {
   Users,
   X,
 } from "lucide-react";
+import { type ReactNode, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import type { RootState } from "@/redux/store/app";
+// 後台 管理員 頁面 子頁面
+import AnnouncementsPage from "./AdminSubPages/AnnouncementsPage";
+import CommentsPage from "./AdminSubPages/CommentsPage";
+import DashboardPage from "./AdminSubPages/DashboardPage";
+import ProblemsAddPage from "./AdminSubPages/ProblemsAddPage";
+import ProblemsStatusPage from "./AdminSubPages/ProblemsStatusPage";
+import ReportsPage from "./AdminSubPages/ReportsPage";
+import SettingsPage from "./AdminSubPages/SettingsPage";
+import UsersPage from "./AdminSubPages/UsersPage";
 
 // 定義類型
 interface NavItemProps {

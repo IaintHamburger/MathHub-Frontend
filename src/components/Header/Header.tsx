@@ -1,11 +1,10 @@
-import { useAuth } from "@/hooks/useAuth";
-import { useNavigation } from "@/hooks/useNavigation";
+import { ChevronDown, LogIn, User } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-
 import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, LogIn, User } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigation } from "@/hooks/useNavigation";
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
@@ -20,7 +19,7 @@ const Header: React.FC = () => {
     goToFaqs,
     goToReportIssue,
     goToRegister,
-    goToLogin
+    goToLogin,
   } = useNavigation();
 
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -34,26 +33,49 @@ const Header: React.FC = () => {
     <header className="w-full px-4 py-4 bg-slate-800/50 backdrop-blur-sm">
       <nav className="flex items-center justify-between max-w-7xl mx-auto">
         <div className="w-[100px] flex items-center cursor-pointer">
-            <MathCatLogo className="mx-auto" onClick={goToHome}/>
+          <MathCatLogo className="mx-auto" onClick={goToHome} />
         </div>
         <div className="hidden md:flex items-center space-x-6 text-blue-300">
-          <button type="button" onClick={goToDailyProblem} className="hover:text-blue-400 transition-colors">
+          <button
+            type="button"
+            onClick={goToDailyProblem}
+            className="hover:text-blue-400 transition-colors"
+          >
             {t("navigate.dailyProblem")}
           </button>
-          <button type="button" onClick={goToProblems} className="hover:text-blue-400 transition-colors">
+          <button
+            type="button"
+            onClick={goToProblems}
+            className="hover:text-blue-400 transition-colors"
+          >
             {t("navigate.problems")}
           </button>
-          <button type="button" onClick={goToConcepts} className="hover:text-blue-400 transition-colors">
+          <button
+            type="button"
+            onClick={goToConcepts}
+            className="hover:text-blue-400 transition-colors"
+          >
             {t("navigate.concepts")}
           </button>
-          <button type="button" onClick={goToLeaderBoard} className="hover:text-blue-400 transition-colors">
+          <button
+            type="button"
+            onClick={goToLeaderBoard}
+            className="hover:text-blue-400 transition-colors"
+          >
             {t("navigate.leaderboard")}
           </button>
-          <button type="button" onClick={goToAnnouncements} className="hover:text-blue-400 transition-colors">
+          <button
+            type="button"
+            onClick={goToAnnouncements}
+            className="hover:text-blue-400 transition-colors"
+          >
             {t("navigate.announcements")}
           </button>
           <div className="relative group">
-            <button type="button" className="flex items-center space-x-1 hover:text-blue-400 transition-colors">
+            <button
+              type="button"
+              className="flex items-center space-x-1 hover:text-blue-400 transition-colors"
+            >
               <span>{t("navigate.supports")}</span>
               <ChevronDown className="w-4 h-4" />
             </button>

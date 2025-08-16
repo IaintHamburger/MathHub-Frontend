@@ -1,25 +1,17 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  Award,
-  Calendar,
-  Crown,
-  Medal,
-  Star,
-  Target,
-  TrendingUp,
-} from "lucide-react"
-import { useState } from "react"
+import { Award, Calendar, Crown, Medal, Star, Target, TrendingUp } from "lucide-react";
+import { useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function LeaderBoardPage() {
-  const [selectedPeriod, setSelectedPeriod] = useState("monthly")
-  const [selectedCategory, setSelectedCategory] = useState("total-problems") // 新增
-  const [selectedSubject, setSelectedSubject] = useState("all") // 新增
-  const [selectedGrade, setSelectedGrade] = useState("all") // 新增
-  const [selectedStreak, setSelectedStreak] = useState("all") // 新增
+  const [selectedPeriod, setSelectedPeriod] = useState("monthly");
+  const [selectedCategory, setSelectedCategory] = useState("total-problems"); // 新增
+  const [selectedSubject, setSelectedSubject] = useState("all"); // 新增
+  const [selectedGrade, setSelectedGrade] = useState("all"); // 新增
+  const [selectedStreak, setSelectedStreak] = useState("all"); // 新增
 
   const [currentUser] = useState({
     rank: 42,
@@ -28,7 +20,7 @@ export default function LeaderBoardPage() {
     solved: 28,
     streak: 12,
     avatar: "/placeholder.svg?height=40&width=40",
-  })
+  });
 
   const leaderboardData = {
     monthly: Array.from({ length: 100 }, (_, i) => ({
@@ -54,9 +46,30 @@ export default function LeaderBoardPage() {
       avatar: "/placeholder.svg?height=40&width=40",
     })),
     weekly: [
-      { rank: 1, name: "本週之星", score: 680, solved: 12, streak: 7, avatar: "/placeholder.svg?height=40&width=40" },
-      { rank: 2, name: "週末戰士", score: 650, solved: 11, streak: 6, avatar: "/placeholder.svg?height=40&width=40" },
-      { rank: 3, name: "每日挑戰者", score: 620, solved: 10, streak: 5, avatar: "/placeholder.svg?height=40&width=40" },
+      {
+        rank: 1,
+        name: "本週之星",
+        score: 680,
+        solved: 12,
+        streak: 7,
+        avatar: "/placeholder.svg?height=40&width=40",
+      },
+      {
+        rank: 2,
+        name: "週末戰士",
+        score: 650,
+        solved: 11,
+        streak: 6,
+        avatar: "/placeholder.svg?height=40&width=40",
+      },
+      {
+        rank: 3,
+        name: "每日挑戰者",
+        score: 620,
+        solved: 10,
+        streak: 5,
+        avatar: "/placeholder.svg?height=40&width=40",
+      },
     ],
     allTime: [
       {
@@ -84,33 +97,35 @@ export default function LeaderBoardPage() {
         avatar: "/placeholder.svg?height=40&width=40",
       },
     ],
-  }
+  };
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
       case 1:
-        return <Crown className="w-6 h-6 text-yellow-400" />
+        return <Crown className="w-6 h-6 text-yellow-400" />;
       case 2:
-        return <Medal className="w-6 h-6 text-gray-400" />
+        return <Medal className="w-6 h-6 text-gray-400" />;
       case 3:
-        return <Award className="w-6 h-6 text-amber-600" />
+        return <Award className="w-6 h-6 text-amber-600" />;
       default:
-        return <span className="w-6 h-6 flex items-center justify-center text-blue-400  ">{rank}</span>
+        return (
+          <span className="w-6 h-6 flex items-center justify-center text-blue-400  ">{rank}</span>
+        );
     }
-  }
+  };
 
   const getRankBadge = (rank: number) => {
     switch (rank) {
       case 1:
-        return <Badge className="bg-yellow-500 text-black">冠軍</Badge>
+        return <Badge className="bg-yellow-500 text-black">冠軍</Badge>;
       case 2:
-        return <Badge className="bg-gray-400 text-white">亞軍</Badge>
+        return <Badge className="bg-gray-400 text-white">亞軍</Badge>;
       case 3:
-        return <Badge className="bg-amber-600 text-white">季軍</Badge>
+        return <Badge className="bg-amber-600 text-white">季軍</Badge>;
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   return (
     <div className="">
@@ -125,7 +140,12 @@ export default function LeaderBoardPage() {
               <CardContent className="space-y-6">
                 {/* 主要分類 */}
                 <div>
-                  <label htmlFor="ranking-type" className="text-sm font-medium text-blue-200 block mb-3">排行榜類型</label>
+                  <label
+                    htmlFor="ranking-type"
+                    className="text-sm font-medium text-blue-200 block mb-3"
+                  >
+                    排行榜類型
+                  </label>
                   <div className="space-y-2">
                     <Button
                       variant={selectedCategory === "daily-problem" ? "default" : "outline"}
@@ -154,16 +174,30 @@ export default function LeaderBoardPage() {
 
                 {/* 時間範圍 */}
                 <div>
-                  <label htmlFor="time-range" className="text-sm font-medium text-blue-200 block mb-3">時間範圍</label>
+                  <label
+                    htmlFor="time-range"
+                    className="text-sm font-medium text-blue-200 block mb-3"
+                  >
+                    時間範圍
+                  </label>
                   <Tabs value={selectedPeriod} onValueChange={setSelectedPeriod}>
                     <TabsList className="bg-slate-700/50 w-full">
-                      <TabsTrigger value="weekly" className="data-[state=active]:bg-blue-600 flex-1">
+                      <TabsTrigger
+                        value="weekly"
+                        className="data-[state=active]:bg-blue-600 flex-1"
+                      >
                         本週
                       </TabsTrigger>
-                      <TabsTrigger value="monthly" className="data-[state=active]:bg-blue-600 flex-1">
+                      <TabsTrigger
+                        value="monthly"
+                        className="data-[state=active]:bg-blue-600 flex-1"
+                      >
                         本月
                       </TabsTrigger>
-                      <TabsTrigger value="allTime" className="data-[state=active]:bg-blue-600 flex-1">
+                      <TabsTrigger
+                        value="allTime"
+                        className="data-[state=active]:bg-blue-600 flex-1"
+                      >
                         總排
                       </TabsTrigger>
                     </TabsList>
@@ -172,7 +206,9 @@ export default function LeaderBoardPage() {
 
                 {/* 學科分類 */}
                 <div>
-                  <label htmlFor="subject" className="text-sm font-medium text-blue-200 block mb-3">學科分類</label>
+                  <label htmlFor="subject" className="text-sm font-medium text-blue-200 block mb-3">
+                    學科分類
+                  </label>
                   <select
                     id="subject"
                     value={selectedSubject}
@@ -192,7 +228,9 @@ export default function LeaderBoardPage() {
 
                 {/* 年級篩選 */}
                 <div>
-                  <label htmlFor="grade" className="text-sm font-medium text-blue-200 block mb-3">年級</label>
+                  <label htmlFor="grade" className="text-sm font-medium text-blue-200 block mb-3">
+                    年級
+                  </label>
                   <select
                     id="grade"
                     value={selectedGrade}
@@ -209,7 +247,9 @@ export default function LeaderBoardPage() {
 
                 {/* 連續答題天數 */}
                 <div>
-                    <label htmlFor="streak" className="text-sm font-medium text-blue-200 block mb-3">連續答題天數</label>
+                  <label htmlFor="streak" className="text-sm font-medium text-blue-200 block mb-3">
+                    連續答題天數
+                  </label>
                   <select
                     id="streak"
                     value={selectedStreak}
@@ -229,11 +269,11 @@ export default function LeaderBoardPage() {
                   variant="outline"
                   className="w-full border-blue-400/30 text-blue-400 bg-transparent hover:bg-blue-400/10"
                   onClick={() => {
-                    setSelectedCategory("total-problems")
-                    setSelectedPeriod("monthly")
-                    setSelectedSubject("all")
-                    setSelectedGrade("all")
-                    setSelectedStreak("all")
+                    setSelectedCategory("total-problems");
+                    setSelectedPeriod("monthly");
+                    setSelectedSubject("all");
+                    setSelectedGrade("all");
+                    setSelectedStreak("all");
                   }}
                 >
                   重置篩選
@@ -322,80 +362,84 @@ export default function LeaderBoardPage() {
                 {/* 滾動區域 */}
                 <div className="max-h-96 overflow-y-auto">
                   <div className="space-y-1 p-4">
-                    {leaderboardData[selectedPeriod as keyof typeof leaderboardData].map((user, index) => (
-                      <div
-                        key={`leaderboard-${user.rank}-${index}`}
-                        className={`flex items-center justify-between p-4 rounded-lg transition-colors hover:bg-slate-700/30 ${
-                          user.rank <= 3
-                            ? "bg-slate-700/20 border border-blue-400/20"
-                            : user.rank === currentUser.rank
-                              ? "bg-orange-500/20 border border-orange-400/30"
-                              : "bg-slate-700/10"
-                        }`}
-                      >
-                        <div className="flex items-center space-x-4">
-                          <div className="flex items-center justify-center w-8">{getRankIcon(user.rank)}</div>
-                          <Avatar className="w-10 h-10">
-                            <AvatarImage src={user.avatar || "/placeholder.svg"} />
-                            <AvatarFallback>{user.name[0]}</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <div className="flex items-center space-x-2">
-                              <h3
-                                className={`font-medium ${user.rank === currentUser.rank ? "text-orange-300" : "text-white"}`}
-                              >
-                                {user.name}
-                              </h3>
-                              {getRankBadge(user.rank)}
-                              {user.rank === currentUser.rank && (
-                                <Badge className="bg-orange-500 text-white text-xs">你</Badge>
-                              )}
+                    {leaderboardData[selectedPeriod as keyof typeof leaderboardData].map(
+                      (user, index) => (
+                        <div
+                          key={`leaderboard-${user.rank}-${index}`}
+                          className={`flex items-center justify-between p-4 rounded-lg transition-colors hover:bg-slate-700/30 ${
+                            user.rank <= 3
+                              ? "bg-slate-700/20 border border-blue-400/20"
+                              : user.rank === currentUser.rank
+                                ? "bg-orange-500/20 border border-orange-400/30"
+                                : "bg-slate-700/10"
+                          }`}
+                        >
+                          <div className="flex items-center space-x-4">
+                            <div className="flex items-center justify-center w-8">
+                              {getRankIcon(user.rank)}
                             </div>
-                            <p
-                              className={`text-sm ${user.rank === currentUser.rank ? "text-orange-200" : "text-blue-200"}`}
-                            >
-                              連續 {user.streak} 天
-                            </p>
+                            <Avatar className="w-10 h-10">
+                              <AvatarImage src={user.avatar || "/placeholder.svg"} />
+                              <AvatarFallback>{user.name[0]}</AvatarFallback>
+                            </Avatar>
+                            <div>
+                              <div className="flex items-center space-x-2">
+                                <h3
+                                  className={`font-medium ${user.rank === currentUser.rank ? "text-orange-300" : "text-white"}`}
+                                >
+                                  {user.name}
+                                </h3>
+                                {getRankBadge(user.rank)}
+                                {user.rank === currentUser.rank && (
+                                  <Badge className="bg-orange-500 text-white text-xs">你</Badge>
+                                )}
+                              </div>
+                              <p
+                                className={`text-sm ${user.rank === currentUser.rank ? "text-orange-200" : "text-blue-200"}`}
+                              >
+                                連續 {user.streak} 天
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-6 text-right">
+                            <div>
+                              <p
+                                className={`  text-lg ${user.rank === currentUser.rank ? "text-orange-300" : "text-white"}`}
+                              >
+                                {user.score}
+                              </p>
+                              <p
+                                className={`text-sm ${user.rank === currentUser.rank ? "text-orange-200" : "text-blue-200"}`}
+                              >
+                                總分
+                              </p>
+                            </div>
+                            <div>
+                              <p
+                                className={`font-medium ${user.rank === currentUser.rank ? "text-orange-400" : "text-green-400"}`}
+                              >
+                                {user.solved}
+                              </p>
+                              <p
+                                className={`text-sm ${user.rank === currentUser.rank ? "text-orange-200" : "text-blue-200"}`}
+                              >
+                                已解題
+                              </p>
+                            </div>
+                            <div className="flex items-center space-x-1">
+                              <TrendingUp
+                                className={`w-4 h-4 ${user.rank === currentUser.rank ? "text-orange-400" : "text-blue-400"}`}
+                              />
+                              <span
+                                className={`text-sm ${user.rank === currentUser.rank ? "text-orange-400" : "text-blue-400"}`}
+                              >
+                                +{Math.floor(Math.random() * 50) + 10}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                        <div className="flex items-center space-x-6 text-right">
-                          <div>
-                            <p
-                              className={`  text-lg ${user.rank === currentUser.rank ? "text-orange-300" : "text-white"}`}
-                            >
-                              {user.score}
-                            </p>
-                            <p
-                              className={`text-sm ${user.rank === currentUser.rank ? "text-orange-200" : "text-blue-200"}`}
-                            >
-                              總分
-                            </p>
-                          </div>
-                          <div>
-                            <p
-                              className={`font-medium ${user.rank === currentUser.rank ? "text-orange-400" : "text-green-400"}`}
-                            >
-                              {user.solved}
-                            </p>
-                            <p
-                              className={`text-sm ${user.rank === currentUser.rank ? "text-orange-200" : "text-blue-200"}`}
-                            >
-                              已解題
-                            </p>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <TrendingUp
-                              className={`w-4 h-4 ${user.rank === currentUser.rank ? "text-orange-400" : "text-blue-400"}`}
-                            />
-                            <span
-                              className={`text-sm ${user.rank === currentUser.rank ? "text-orange-400" : "text-blue-400"}`}
-                            >
-                              +{Math.floor(Math.random() * 50) + 10}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                      ),
+                    )}
                   </div>
                 </div>
 
@@ -522,5 +566,5 @@ export default function LeaderBoardPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

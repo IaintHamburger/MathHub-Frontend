@@ -1,10 +1,3 @@
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Progress } from "@/components/ui/progress"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   BookOpen,
   CheckCircle,
@@ -14,15 +7,28 @@ import {
   Play,
   Search,
   Target,
-  Users
-} from "lucide-react"
-import { useState } from "react"
+  Users,
+} from "lucide-react";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function ConceptsPage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedLevel, setSelectedLevel] = useState("all")
-  const [selectedTab, setSelectedTab] = useState("all")
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedLevel, setSelectedLevel] = useState("all");
+  const [selectedTab, setSelectedTab] = useState("all");
 
   const concepts = [
     {
@@ -117,23 +123,23 @@ export default function ConceptsPage() {
       locked: true,
       prerequisite: "線性代數基礎",
     },
-  ]
+  ];
 
-  const categories = ["all", "代數", "幾何", "微積分", "三角函數", "機率統計", "複數", "線性代數"]
-  const levels = ["all", "基礎", "中等", "進階"]
+  const categories = ["all", "代數", "幾何", "微積分", "三角函數", "機率統計", "複數", "線性代數"];
+  const levels = ["all", "基礎", "中等", "進階"];
 
   const getLevelColor = (level: string) => {
     switch (level) {
       case "基礎":
-        return "bg-green-600"
+        return "bg-green-600";
       case "中等":
-        return "bg-yellow-600"
+        return "bg-yellow-600";
       case "進階":
-        return "bg-red-600"
+        return "bg-red-600";
       default:
-        return "bg-gray-600"
+        return "bg-gray-600";
     }
-  }
+  };
 
   const getCategoryColor = (category: string) => {
     const colors = {
@@ -144,31 +150,31 @@ export default function ConceptsPage() {
       機率統計: "bg-teal-600",
       複數: "bg-indigo-600",
       線性代數: "bg-cyan-600",
-    }
-    return colors[category as keyof typeof colors] || "bg-gray-600"
-  }
+    };
+    return colors[category as keyof typeof colors] || "bg-gray-600";
+  };
 
   const filteredConcepts = concepts.filter((concept) => {
     const matchesSearch =
       concept.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       concept.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      concept.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-    const matchesCategory = selectedCategory === "all" || concept.category === selectedCategory
-    const matchesLevel = selectedLevel === "all" || concept.level === selectedLevel
+      concept.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesCategory = selectedCategory === "all" || concept.category === selectedCategory;
+    const matchesLevel = selectedLevel === "all" || concept.level === selectedLevel;
     const matchesTab =
       selectedTab === "all" ||
       (selectedTab === "completed" && concept.completed) ||
       (selectedTab === "in-progress" && concept.progress > 0 && concept.progress < 100) ||
-      (selectedTab === "not-started" && concept.progress === 0)
+      (selectedTab === "not-started" && concept.progress === 0);
 
-    return matchesSearch && matchesCategory && matchesLevel && matchesTab
-  })
+    return matchesSearch && matchesCategory && matchesLevel && matchesTab;
+  });
 
   const stats = {
     total: concepts.length,
     completed: concepts.filter((c) => c.completed).length,
     inProgress: concepts.filter((c) => c.progress > 0 && c.progress < 100).length,
-  }
+  };
 
   return (
     <div className="">
@@ -235,7 +241,11 @@ export default function ConceptsPage() {
                   </SelectTrigger>
                   <SelectContent className="bg-slate-800 border-blue-400/30">
                     {categories.map((category) => (
-                      <SelectItem key={category} value={category} className="text-white hover:bg-slate-700">
+                      <SelectItem
+                        key={category}
+                        value={category}
+                        className="text-white hover:bg-slate-700"
+                      >
                         {category === "all" ? "所有分類" : category}
                       </SelectItem>
                     ))}
@@ -248,7 +258,11 @@ export default function ConceptsPage() {
                   </SelectTrigger>
                   <SelectContent className="bg-slate-800 border-blue-400/30">
                     {levels.map((level) => (
-                      <SelectItem key={level} value={level} className="text-white hover:bg-slate-700">
+                      <SelectItem
+                        key={level}
+                        value={level}
+                        className="text-white hover:bg-slate-700"
+                      >
                         {level === "all" ? "所有難度" : level}
                       </SelectItem>
                     ))}
@@ -287,89 +301,104 @@ export default function ConceptsPage() {
               }`}
             >
               <a href={`/concepts/${concept.id}`}>
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <Badge className={getCategoryColor(concept.category)}>{concept.category}</Badge>
-                      <Badge className={getLevelColor(concept.level)}>{concept.level}</Badge>
-                      {concept.completed && <CheckCircle className="w-4 h-4 text-green-400" />}
-                      {concept.locked && <Lock className="w-4 h-4 text-slate-400" />}
-                    </div>
-                    <CardTitle className="text-white text-lg mb-2">{concept.title}</CardTitle>
-                    <CardDescription className="text-blue-200">{concept.description}</CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center text-blue-200">
-                      <Clock className="w-4 h-4 mr-1" />
-                      {concept.timeEstimate}
-                    </div>
-                    <div className="flex items-center text-blue-200">
-                      <BookOpen className="w-4 h-4 mr-1" />
-                      {concept.chapters} 章節
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center text-blue-200">
-                      <Users className="w-4 h-4 mr-1" />
-                      {concept.completedBy}/{concept.totalLearners}
-                    </div>
-                  </div>
-
-                  {concept.progress > 0 && concept.progress < 100 && (
-                    <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="text-blue-200">學習進度</span>
-                        <span className="text-white">{concept.progress}%</span>
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Badge className={getCategoryColor(concept.category)}>
+                          {concept.category}
+                        </Badge>
+                        <Badge className={getLevelColor(concept.level)}>{concept.level}</Badge>
+                        {concept.completed && <CheckCircle className="w-4 h-4 text-green-400" />}
+                        {concept.locked && <Lock className="w-4 h-4 text-slate-400" />}
                       </div>
-                      <Progress value={concept.progress} className="h-2" />
+                      <CardTitle className="text-white text-lg mb-2">{concept.title}</CardTitle>
+                      <CardDescription className="text-blue-200">
+                        {concept.description}
+                      </CardDescription>
                     </div>
-                  )}
-
-                  <div className="flex flex-wrap gap-1">
-                    {concept.tags.slice(0, 3).map((tag, index) => (
-                      <Badge key={`tag-${concept.id}-${index}`} variant="outline" className="text-xs text-blue-300 border-blue-400/30">
-                        #{tag}
-                      </Badge>
-                    ))}
                   </div>
-
-                  {concept.locked ? (
-                    <div className="space-y-2">
-                      <p className="text-slate-400 text-sm">需要先完成：{concept.prerequisite}</p>
-                      <Button disabled className="w-full bg-slate-700 text-slate-500 cursor-not-allowed">
-                        <Lock className="w-4 h-4 mr-2" />
-                        已鎖定
-                      </Button>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center text-blue-200">
+                        <Clock className="w-4 h-4 mr-1" />
+                        {concept.timeEstimate}
+                      </div>
+                      <div className="flex items-center text-blue-200">
+                        <BookOpen className="w-4 h-4 mr-1" />
+                        {concept.chapters} 章節
+                      </div>
                     </div>
-                  ) : (
-                    <Button
-                      disabled={concept.locked}
-                      className={`w-full ${
-                        concept.completed
-                          ? "bg-green-600 hover:bg-green-700"
+
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center text-blue-200">
+                        <Users className="w-4 h-4 mr-1" />
+                        {concept.completedBy}/{concept.totalLearners}
+                      </div>
+                    </div>
+
+                    {concept.progress > 0 && concept.progress < 100 && (
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-blue-200">學習進度</span>
+                          <span className="text-white">{concept.progress}%</span>
+                        </div>
+                        <Progress value={concept.progress} className="h-2" />
+                      </div>
+                    )}
+
+                    <div className="flex flex-wrap gap-1">
+                      {concept.tags.slice(0, 3).map((tag, index) => (
+                        <Badge
+                          key={`tag-${concept.id}-${index}`}
+                          variant="outline"
+                          className="text-xs text-blue-300 border-blue-400/30"
+                        >
+                          #{tag}
+                        </Badge>
+                      ))}
+                    </div>
+
+                    {concept.locked ? (
+                      <div className="space-y-2">
+                        <p className="text-slate-400 text-sm">需要先完成：{concept.prerequisite}</p>
+                        <Button
+                          disabled
+                          className="w-full bg-slate-700 text-slate-500 cursor-not-allowed"
+                        >
+                          <Lock className="w-4 h-4 mr-2" />
+                          已鎖定
+                        </Button>
+                      </div>
+                    ) : (
+                      <Button
+                        disabled={concept.locked}
+                        className={`w-full ${
+                          concept.completed
+                            ? "bg-green-600 hover:bg-green-700"
+                            : concept.progress > 0
+                              ? "bg-yellow-600 hover:bg-yellow-700"
+                              : "bg-blue-600 hover:bg-blue-700"
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (!concept.locked) {
+                            window.location.href = `/concepts/${concept.id}`;
+                          }
+                        }}
+                      >
+                        <Play className="w-4 h-4 mr-2" />
+                        {concept.completed
+                          ? "重新學習"
                           : concept.progress > 0
-                            ? "bg-yellow-600 hover:bg-yellow-700"
-                            : "bg-blue-600 hover:bg-blue-700"
-                      }`}
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        if (!concept.locked) {
-                          window.location.href = `/concepts/${concept.id}`
-                        }
-                      }}
-                    >
-                      <Play className="w-4 h-4 mr-2" />
-                      {concept.completed ? "重新學習" : concept.progress > 0 ? "繼續學習" : "開始學習"}
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
+                            ? "繼續學習"
+                            : "開始學習"}
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
               </a>
             </Card>
           ))}
@@ -386,5 +415,5 @@ export default function ConceptsPage() {
         )}
       </div>
     </div>
-  )
+  );
 }

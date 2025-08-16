@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 export default function ProblemsAddPage() {
   return (
@@ -26,7 +26,9 @@ export default function ProblemsAddPage() {
                     <p className="font-medium text-white">題目 #{i}</p>
                     <p className="text-xs text-slate-400">提交於 2023/06/12</p>
                   </div>
-                  <span className="px-2 py-1 rounded-full text-xs bg-yellow-500/20 text-yellow-400">待審核</span>
+                  <span className="px-2 py-1 rounded-full text-xs bg-yellow-500/20 text-yellow-400">
+                    待審核
+                  </span>
                 </div>
               ))}
             </div>
@@ -143,5 +145,5 @@ export default function ProblemsAddPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

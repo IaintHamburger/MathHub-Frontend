@@ -1,12 +1,10 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { getUUID } from "@/lib/utils"
-import { useTranslation } from "react-i18next"
-
-import { Bell, BookOpen, Calendar, PenTool, Search } from "lucide-react"
-
-import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg"
+import { Bell, BookOpen, Calendar, PenTool, Search } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { getUUID } from "@/lib/utils";
 
 const Home = (): React.JSX.Element => {
   const { t } = useTranslation();
@@ -50,7 +48,12 @@ const Home = (): React.JSX.Element => {
                     <Bell className="w-5 h-5 mr-2" />
                     {t("home.announcements.title")}
                   </CardTitle>
-                  <Button variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300" asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-blue-400 hover:text-blue-300"
+                    asChild
+                  >
                     <a href="/announcements">{t("home.announcements.more")}</a>
                   </Button>
                 </div>
@@ -73,7 +76,7 @@ const Home = (): React.JSX.Element => {
                       date: "2024-12-30",
                       preview: t("home.announcements.daily.preview"),
                     },
-                  ].map((announcement, i) => (
+                  ].map((announcement, _i) => (
                     <div
                       key={getUUID()}
                       className="p-3 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-colors cursor-pointer text-left"
@@ -95,7 +98,9 @@ const Home = (): React.JSX.Element => {
             <Card className="bg-slate-800/50 border-blue-400/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-105">
               <CardContent className="p-6 text-center">
                 <BookOpen className="w-12 h-12 text-green-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">{t("home.features.problems.title")}</h3>
+                <h3 className="text-xl font-semibold text-white mb-2">
+                  {t("home.features.problems.title")}
+                </h3>
                 <p className="text-blue-200 mb-4">{t("home.features.problems.description")}</p>
                 <Button className="bg-green-600 hover:bg-green-700" asChild>
                   <a href="/problems">{t("home.features.problems.button")}</a>
@@ -106,7 +111,9 @@ const Home = (): React.JSX.Element => {
             <Card className="bg-slate-800/50 border-blue-400/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-105">
               <CardContent className="p-6 text-center">
                 <Calendar className="w-12 h-12 text-orange-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">{t("home.features.daily.title")}</h3>
+                <h3 className="text-xl font-semibold text-white mb-2">
+                  {t("home.features.daily.title")}
+                </h3>
                 <p className="text-blue-200 mb-4">{t("home.features.daily.description")}</p>
                 <Button className="bg-orange-600 hover:bg-orange-700" asChild>
                   <a href="/daily-problem">{t("home.features.daily.button")}</a>
@@ -117,7 +124,9 @@ const Home = (): React.JSX.Element => {
             <Card className="bg-slate-800/50 border-blue-400/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-105">
               <CardContent className="p-6 text-center">
                 <PenTool className="w-12 h-12 text-purple-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">{t("home.features.concepts.title")}</h3>
+                <h3 className="text-xl font-semibold text-white mb-2">
+                  {t("home.features.concepts.title")}
+                </h3>
                 <p className="text-blue-200 mb-4">{t("home.features.concepts.description")}</p>
                 <Button className="bg-purple-600 hover:bg-purple-700" asChild>
                   <a href="/concepts">{t("home.features.concepts.button")}</a>
@@ -130,7 +139,7 @@ const Home = (): React.JSX.Element => {
           <section className="mb-16">
             <h2 className="text-3xl   text-center text-white mb-8">{t("home.categories.title")}</h2>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
-              {Array.from({ length: 10 }).map((_, i) => (
+              {Array.from({ length: 10 }).map((_, _i) => (
                 <Card
                   key={getUUID()}
                   className="aspect-square hover:shadow-lg hover:scale-110 transition-all duration-300 cursor-pointer transform bg-slate-800/50 border-blue-400/20 hover:border-blue-400/40"
@@ -148,7 +157,7 @@ const Home = (): React.JSX.Element => {
           <section className="mb-16">
             <div className="max-w-2xl mx-auto">
               <div className="bg-slate-800/50 border-blue-400/20 border rounded-lg p-8 shadow-lg mb-4">
-                  <div className="w-full h-48 bg-slate-700/50 rounded-lg mb-4" />
+                <div className="w-full h-48 bg-slate-700/50 rounded-lg mb-4" />
               </div>
               <div className="text-center">
                 <h3 className="text-2xl   text-white mb-2">{t("home.problems.title")}</h3>

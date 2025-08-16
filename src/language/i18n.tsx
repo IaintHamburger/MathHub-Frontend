@@ -15,16 +15,16 @@ const resources = {
 
 // 取得瀏覽器語言或 localStorage 中的語言設定
 const getLanguage = () => {
-  const savedLanguage = localStorage.getItem('language');
+  const savedLanguage = localStorage.getItem("language");
   if (savedLanguage) return savedLanguage;
 
   // 檢查瀏覽器語言
   const browserLang = navigator.language;
-  if (browserLang.startsWith('zh')) {
-    return 'zh-TW';
+  if (browserLang.startsWith("zh")) {
+    return "zh-TW";
   }
 
-  return 'zh-TW'; // 預設使用繁體中文
+  return "zh-TW"; // 預設使用繁體中文
 };
 
 i18n.use(initReactI18next).init({

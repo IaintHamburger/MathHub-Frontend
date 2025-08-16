@@ -1,17 +1,16 @@
-import { useAuth } from "@/hooks/useAuth";
-import { useNavigation } from "@/hooks/useNavigation";
-import { encryptDataWithRSA } from "@/lib/rsaService";
+import { ArrowLeft, Eye, EyeOff, Lock, Mail } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-
 import { ReactComponent as GoogleIcon } from "@/assets/icons/icon_google.svg";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigation } from "@/hooks/useNavigation";
+import { encryptDataWithRSA } from "@/lib/rsaService";
 
 const LoginPage: React.FC = () => {
   const { t } = useTranslation();
@@ -66,7 +65,6 @@ const LoginPage: React.FC = () => {
         [name]: undefined,
       }));
     }
-
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -76,17 +74,16 @@ const LoginPage: React.FC = () => {
       return;
     }
 
-
     try {
       // 加密登入憑證
       const encryptedCredentials = await Promise.all([
         encryptDataWithRSA(formData.email),
-        encryptDataWithRSA(formData.password)
+        encryptDataWithRSA(formData.password),
       ]);
 
       const result = await login({
         email: encryptedCredentials[0],
-        password: encryptedCredentials[1]
+        password: encryptedCredentials[1],
       });
 
       if (result.success) {
@@ -189,7 +186,9 @@ const LoginPage: React.FC = () => {
                   type="button"
                   variant="link"
                   className="text-blue-400 hover:text-blue-300 p-0 h-auto"
-                  onClick={() => {/* TODO: 實作忘記密碼功能 */}}
+                  onClick={() => {
+                    /* TODO: 實作忘記密碼功能 */
+                  }}
                 >
                   {t("login.form.forgotPassword")}
                 </Button>
@@ -200,7 +199,9 @@ const LoginPage: React.FC = () => {
                 <div className="rounded-md bg-red-900/50 border border-red-400/30 p-4">
                   <div className="flex">
                     <div className="ml-3">
-                      <h3 className="text-sm font-medium text-red-300">{t("login.error.loginFailed")}</h3>
+                      <h3 className="text-sm font-medium text-red-300">
+                        {t("login.error.loginFailed")}
+                      </h3>
                       <div className="mt-2 text-sm text-red-200">
                         <p>{error}</p>
                       </div>
@@ -210,7 +211,11 @@ const LoginPage: React.FC = () => {
               )}
 
               {/* Login Button */}
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white" disabled={isFetching}>
+              <Button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                disabled={isFetching}
+              >
                 {isFetching ? t("login.button.loggingIn") : t("login.button.login")}
               </Button>
 
@@ -228,10 +233,10 @@ const LoginPage: React.FC = () => {
               <div className="flex justify-center space-x-6">
                 {/* Google */}
                 <Button
-                    type="button"
-                    variant="ghost"
-                    className="w-12 h-12 rounded-full border border-blue-400/30 hover:bg-slate-700/50 p-0"
-                  >
+                  type="button"
+                  variant="ghost"
+                  className="w-12 h-12 rounded-full border border-blue-400/30 hover:bg-slate-700/50 p-0"
+                >
                   <GoogleIcon />
                 </Button>
               </div>
@@ -271,4 +276,3 @@ const LoginPage: React.FC = () => {
 };
 
 export default LoginPage;
-

@@ -30,7 +30,11 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
 
 function CardTitle({ className, ...props }: React.ComponentProps<"h3">) {
   return (
-    <h3  data-slot="card-title" className={cn("tracking-tight text-2xl   text-center text-white", className)} {...props} />
+    <h3
+      data-slot="card-title"
+      className={cn("tracking-tight text-2xl   text-center text-white", className)}
+      {...props}
+    />
   );
 }
 
@@ -69,4 +73,3 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 export { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle };
-

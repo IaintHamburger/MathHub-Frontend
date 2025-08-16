@@ -1,9 +1,9 @@
-import { ReactComponent as GitHubIcon } from "@/assets/icons/icon_github.svg"
-import { ReactComponent as GoogleIcon } from "@/assets/icons/icon_google.svg"
-import { ReactComponent as MicrosoftIcon } from "@/assets/icons/icon_microsoft.svg"
-import { ReactComponent as XIcon } from "@/assets/icons/icon_x.svg"
+import { ReactComponent as GitHubIcon } from "@/assets/icons/icon_github.svg";
+import { ReactComponent as GoogleIcon } from "@/assets/icons/icon_google.svg";
+import { ReactComponent as MicrosoftIcon } from "@/assets/icons/icon_microsoft.svg";
+import { ReactComponent as XIcon } from "@/assets/icons/icon_x.svg";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 export default function SocialIcon() {
   return (

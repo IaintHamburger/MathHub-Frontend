@@ -1,10 +1,16 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { AlertTriangle, Bug, Lightbulb, Send } from "lucide-react"
-import { useTranslation } from "react-i18next"
+import { AlertTriangle, Bug, Lightbulb, Send } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function ReportIssuePage() {
   const { t } = useTranslation();
@@ -22,7 +28,9 @@ export default function ReportIssuePage() {
           <Card className="bg-slate-800/50 border-blue-400/20 hover:border-red-400/40 transition-colors">
             <CardContent className="p-6 text-center">
               <Bug className="w-12 h-12 text-red-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">{t("reportIssue.types.bug.title")}</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">
+                {t("reportIssue.types.bug.title")}
+              </h3>
               <p className="text-blue-200 text-sm">{t("reportIssue.types.bug.description")}</p>
             </CardContent>
           </Card>
@@ -30,7 +38,9 @@ export default function ReportIssuePage() {
           <Card className="bg-slate-800/50 border-blue-400/20 hover:border-yellow-400/40 transition-colors">
             <CardContent className="p-6 text-center">
               <Lightbulb className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">{t("reportIssue.types.feature.title")}</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">
+                {t("reportIssue.types.feature.title")}
+              </h3>
               <p className="text-blue-200 text-sm">{t("reportIssue.types.feature.description")}</p>
             </CardContent>
           </Card>
@@ -38,7 +48,9 @@ export default function ReportIssuePage() {
           <Card className="bg-slate-800/50 border-blue-400/20 hover:border-orange-400/40 transition-colors">
             <CardContent className="p-6 text-center">
               <AlertTriangle className="w-12 h-12 text-orange-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">{t("reportIssue.types.content.title")}</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">
+                {t("reportIssue.types.content.title")}
+              </h3>
               <p className="text-blue-200 text-sm">{t("reportIssue.types.content.description")}</p>
             </CardContent>
           </Card>
@@ -52,7 +64,9 @@ export default function ReportIssuePage() {
           <CardContent className="space-y-6">
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="issueType" className="block text-white font-medium mb-2">{t("reportIssue.form.issueType")}</label>
+                <label htmlFor="issueType" className="block text-white font-medium mb-2">
+                  {t("reportIssue.form.issueType")}
+                </label>
                 <Select>
                   <SelectTrigger className="bg-slate-700/50 border-blue-400/30 text-white">
                     <SelectValue placeholder={t("reportIssue.form.issueTypePlaceholder")} />
@@ -75,7 +89,9 @@ export default function ReportIssuePage() {
               </div>
 
               <div>
-                <label htmlFor="priority" className="block text-white font-medium mb-2">{t("reportIssue.form.priority")}</label>
+                <label htmlFor="priority" className="block text-white font-medium mb-2">
+                  {t("reportIssue.form.priority")}
+                </label>
                 <Select>
                   <SelectTrigger className="bg-slate-700/50 border-blue-400/30 text-white">
                     <SelectValue placeholder={t("reportIssue.form.priorityPlaceholder")} />
@@ -99,7 +115,9 @@ export default function ReportIssuePage() {
             </div>
 
             <div>
-              <label htmlFor="title" className="block text-white font-medium mb-2">{t("reportIssue.form.issueTitle")}</label>
+              <label htmlFor="title" className="block text-white font-medium mb-2">
+                {t("reportIssue.form.issueTitle")}
+              </label>
               <Input
                 placeholder={t("reportIssue.form.issueTitlePlaceholder")}
                 className="bg-slate-700/50 border-blue-400/30 text-white placeholder:text-blue-200"
@@ -107,7 +125,9 @@ export default function ReportIssuePage() {
             </div>
 
             <div>
-              <label htmlFor="description" className="block text-white font-medium mb-2">{t("reportIssue.form.description")}</label>
+              <label htmlFor="description" className="block text-white font-medium mb-2">
+                {t("reportIssue.form.description")}
+              </label>
               <Textarea
                 placeholder={t("reportIssue.form.descriptionPlaceholder")}
                 rows={8}
@@ -117,7 +137,9 @@ export default function ReportIssuePage() {
 
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="email" className="block text-white font-medium mb-2">{t("reportIssue.form.email")}</label>
+                <label htmlFor="email" className="block text-white font-medium mb-2">
+                  {t("reportIssue.form.email")}
+                </label>
                 <Input
                   type="email"
                   placeholder={t("reportIssue.form.emailPlaceholder")}
@@ -127,7 +149,9 @@ export default function ReportIssuePage() {
               </div>
 
               <div>
-                <label htmlFor="browser" className="block text-white font-medium mb-2">{t("reportIssue.form.browser")}</label>
+                <label htmlFor="browser" className="block text-white font-medium mb-2">
+                  {t("reportIssue.form.browser")}
+                </label>
                 <Input
                   placeholder={t("reportIssue.form.browserPlaceholder")}
                   className="bg-slate-700/50 border-blue-400/30 text-white placeholder:text-blue-200"
@@ -137,7 +161,9 @@ export default function ReportIssuePage() {
             </div>
 
             <div>
-              <label htmlFor="screenshot" className="block text-white font-medium mb-2">{t("reportIssue.form.screenshot")}</label>
+              <label htmlFor="screenshot" className="block text-white font-medium mb-2">
+                {t("reportIssue.form.screenshot")}
+              </label>
               <div className="border-2 border-dashed border-blue-400/30 rounded-lg p-8 text-center hover:border-blue-400/50 transition-colors cursor-pointer">
                 <div className="text-blue-300">
                   <p className="mb-2">{t("reportIssue.form.screenshotHelp")}</p>
@@ -162,5 +188,5 @@ export default function ReportIssuePage() {
         </Card>
       </main>
     </div>
-  )
+  );
 }

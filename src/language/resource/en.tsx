@@ -1,10 +1,8 @@
 const env = {
-  "env.title": "MathHub"
-}
+  "env.title": "MathHub",
+};
 
-const common = {
-
-}
+const common = {};
 
 const navigate = {
   "navigate.home": "Home",
@@ -22,18 +20,10 @@ const navigate = {
   "navigate.admin.problems": "Problem Management",
   "navigate.admin.reports": "Report Management",
   "navigate.admin.settings": "System Settings",
-}
+};
 
-const userPage = {
+const userPage = {};
 
-}
-
-const en = Object.assign(
-  {},
-  env,
-  common,
-  navigate,
-  userPage,
-);
+const en = Object.assign({}, env, common, navigate, userPage);
 
 export default en;

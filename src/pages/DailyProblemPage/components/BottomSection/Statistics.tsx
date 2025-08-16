@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, Target, Trophy } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const userProgress = {
   consecutiveDays: 51, // 連續天數
@@ -42,9 +42,7 @@ export default function Statistics({}) {
           </div>
 
           <div className="p-3 text-center border rounded-lg bg-blue-500/10 border-blue-400/20">
-            <div className="mb-1 text-2xl font-bold text-blue-400">
-              {userProgress.lastCorrect}
-            </div>
+            <div className="mb-1 text-2xl font-bold text-blue-400">{userProgress.lastCorrect}</div>
             <p className="text-sm text-blue-200">上次連續</p>
             <div className="flex justify-center mt-1">
               <Target className="w-4 h-4 text-blue-400" />

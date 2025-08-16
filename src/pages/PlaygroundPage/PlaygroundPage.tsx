@@ -9,9 +9,7 @@ import remarkMath from "remark-math";
 
 const Playground = (): React.JSX.Element => {
   const { t } = useTranslation();
-  const [latexSyntax, setLatexSyntax] = useState<string>(
-    t("playground.defaultContent"),
-  );
+  const [latexSyntax, setLatexSyntax] = useState<string>(t("playground.defaultContent"));
 
   return (
     <div className="flex min-h-screen bg-gray-900 text-white pt-10">
@@ -27,23 +25,17 @@ const Playground = (): React.JSX.Element => {
       </div>
 
       <div className="flex flex-col w-1/2 p-4">
-        <div className="text-2xl   mb-4 text-white">
-          {t("playground.nativeMarkdown")}
-        </div>
+        <div className="text-2xl   mb-4 text-white">{t("playground.nativeMarkdown")}</div>
         <MDEditor.Markdown source={latexSyntax} />
       </div>
 
       <div className="flex flex-col w-1/2 p-4">
-        <div className="text-2xl   mb-4 text-white">
-          {t("playground.reactMarkdown")}
-        </div>
+        <div className="text-2xl   mb-4 text-white">{t("playground.reactMarkdown")}</div>
         <ReactMarkdown
           remarkPlugins={[remarkMath]}
           rehypePlugins={[rehypeKatex]}
           components={{
-            p: ({ children }) => (
-              <p className="whitespace-pre-line mb-4 text-left">{children}</p>
-            ),
+            p: ({ children }) => <p className="whitespace-pre-line mb-4 text-left">{children}</p>,
           }}
         >
           {latexSyntax}

@@ -1,7 +1,3 @@
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
 import {
   ArrowLeft,
   BookOpen,
@@ -13,21 +9,25 @@ import {
   Star,
   Target,
   ThumbsUp,
-  Users
-} from "lucide-react"
-import { useState } from "react"
-import { useParams } from "react-router-dom"
+  Users,
+} from "lucide-react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function ProblemDetailPage() {
-  const { problemId } = useParams<{ problemId: string }>()
-  const [userAnswer, setUserAnswer] = useState("")
-  const [showSolution, setShowSolution] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [isFavorited, setIsFavorited] = useState(false)
+  const { problemId } = useParams<{ problemId: string }>();
+  const [userAnswer, setUserAnswer] = useState("");
+  const [showSolution, setShowSolution] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
 
   // 模擬題目數據
   const problem = {
-    id: Number.parseInt(problemId || "1"),
+    id: Number.parseInt(problemId || "1", 10),
     title: "二次方程的判別式",
     description: "利用判別式判斷二次方程根的性質",
     category: "代數",
@@ -71,13 +71,17 @@ $$\\Delta = b^2 - 4ac$$
 
 **答案：** 方程有兩個不相等的實根：$x = \\frac{3}{2}$ 和 $x = 1$
     `,
-    hints: ["記住判別式的公式：Δ = b² - 4ac", "判別式大於0時，方程有兩個不相等的實根", "使用求根公式來計算具體的根值"],
+    hints: [
+      "記住判別式的公式：Δ = b² - 4ac",
+      "判別式大於0時，方程有兩個不相等的實根",
+      "使用求根公式來計算具體的根值",
+    ],
     relatedConcepts: [
       { id: 1, title: "二次函數基礎", category: "代數" },
       { id: 2, title: "求根公式", category: "代數" },
       { id: 3, title: "函數圖形", category: "代數" },
     ],
-  }
+  };
 
   const comments = [
     {
@@ -101,25 +105,25 @@ $$\\Delta = b^2 - 4ac$$
       likes: 15,
       time: "1天前",
     },
-  ]
+  ];
 
   const handleSubmit = () => {
-    setIsSubmitted(true)
+    setIsSubmitted(true);
     // 這裡可以添加提交邏輯
-  }
+  };
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case "簡單":
-        return "bg-green-600"
+        return "bg-green-600";
       case "中等":
-        return "bg-yellow-600"
+        return "bg-yellow-600";
       case "困難":
-        return "bg-red-600"
+        return "bg-red-600";
       default:
-        return "bg-gray-600"
+        return "bg-gray-600";
     }
-  }
+  };
 
   const getCategoryColor = (category: string) => {
     const colors = {
@@ -130,18 +134,15 @@ $$\\Delta = b^2 - 4ac$$
       機率統計: "bg-teal-600",
       複數: "bg-indigo-600",
       線性代數: "bg-cyan-600",
-    }
-    return colors[category as keyof typeof colors] || "bg-gray-600"
-  }
+    };
+    return colors[category as keyof typeof colors] || "bg-gray-600";
+  };
 
   return (
     <div className="">
       <div className="max-w-7xl mx-auto p-6">
         {/* Back Button */}
-        <Button
-          variant="ghost"
-          className="text-blue-400 hover:text-blue-300 mb-6"
-        >
+        <Button variant="ghost" className="text-blue-400 hover:text-blue-300 mb-6">
           <ArrowLeft className="w-4 h-4 mr-2" />
           <a href="/problems">返回題目列表</a>
         </Button>
@@ -155,18 +156,26 @@ $$\\Delta = b^2 - 4ac$$
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-3">
-                      <Badge className={getCategoryColor(problem.category)}>{problem.category}</Badge>
-                      <Badge className={getDifficultyColor(problem.difficulty)}>{problem.difficulty}</Badge>
+                      <Badge className={getCategoryColor(problem.category)}>
+                        {problem.category}
+                      </Badge>
+                      <Badge className={getDifficultyColor(problem.difficulty)}>
+                        {problem.difficulty}
+                      </Badge>
                       {problem.solved && <CheckCircle className="w-5 h-5 text-green-400" />}
                     </div>
                     <CardTitle className="text-white text-2xl mb-2">{problem.title}</CardTitle>
-                    <CardDescription className="text-blue-200 text-lg">{problem.description}</CardDescription>
+                    <CardDescription className="text-blue-200 text-lg">
+                      {problem.description}
+                    </CardDescription>
                   </div>
                   <Button
                     variant="ghost"
                     size="sm"
                     className={`ml-4 p-2 ${
-                      isFavorited ? "text-yellow-400 hover:text-yellow-300" : "text-slate-400 hover:text-yellow-400"
+                      isFavorited
+                        ? "text-yellow-400 hover:text-yellow-300"
+                        : "text-slate-400 hover:text-yellow-400"
                     }`}
                     onClick={() => setIsFavorited(!isFavorited)}
                   >
@@ -191,7 +200,11 @@ $$\\Delta = b^2 - 4ac$$
 
                 <div className="flex flex-wrap gap-2 pt-3">
                   {problem.tags.map((tag, index) => (
-                    <Badge key={`tag-${problem.id}-${index}`} variant="outline" className="text-blue-300 border-blue-400/30">
+                    <Badge
+                      key={`tag-${problem.id}-${index}`}
+                      variant="outline"
+                      className="text-blue-300 border-blue-400/30"
+                    >
                       #{tag}
                     </Badge>
                   ))}
@@ -209,7 +222,10 @@ $$\\Delta = b^2 - 4ac$$
                   <div
                     className="text-blue-100 leading-relaxed"
                     dangerouslySetInnerHTML={{
-                      __html: problem.content.replace(/\$\$(.*?)\$\$/g, '<div class="math-block">$1</div>'),
+                      __html: problem.content.replace(
+                        /\$\$(.*?)\$\$/g,
+                        '<div class="math-block">$1</div>',
+                      ),
                     }}
                   />
                 </div>
@@ -269,7 +285,10 @@ $$\\Delta = b^2 - 4ac$$
                     <div
                       className="text-blue-100 leading-relaxed"
                       dangerouslySetInnerHTML={{
-                        __html: problem.solution.replace(/\$\$(.*?)\$\$/g, '<div class="math-block">$1</div>'),
+                        __html: problem.solution.replace(
+                          /\$\$(.*?)\$\$/g,
+                          '<div class="math-block">$1</div>',
+                        ),
                       }}
                     />
                   </div>
@@ -291,11 +310,19 @@ $$\\Delta = b^2 - 4ac$$
                         <span className="text-blue-300 text-sm">{comment.time}</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Button variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-blue-400 hover:text-blue-300"
+                        >
                           <ThumbsUp className="w-4 h-4 mr-1" />
                           {comment.likes}
                         </Button>
-                        <Button variant="ghost" size="sm" className="text-slate-400 hover:text-red-400">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-slate-400 hover:text-red-400"
+                        >
                           <Flag className="w-4 h-4" />
                         </Button>
                       </div>
@@ -330,7 +357,10 @@ $$\\Delta = b^2 - 4ac$$
               <CardContent>
                 <div className="space-y-3">
                   {problem.hints.map((hint, index) => (
-                    <div key={`hint-${problem.id}-${index}`} className="p-3 bg-yellow-500/10 border border-yellow-400/20 rounded-lg">
+                    <div
+                      key={`hint-${problem.id}-${index}`}
+                      className="p-3 bg-yellow-500/10 border border-yellow-400/20 rounded-lg"
+                    >
                       <p className="text-yellow-200 text-sm">{hint}</p>
                     </div>
                   ))}
@@ -354,8 +384,8 @@ $$\\Delta = b^2 - 4ac$$
                       className="p-3 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 cursor-pointer transition-colors"
                     >
                       <a href={`/concepts/${concept.id}`}>
-                      <h4 className="text-white font-medium">{concept.title}</h4>
-                      <p className="text-blue-300 text-sm">{concept.category}</p>
+                        <h4 className="text-white font-medium">{concept.title}</h4>
+                        <p className="text-blue-300 text-sm">{concept.category}</p>
                       </a>
                     </div>
                   ))}
@@ -395,5 +425,5 @@ $$\\Delta = b^2 - 4ac$$
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function ProblemsStatusPage() {
   return (
@@ -54,7 +54,9 @@ export default function ProblemsStatusPage() {
                         {i % 3 === 0 ? "困難" : i % 3 === 1 ? "中等" : "簡單"}
                       </span>
                     </td>
-                    <td className="p-4 text-slate-300">{i % 2 === 0 ? "代數" : i % 3 === 0 ? "幾何" : "微積分"}</td>
+                    <td className="p-4 text-slate-300">
+                      {i % 2 === 0 ? "代數" : i % 3 === 0 ? "幾何" : "微積分"}
+                    </td>
                     <td className="p-4">
                       <span
                         className={`px-2 py-1 rounded-full text-xs ${
@@ -121,5 +123,5 @@ export default function ProblemsStatusPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

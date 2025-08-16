@@ -1,7 +1,6 @@
-import React from "react";
+import Advanced from "./Advanced";
 import Basic from "./Basic";
 import Date from "./Date";
-import Advanced from "./Advanced";
 
 export default function index({ selectedGrade }: { selectedGrade: string }) {
   return (

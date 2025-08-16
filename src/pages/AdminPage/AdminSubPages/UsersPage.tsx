@@ -1,6 +1,6 @@
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useTranslation } from "react-i18next";
 
 export default function UsersPage() {
   const { t } = useTranslation();
@@ -90,5 +90,5 @@ export default function UsersPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
