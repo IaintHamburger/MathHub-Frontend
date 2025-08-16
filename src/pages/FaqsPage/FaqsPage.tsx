@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { ChevronRight, HelpCircle } from "lucide-react"
-import { useState } from "react"
+import { ChevronRight, HelpCircle } from "lucide-react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function FaqsPage() {
   const faqCategories = [
@@ -27,18 +27,20 @@ export default function FaqsPage() {
       title: "技術支援",
       items: ["瀏覽器相容性", "效能優化建議", "常見錯誤排除", "聯絡客服方式"],
     },
-  ]
+  ];
 
-  const popularQuestions = ["什麼是專案", "如何建立專案", "下一步"]
+  const popularQuestions = ["什麼是專案", "如何建立專案", "下一步"];
 
-  const [expandedCategories, setExpandedCategories] = useState<number[]>([])
+  const [expandedCategories, setExpandedCategories] = useState<number[]>([]);
 
   const toggleCategory = (index: number) => {
-    setExpandedCategories((prev) => (prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]))
-  }
+    setExpandedCategories((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
+    );
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+    <div className="">
       <div className="flex max-w-7xl mx-auto">
         {/* Sidebar */}
         <aside className="w-64 min-h-screen bg-slate-800/30 border-r border-blue-400/20 p-4">
@@ -55,11 +57,11 @@ export default function FaqsPage() {
           <nav className="space-y-2">
             {faqCategories.map((category, index) => (
               <div key={`faq-category-${category.title}-${index}`} className="mb-2">
-                  <button
-                    type="button"
-                    onClick={() => toggleCategory(index)}
-                    className="flex items-center justify-between w-full text-white font-medium mb-2 px-2 py-1 hover:bg-slate-700/30 rounded transition-colors"
-                  >
+                <button
+                  type="button"
+                  onClick={() => toggleCategory(index)}
+                  className="flex items-center justify-between w-full text-white font-medium mb-2 px-2 py-1 hover:bg-slate-700/30 rounded transition-colors"
+                >
                   <span>{category.title}</span>
                   <ChevronRight
                     className={`w-4 h-4 transition-transform duration-200 ${
@@ -69,7 +71,9 @@ export default function FaqsPage() {
                 </button>
                 <div
                   className={`overflow-hidden transition-all duration-300 ${
-                    expandedCategories.includes(index) ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    expandedCategories.includes(index)
+                      ? "max-h-96 opacity-100"
+                      : "max-h-0 opacity-0"
                   }`}
                 >
                   <ul className="space-y-1 ml-2">
@@ -93,13 +97,17 @@ export default function FaqsPage() {
         {/* Main Content */}
         <main className="flex-1 p-8">
           <div className="max-w-4xl">
-            <h1 className="text-4xl font-bold text-white mb-6">常見問題 FAQ</h1>
-            <p className="text-blue-200 mb-8">在 MathHub 上學習數學之前，你需要先了解一些基本概念。</p>
+            <h1 className="text-4xl   text-white mb-6">常見問題 FAQ</h1>
+            <p className="text-blue-200 mb-8">
+              在 MathHub 上學習數學之前，你需要先了解一些基本概念。
+            </p>
             <p className="text-blue-200 mb-12">你可以按照以下步驟建立一個學習計畫。</p>
 
             {/* What is MathHub Section */}
             <section className="mb-12">
-              <h2 className="text-2xl font-bold text-white mb-6 border-b border-blue-400/20 pb-2">什麼是 MathHub</h2>
+              <h2 className="text-2xl   text-white mb-6 border-b border-blue-400/20 pb-2">
+                什麼是 MathHub
+              </h2>
               <div className="text-blue-200 space-y-4">
                 <p>
                   MathHub
@@ -122,7 +130,9 @@ export default function FaqsPage() {
 
             {/* How to Get Started Section */}
             <section className="mb-12">
-              <h2 className="text-2xl font-bold text-white mb-6 border-b border-blue-400/20 pb-2">如何開始使用</h2>
+              <h2 className="text-2xl   text-white mb-6 border-b border-blue-400/20 pb-2">
+                如何開始使用
+              </h2>
               <div className="text-blue-200 space-y-4">
                 <p>
                   首先，你需要導航到{" "}
@@ -138,16 +148,20 @@ export default function FaqsPage() {
                   <div className="bg-slate-700/50 rounded-lg p-8 text-center">
                     <HelpCircle className="w-16 h-16 text-blue-400 mx-auto mb-4" />
                     <h3 className="text-xl font-semibold text-white mb-2">開始學習數學</h3>
-                    <p className="text-blue-200 mb-4">你還沒有任何學習記錄，點擊下方面板開始你的數學學習之旅。</p>
+                    <p className="text-blue-200 mb-4">
+                      你還沒有任何學習記錄，點擊下方面板開始你的數學學習之旅。
+                    </p>
                     <Button className="bg-blue-600 hover:bg-blue-700">+ 建立新的學習計畫</Button>
                   </div>
                 </div>
 
                 <p>
                   如果你之前建立過學習計畫，你可以直接點擊{" "}
-                  <code className="bg-slate-700 px-2 py-1 rounded text-blue-300">建立學習計畫</code> 按鈕，或者按下{" "}
+                  <code className="bg-slate-700 px-2 py-1 rounded text-blue-300">建立學習計畫</code>{" "}
+                  按鈕，或者按下{" "}
                   <code className="bg-slate-700 px-2 py-1 rounded text-blue-300">Cmd + K</code> 或{" "}
-                  <code className="bg-slate-700 px-2 py-1 rounded text-blue-300">Ctrl + K</code> 打開命令面板選擇{" "}
+                  <code className="bg-slate-700 px-2 py-1 rounded text-blue-300">Ctrl + K</code>{" "}
+                  打開命令面板選擇{" "}
                   <code className="bg-slate-700 px-2 py-1 rounded text-blue-300">建立學習計畫</code>
                   ，然後選擇你想要建立學習計畫的適合，專案將會自動建立並分配一個隨機域名。
                 </p>
@@ -156,7 +170,9 @@ export default function FaqsPage() {
 
             {/* Popular Templates Section */}
             <section className="mb-12">
-              <h3 className="text-xl font-semibold text-white mb-4">或者使用我們最受歡迎的學習模板</h3>
+              <h3 className="text-xl font-semibold text-white mb-4">
+                或者使用我們最受歡迎的學習模板
+              </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
                   { name: "基礎代數", icon: "📐" },
@@ -202,5 +218,5 @@ export default function FaqsPage() {
         </aside>
       </div>
     </div>
-  )
+  );
 }

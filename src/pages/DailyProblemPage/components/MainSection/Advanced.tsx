@@ -1,12 +1,6 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Lock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useDailyInfo } from "../../hook";
 
@@ -30,9 +24,7 @@ export default function Advanced({ selectedGrade }: { selectedGrade: string }) {
           {!userProgress.advancedUnlocked && <Lock className="w-5 h-5 ml-2" />}
         </CardTitle>
         <CardDescription
-          className={
-            userProgress.advancedUnlocked ? "text-purple-200" : "text-slate-500"
-          }
+          className={userProgress.advancedUnlocked ? "text-purple-200" : "text-slate-500"}
         >
           {userProgress.advancedUnlocked
             ? getGradeDescription(selectedGrade, "進階")

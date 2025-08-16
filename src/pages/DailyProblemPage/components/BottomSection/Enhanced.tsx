@@ -1,12 +1,5 @@
+import { BookOpen, CalendarIcon, Lightbulb, Target, Trophy } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  BookOpen,
-  CalendarIcon,
-  Lightbulb,
-  Target,
-  Trophy,
-} from "lucide-react";
-import React from "react";
 
 export default function Enhanced({ selectedGrade }: { selectedGrade: string }) {
   return (
@@ -61,9 +54,7 @@ export default function Enhanced({ selectedGrade }: { selectedGrade: string }) {
             <CalendarIcon className="w-5 h-5 mr-2 text-orange-400" />
             <h4 className="font-semibold text-orange-400">本週重點</h4>
           </div>
-          <p className="text-sm text-orange-200">
-            {selectedGrade} 重點概念複習
-          </p>
+          <p className="text-sm text-orange-200">{selectedGrade} 重點概念複習</p>
           <div className="flex flex-wrap gap-1 mt-2">
             <span className="px-2 py-1 text-xs text-orange-300 rounded bg-orange-500/20">
               二次函數

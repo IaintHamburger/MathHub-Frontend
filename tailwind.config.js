@@ -4,7 +4,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        geist: ["var(--font-geist)"],
+        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
+        geist: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
       },
     },
   },

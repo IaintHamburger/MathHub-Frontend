@@ -1,10 +1,9 @@
+import type { ReactNode } from "react";
+import { Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-
 import { useAuth } from "@/hooks/useAuth";
 import { useRoutePermission } from "@/hooks/useRouteGuard";
 import { tokenUtils } from "@/lib/cookieUtils";
-import type { ReactNode } from "react";
-import { Navigate } from "react-router-dom";
 
 interface RouteGuardProps {
   children: ReactNode;
@@ -25,7 +24,7 @@ interface LoginRouteGuardProps {
 export const PermissionDenied = () => (
   <div className="flex flex-col items-center justify-center min-h-screen">
     <div className="text-center">
-      <h1 className="text-2xl font-bold text-red-600 mb-4">權限不足</h1>
+      <h1 className="text-2xl text-red-600 mb-4">權限不足</h1>
       <p className="text-gray-600 mb-4">您沒有權限訪問此頁面</p>
       <Button
         variant="outline"
@@ -48,11 +47,11 @@ export const RouteGuard = ({
   fallback,
 }: RouteGuardProps) => {
   const { isAuthenticated } = useAuth();
-  const hasIdToken = !!tokenUtils.getIdToken();
+  const hasAccessToken = !!tokenUtils.getAccessToken();
   const { hasPermission, hasAllPermissions } = useRoutePermission(permissions);
 
   // 檢查是否已登入
-  const isLoggedIn = isAuthenticated || hasIdToken;
+  const isLoggedIn = isAuthenticated || hasAccessToken;
 
   // 檢查認證狀態
   if (requireAuth && !isLoggedIn) {
@@ -79,10 +78,10 @@ export const RouteGuard = ({
 
 export const LoginRouteGuard = ({ children, redirectTo = "/" }: LoginRouteGuardProps) => {
   const { isAuthenticated } = useAuth();
-  const hasIdToken = !!tokenUtils.getIdToken();
+  const hasAccessToken = !!tokenUtils.getAccessToken();
 
   // 檢查是否已登入
-  const isLoggedIn = isAuthenticated || hasIdToken;
+  const isLoggedIn = isAuthenticated || hasAccessToken;
 
   // 如果已登入，重定向到指定頁面
   if (isLoggedIn) {

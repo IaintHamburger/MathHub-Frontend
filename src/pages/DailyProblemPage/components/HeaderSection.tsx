@@ -1,3 +1,5 @@
+import type { Dispatch, SetStateAction } from "react";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -5,9 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import React, { Dispatch, SetStateAction } from "react";
-import { Grade } from "../type";
-import { Badge } from "@/components/ui/badge";
+import type { Grade } from "../type";
 
 type Props = {
   selectedGrade: string;
@@ -22,10 +22,7 @@ const gradeOptions: Grade[] = [
   { value: "高中三年級", label: "高中三年級", category: "高中" },
   { value: "大學數學", label: "大學數學", category: "大學" },
 ];
-export default function HeaderSection({
-  selectedGrade,
-  setSelectedGrade,
-}: Props) {
+export default function HeaderSection({ selectedGrade, setSelectedGrade }: Props) {
   return (
     <div className="mb-8">
       <div className="flex items-center justify-between mb-4">

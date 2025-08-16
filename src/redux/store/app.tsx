@@ -1,30 +1,30 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
-import { persistReducer, persistStore } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // 使用 LocalStorage
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // 使用 LocalStorage
 
 import authSlice from "../slices/AuthSlice.js";
 import toastSlice from "../slices/ToastSlice.js";
 
 const persistConfig = {
-	key: 'root',
-	storage,
-	whitelist: []
+  key: "root",
+  storage,
+  whitelist: [],
 };
 
 const rootReducer = combineReducers({
-	authSlice,
-	toastSlice,
+  authSlice,
+  toastSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-	reducer: persistedReducer,
-	middleware: (getDefaultMiddleware) =>
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
       },
     }),
 });

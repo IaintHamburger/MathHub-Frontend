@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 export default function SettingsPage() {
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-bold">系統設定</h2>
+      <h2 className="text-xl  ">系統設定</h2>
 
       <Card className="bg-slate-800 border-blue-400/20">
         <CardHeader>
@@ -13,10 +13,7 @@ export default function SettingsPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label
-              htmlFor="site-name"
-              className="text-sm font-medium text-blue-200 block mb-1"
-            >
+            <label htmlFor="site-name" className="text-sm font-medium text-blue-200 block mb-1">
               網站名稱
             </label>
             <Input
@@ -41,10 +38,7 @@ export default function SettingsPage() {
           </div>
 
           <div>
-            <label
-              htmlFor="contact-email"
-              className="text-sm font-medium text-blue-200 block mb-1"
-            >
+            <label htmlFor="contact-email" className="text-sm font-medium text-blue-200 block mb-1">
               聯絡信箱
             </label>
             <Input
@@ -55,7 +49,11 @@ export default function SettingsPage() {
           </div>
 
           <div className="flex items-center space-x-2">
-            <input type="checkbox" id="maintenance" className="rounded bg-slate-900/50 border-blue-400/30" />
+            <input
+              type="checkbox"
+              id="maintenance"
+              className="rounded bg-slate-900/50 border-blue-400/30"
+            />
             <label htmlFor="maintenance" className="text-sm text-blue-200">
               維護模式
             </label>
@@ -116,5 +114,5 @@ export default function SettingsPage() {
         </Button>
       </div>
     </div>
-  )
+  );
 }

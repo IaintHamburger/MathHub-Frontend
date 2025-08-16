@@ -1,5 +1,6 @@
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import "katex/dist/katex.min.css";
 import ReactMarkdown from "react-markdown";
@@ -7,9 +8,8 @@ import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 
 const Playground = (): React.JSX.Element => {
-  const [latexSyntax, setLatexSyntax] = useState<string>(
-    "這是 **Markdown** 語法\n行內公式：$E = mc^2$\n區塊公式：$$\\int_0^\\infty x^2 dx$$",
-  );
+  const { t } = useTranslation();
+  const [latexSyntax, setLatexSyntax] = useState<string>(t("playground.defaultContent"));
 
   return (
     <div className="flex min-h-screen bg-gray-900 text-white pt-10">
@@ -25,23 +25,17 @@ const Playground = (): React.JSX.Element => {
       </div>
 
       <div className="flex flex-col w-1/2 p-4">
-        <div className="text-2xl font-bold mb-4 text-white">
-          原生 Markdown 渲染
-        </div>
+        <div className="text-2xl   mb-4 text-white">{t("playground.nativeMarkdown")}</div>
         <MDEditor.Markdown source={latexSyntax} />
       </div>
 
       <div className="flex flex-col w-1/2 p-4">
-        <div className="text-2xl font-bold mb-4 text-white">
-          React Markdown 渲染
-        </div>
+        <div className="text-2xl   mb-4 text-white">{t("playground.reactMarkdown")}</div>
         <ReactMarkdown
           remarkPlugins={[remarkMath]}
           rehypePlugins={[rehypeKatex]}
           components={{
-            p: ({ children }) => (
-              <p className="whitespace-pre-line mb-4 text-left">{children}</p>
-            ),
+            p: ({ children }) => <p className="whitespace-pre-line mb-4 text-left">{children}</p>,
           }}
         >
           {latexSyntax}

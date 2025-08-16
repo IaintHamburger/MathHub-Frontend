@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function CommentsPage() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold">留言管理</h2>
+        <h2 className="text-xl  ">留言管理</h2>
         <div className="flex space-x-2">
           <Button variant="outline" className="border-blue-400/30 text-blue-400 bg-transparent">
             全部
@@ -48,13 +48,25 @@ export default function CommentsPage() {
               </div>
               <p className="text-blue-200 mb-4">這是一條留言內容，可能包含對題目的討論或者問題。</p>
               <div className="flex space-x-2">
-                <Button size="sm" variant="outline" className="border-blue-400/30 text-blue-400 bg-transparent">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-blue-400/30 text-blue-400 bg-transparent"
+                >
                   回覆
                 </Button>
-                <Button size="sm" variant="outline" className="border-green-400/30 text-green-400 bg-transparent">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-green-400/30 text-green-400 bg-transparent"
+                >
                   核准
                 </Button>
-                <Button size="sm" variant="outline" className="border-red-400/30 text-red-400 bg-transparent">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-red-400/30 text-red-400 bg-transparent"
+                >
                   拒絕
                 </Button>
               </div>
@@ -66,14 +78,22 @@ export default function CommentsPage() {
       <div className="flex justify-between items-center">
         <div className="text-sm text-slate-400">顯示 1-4 / 共 18 筆</div>
         <div className="flex space-x-2">
-          <Button variant="outline" size="sm" className="border-blue-400/30 text-blue-400 bg-transparent">
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-blue-400/30 text-blue-400 bg-transparent"
+          >
             上一頁
           </Button>
-          <Button variant="outline" size="sm" className="border-blue-400/30 text-blue-400 bg-transparent">
+          <Button
+            variant="outline"
+            size="sm"
+            className="border-blue-400/30 text-blue-400 bg-transparent"
+          >
             下一頁
           </Button>
         </div>
       </div>
     </div>
-  )
+  );
 }

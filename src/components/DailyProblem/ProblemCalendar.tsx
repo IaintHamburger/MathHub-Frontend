@@ -1,8 +1,8 @@
-import { Calendar } from "@/components/ui/calendar";
-import { Card, CardContent } from "../ui/card";
-import { endOfMonth, subDays, isAfter } from "date-fns";
+import { isAfter, subDays } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
+import { Card, CardContent } from "../ui/card";
 
 export default function ProblemCalendar() {
   const specialDays = {
@@ -19,8 +19,7 @@ export default function ProblemCalendar() {
             disabled={(date) => {
               const fifthLastDay = subDays(new Date(), -5); // 後5天的第一天
               return (
-                isAfter(date, fifthLastDay) ||
-                date.toDateString() === fifthLastDay.toDateString()
+                isAfter(date, fifthLastDay) || date.toDateString() === fifthLastDay.toDateString()
               );
             }}
             modifiers={{
@@ -40,10 +39,8 @@ export default function ProblemCalendar() {
               month_caption: "font-geist",
               day_selected: " bg-purple-500",
               caption_label: "text-2xl text-white font-bold",
-              button_next:
-                "text-blue-400 hover:bg-blue-400/10 px-3 py-2 rounded-3xl",
-              button_previous:
-                "text-blue-400 hover:bg-blue-400/10 px-3 py-2 rounded-3xl",
+              button_next: "text-blue-400 hover:bg-blue-400/10 px-3 py-2 rounded-3xl",
+              button_previous: "text-blue-400 hover:bg-blue-400/10 px-3 py-2 rounded-3xl",
               disabled: "bg-slate-800 !cursor-not-allowed  hover:!scale-100 ",
 
               day: "font-geist hover:scale-105 hover:cursor-pointer  transition-scale text-sm  bg-slate-700 rounded-md flex-1 text-white aspect-square flex items-center justify-center",
@@ -51,9 +48,7 @@ export default function ProblemCalendar() {
             components={{
               MonthCaption: ({ className, children }) => {
                 return (
-                  <span
-                    className={cn("flex items-center gap-2 mb-2", className)}
-                  >
+                  <span className={cn("flex items-center gap-2 mb-2", className)}>
                     <CalendarIcon className="w-5 text-blue-400" /> {children}
                   </span>
                 );

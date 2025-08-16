@@ -1,12 +1,12 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 export default function AnnouncementsPage() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold">公告編輯</h2>
+        <h2 className="text-xl  ">公告編輯</h2>
         <Button className="bg-blue-600 hover:bg-blue-700">新增公告</Button>
       </div>
 
@@ -32,7 +32,9 @@ export default function AnnouncementsPage() {
                     <td className="p-4">
                       <span
                         className={`px-2 py-1 rounded-full text-xs ${
-                          i % 2 === 0 ? "bg-green-500/20 text-green-400" : "bg-slate-500/20 text-slate-400"
+                          i % 2 === 0
+                            ? "bg-green-500/20 text-green-400"
+                            : "bg-slate-500/20 text-slate-400"
                         }`}
                       >
                         {i % 2 === 0 ? "已發布" : "草稿"}
@@ -106,7 +108,11 @@ export default function AnnouncementsPage() {
           </div>
 
           <div className="flex items-center space-x-2">
-            <input type="checkbox" id="pinned" className="rounded bg-slate-900/50 border-blue-400/30" />
+            <input
+              type="checkbox"
+              id="pinned"
+              className="rounded bg-slate-900/50 border-blue-400/30"
+            />
             <label htmlFor="pinned" className="text-sm text-blue-200">
               置頂公告
             </label>
@@ -124,5 +130,5 @@ export default function AnnouncementsPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

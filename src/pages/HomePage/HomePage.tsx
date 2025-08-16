@@ -1,25 +1,24 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { getUUID } from "@/lib/utils"
-
-import { ReactComponent as GitHubIcon } from "@/assets/icons/icon_github.svg"
-import { Bell, BookOpen, Calendar, PenTool, Search } from "lucide-react"
-
-import { ReactComponent as DiscordIcon } from "@/assets/icons/icon_discord.svg"
-import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg"
+import { Bell, BookOpen, Calendar, PenTool, Search } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { getUUID } from "@/lib/utils";
 
 const Home = (): React.JSX.Element => {
+  const { t } = useTranslation();
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+    <div className="">
       {/* Hero Section */}
       <main className="max-w-7xl mx-auto px-4 py-8">
         <div className="text-center mb-12">
           <div className="mb-8">
-            <div className="flex justify-center items-center mb-4">
+            <div className="w-[320px] mx-auto flex mb-4">
               <MathCatLogo />
             </div>
-            <p className="text-xl text-blue-200 mb-8">一個專為自學數學的平台</p>
+            <p className="text-xl text-blue-200 mb-8">{t("home.subtitle")}</p>
           </div>
 
           {/* Search Bar */}
@@ -27,7 +26,7 @@ const Home = (): React.JSX.Element => {
             <div className="relative">
               <Input
                 type="text"
-                placeholder="搜尋數學公式、概念或題目..."
+                placeholder={t("home.search.placeholder")}
                 className="w-full px-6 py-4 text-lg rounded-full border-2 border-blue-400/30 bg-slate-800/50 text-white placeholder:text-blue-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
               />
               <Button
@@ -35,7 +34,7 @@ const Home = (): React.JSX.Element => {
                 className="absolute right-0 top-1/2 transform -translate-y-1/2 rounded-full bg-blue-600 hover:bg-blue-700"
               >
                 <Search className="w-4 h-4 mr-1" />
-                搜尋
+                {t("home.search.button")}
               </Button>
             </div>
           </div>
@@ -47,10 +46,15 @@ const Home = (): React.JSX.Element => {
                 <div className="flex justify-between items-center">
                   <CardTitle className="text-white flex items-center">
                     <Bell className="w-5 h-5 mr-2" />
-                    最新公告
+                    {t("home.announcements.title")}
                   </CardTitle>
-                  <Button variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300" asChild>
-                    <a href="/announcements">更多 →</a>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-blue-400 hover:text-blue-300"
+                    asChild
+                  >
+                    <a href="/announcements">{t("home.announcements.more")}</a>
                   </Button>
                 </div>
               </CardHeader>
@@ -58,21 +62,21 @@ const Home = (): React.JSX.Element => {
                 <div className="space-y-3">
                   {[
                     {
-                      title: "系統維護通知",
+                      title: t("home.announcements.maintenance.title"),
                       date: "2025-01-02",
-                      preview: "系統將於本週末進行例行維護，預計影響時間...",
+                      preview: t("home.announcements.maintenance.preview"),
                     },
                     {
-                      title: "新功能上線",
+                      title: t("home.announcements.feature.title"),
                       date: "2025-01-01",
-                      preview: "我們很高興宣布 LaTeX 編輯器新增了更多功能...",
+                      preview: t("home.announcements.feature.preview"),
                     },
                     {
-                      title: "每日一題活動開始",
+                      title: t("home.announcements.daily.title"),
                       date: "2024-12-30",
-                      preview: "全新的每日一題挑戰活動正式開始，歡迎大家參與...",
+                      preview: t("home.announcements.daily.preview"),
                     },
-                  ].map((announcement, i) => (
+                  ].map((announcement, _i) => (
                     <div
                       key={getUUID()}
                       className="p-3 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-colors cursor-pointer text-left"
@@ -94,10 +98,12 @@ const Home = (): React.JSX.Element => {
             <Card className="bg-slate-800/50 border-blue-400/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-105">
               <CardContent className="p-6 text-center">
                 <BookOpen className="w-12 h-12 text-green-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">題庫</h3>
-                <p className="text-blue-200 mb-4">豐富的數學題目練習</p>
+                <h3 className="text-xl font-semibold text-white mb-2">
+                  {t("home.features.problems.title")}
+                </h3>
+                <p className="text-blue-200 mb-4">{t("home.features.problems.description")}</p>
                 <Button className="bg-green-600 hover:bg-green-700" asChild>
-                  <a href="/problems">開始練習</a>
+                  <a href="/problems">{t("home.features.problems.button")}</a>
                 </Button>
               </CardContent>
             </Card>
@@ -105,10 +111,12 @@ const Home = (): React.JSX.Element => {
             <Card className="bg-slate-800/50 border-blue-400/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-105">
               <CardContent className="p-6 text-center">
                 <Calendar className="w-12 h-12 text-orange-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">每日一題</h3>
-                <p className="text-blue-200 mb-4">每天挑戰一道精選題目</p>
+                <h3 className="text-xl font-semibold text-white mb-2">
+                  {t("home.features.daily.title")}
+                </h3>
+                <p className="text-blue-200 mb-4">{t("home.features.daily.description")}</p>
                 <Button className="bg-orange-600 hover:bg-orange-700" asChild>
-                  <a href="/daily-problem">今日挑戰</a>
+                  <a href="/daily-problem">{t("home.features.daily.button")}</a>
                 </Button>
               </CardContent>
             </Card>
@@ -116,10 +124,12 @@ const Home = (): React.JSX.Element => {
             <Card className="bg-slate-800/50 border-blue-400/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-105">
               <CardContent className="p-6 text-center">
                 <PenTool className="w-12 h-12 text-purple-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">觀念學習</h3>
-                <p className="text-blue-200 mb-4">系統化的數學概念</p>
+                <h3 className="text-xl font-semibold text-white mb-2">
+                  {t("home.features.concepts.title")}
+                </h3>
+                <p className="text-blue-200 mb-4">{t("home.features.concepts.description")}</p>
                 <Button className="bg-purple-600 hover:bg-purple-700" asChild>
-                  <a href="/concepts">開始學習</a>
+                  <a href="/concepts">{t("home.features.concepts.button")}</a>
                 </Button>
               </CardContent>
             </Card>
@@ -127,9 +137,9 @@ const Home = (): React.JSX.Element => {
 
           {/* 分類 Section */}
           <section className="mb-16">
-            <h2 className="text-3xl font-bold text-center text-white mb-8">分類</h2>
+            <h2 className="text-3xl   text-center text-white mb-8">{t("home.categories.title")}</h2>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
-              {Array.from({ length: 10 }).map((_, i) => (
+              {Array.from({ length: 10 }).map((_, _i) => (
                 <Card
                   key={getUUID()}
                   className="aspect-square hover:shadow-lg hover:scale-110 transition-all duration-300 cursor-pointer transform bg-slate-800/50 border-blue-400/20 hover:border-blue-400/40"
@@ -140,22 +150,22 @@ const Home = (): React.JSX.Element => {
                 </Card>
               ))}
             </div>
-            <p className="text-center text-blue-200 mt-4">可以選擇已經編輯/學習的概念/項目</p>
+            <p className="text-center text-blue-200 mt-4">{t("home.categories.description")}</p>
           </section>
 
           {/* 問題 Section */}
           <section className="mb-16">
             <div className="max-w-2xl mx-auto">
               <div className="bg-slate-800/50 border-blue-400/20 border rounded-lg p-8 shadow-lg mb-4">
-                  <div className="w-full h-48 bg-slate-700/50 rounded-lg mb-4" />
+                <div className="w-full h-48 bg-slate-700/50 rounded-lg mb-4" />
               </div>
               <div className="text-center">
-                <h3 className="text-2xl font-bold text-white mb-2">問題</h3>
+                <h3 className="text-2xl   text-white mb-2">{t("home.problems.title")}</h3>
                 <p className="text-blue-200 mb-4">
-                  <span className="font-semibold">簡單feature介紹</span>
+                  <span className="font-semibold">{t("home.problems.description")}</span>
                 </p>
                 <Input
-                  placeholder="搜尋問題"
+                  placeholder={t("home.problems.search")}
                   className="max-w-md mx-auto bg-slate-800/50 border-blue-400/30 text-white placeholder:text-blue-200 focus:border-blue-400"
                 />
               </div>
@@ -169,12 +179,12 @@ const Home = (): React.JSX.Element => {
                 <div className="w-full h-48 bg-slate-700/50 rounded-lg mb-4" />
               </div>
               <div className="text-center">
-                <h3 className="text-2xl font-bold text-white mb-2">觀念</h3>
+                <h3 className="text-2xl   text-white mb-2">{t("home.concepts.title")}</h3>
                 <p className="text-blue-200 mb-4">
-                  <span className="font-semibold">簡潔feature介紹</span>
+                  <span className="font-semibold">{t("home.concepts.description")}</span>
                 </p>
                 <Input
-                  placeholder="搜尋觀念"
+                  placeholder={t("home.concepts.search")}
                   className="max-w-md mx-auto bg-slate-800/50 border-blue-400/30 text-white placeholder:text-blue-200 focus:border-blue-400"
                 />
               </div>
@@ -182,24 +192,6 @@ const Home = (): React.JSX.Element => {
           </section>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-slate-800/50 backdrop-blur-sm border-t border-blue-400/20 py-6">
-        <div className="max-w-7xl mx-auto px-4 flex justify-center space-x-6">
-          <Button variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300">
-            <DiscordIcon className="w-5 h-5" />
-          </Button>
-          <Button variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300">
-            <GitHubIcon className="w-5 h-5" />
-          </Button>
-          <Button variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300">
-            <a href="/about">關於我們</a>
-          </Button>
-        </div>
-        <div className="text-center mt-4">
-          <p className="text-blue-200 text-sm">© 2025 MathHub. 讓數學學習變得更美好。</p>
-        </div>
-      </footer>
     </div>
   );
 };

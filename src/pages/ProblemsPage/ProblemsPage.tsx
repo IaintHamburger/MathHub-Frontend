@@ -1,6 +1,8 @@
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Bookmark, BookOpen, CheckCircle, Plus, Search, Star, Target, Users } from "lucide-react";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -8,35 +10,30 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Progress } from "@/components/ui/progress"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
 import {
-  BookOpen,
-  Bookmark,
-  CheckCircle,
-  Plus,
-  Search,
-  Star,
-  Target,
-  Users,
-} from "lucide-react"
-import { useState } from "react"
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function ProblemsPage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedDifficulty, setSelectedDifficulty] = useState("all")
-  const [selectedTab, setSelectedTab] = useState("all")
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedDifficulty, setSelectedDifficulty] = useState("all");
+  const [selectedTab, setSelectedTab] = useState("all");
 
-  const [favorites, setFavorites] = useState<Record<number, string>>({}) // 題目ID -> 收藏庫名稱
-  const [collections, setCollections] = useState<string[]>(["我的最愛", "重點複習"]) // 收藏庫列表
-  const [newCollectionName, setNewCollectionName] = useState("")
-  const [selectedCollection, setSelectedCollection] = useState("")
-  const [showCollectionDialog, setShowCollectionDialog] = useState(false)
-  const [currentProblemId, setCurrentProblemId] = useState<number | null>(null)
+  const [favorites, setFavorites] = useState<Record<number, string>>({}); // 題目ID -> 收藏庫名稱
+  const [collections, setCollections] = useState<string[]>(["我的最愛", "重點複習"]); // 收藏庫列表
+  const [newCollectionName, setNewCollectionName] = useState("");
+  const [selectedCollection, setSelectedCollection] = useState("");
+  const [showCollectionDialog, setShowCollectionDialog] = useState(false);
+  const [currentProblemId, setCurrentProblemId] = useState<number | null>(null);
 
   const problems = [
     {
@@ -117,26 +114,26 @@ export default function ProblemsPage() {
       tags: ["矩陣", "特徵值", "線性代數"],
       solved: false,
     },
-  ]
+  ];
 
-  const categories = ["all", "代數", "幾何", "微積分", "三角函數", "機率統計", "複數", "線性代數"]
-  const difficulties = ["all", "簡單", "中等", "困難"]
+  const categories = ["all", "代數", "幾何", "微積分", "三角函數", "機率統計", "複數", "線性代數"];
+  const difficulties = ["all", "簡單", "中等", "困難"];
 
   const getDifficultyLevel = (difficulty: string) => {
     switch (difficulty) {
       case "簡單":
-        return 2
+        return 2;
       case "中等":
-        return 3
+        return 3;
       case "困難":
-        return 5
+        return 5;
       default:
-        return 1
+        return 1;
     }
-  }
+  };
 
   const DifficultyBookmarks = ({ difficulty }: { difficulty: string }) => {
-    const level = getDifficultyLevel(difficulty)
+    const level = getDifficultyLevel(difficulty);
     return (
       <div className="flex items-center space-x-1">
         {[1, 2, 3, 4, 5].map((bookmark) => (
@@ -146,8 +143,8 @@ export default function ProblemsPage() {
           />
         ))}
       </div>
-    )
-  }
+    );
+  };
 
   const getCategoryColor = (category: string) => {
     const colors = {
@@ -158,67 +155,68 @@ export default function ProblemsPage() {
       機率統計: "bg-teal-600",
       複數: "bg-indigo-600",
       線性代數: "bg-cyan-600",
-    }
-    return colors[category as keyof typeof colors] || "bg-gray-600"
-  }
+    };
+    return colors[category as keyof typeof colors] || "bg-gray-600";
+  };
 
   const handleFavoriteClick = (problemId: number) => {
     if (favorites[problemId]) {
       // 取消收藏
-      const newFavorites = { ...favorites }
-      delete newFavorites[problemId]
-      setFavorites(newFavorites)
+      const newFavorites = { ...favorites };
+      delete newFavorites[problemId];
+      setFavorites(newFavorites);
     } else {
       // 添加收藏 - 打開選擇收藏庫對話框
-      setCurrentProblemId(problemId)
-      setShowCollectionDialog(true)
+      setCurrentProblemId(problemId);
+      setShowCollectionDialog(true);
     }
-  }
+  };
 
   const handleAddToCollection = () => {
     if (currentProblemId && selectedCollection) {
       setFavorites((prev) => ({
         ...prev,
         [currentProblemId]: selectedCollection,
-      }))
-      setShowCollectionDialog(false)
-      setSelectedCollection("")
-      setCurrentProblemId(null)
+      }));
+      setShowCollectionDialog(false);
+      setSelectedCollection("");
+      setCurrentProblemId(null);
     }
-  }
+  };
 
   const handleCreateCollection = () => {
     if (newCollectionName.trim() && !collections.includes(newCollectionName.trim())) {
-      setCollections((prev) => [...prev, newCollectionName.trim()])
-      setSelectedCollection(newCollectionName.trim())
-      setNewCollectionName("")
+      setCollections((prev) => [...prev, newCollectionName.trim()]);
+      setSelectedCollection(newCollectionName.trim());
+      setNewCollectionName("");
     }
-  }
+  };
 
   const filteredProblems = problems.filter((problem) => {
     const matchesSearch =
       problem.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       problem.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      problem.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-    const matchesCategory = selectedCategory === "all" || problem.category === selectedCategory
-    const matchesDifficulty = selectedDifficulty === "all" || problem.difficulty === selectedDifficulty
+      problem.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesCategory = selectedCategory === "all" || problem.category === selectedCategory;
+    const matchesDifficulty =
+      selectedDifficulty === "all" || problem.difficulty === selectedDifficulty;
     const matchesTab =
       selectedTab === "all" ||
       (selectedTab === "solved" && problem.solved) ||
       (selectedTab === "unsolved" && !problem.solved) ||
-      (selectedTab === "favorites" && favorites[problem.id])
+      (selectedTab === "favorites" && favorites[problem.id]);
 
-    return matchesSearch && matchesCategory && matchesDifficulty && matchesTab
-  })
+    return matchesSearch && matchesCategory && matchesDifficulty && matchesTab;
+  });
 
   const stats = {
     total: problems.length,
     solved: problems.filter((p) => p.solved).length,
     inProgress: Math.floor(problems.length * 0.2),
-  }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+    <div className="">
       <div className="max-w-7xl mx-auto p-6">
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -227,7 +225,7 @@ export default function ProblemsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-blue-200 text-sm">總題目數</p>
-                  <p className="text-2xl font-bold text-white">{stats.total}</p>
+                  <p className="text-2xl   text-white">{stats.total}</p>
                 </div>
                 <BookOpen className="w-8 h-8 text-blue-400" />
               </div>
@@ -239,7 +237,7 @@ export default function ProblemsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-blue-200 text-sm">已完成</p>
-                  <p className="text-2xl font-bold text-white">{stats.solved}</p>
+                  <p className="text-2xl   text-white">{stats.solved}</p>
                 </div>
                 <CheckCircle className="w-8 h-8 text-green-400" />
               </div>
@@ -254,7 +252,7 @@ export default function ProblemsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-blue-200 text-sm">進行中</p>
-                  <p className="text-2xl font-bold text-white">{stats.inProgress}</p>
+                  <p className="text-2xl   text-white">{stats.inProgress}</p>
                 </div>
                 <Target className="w-8 h-8 text-yellow-400" />
               </div>
@@ -266,7 +264,7 @@ export default function ProblemsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-blue-200 text-sm">已收藏</p>
-                  <p className="text-2xl font-bold text-white">{Object.keys(favorites).length}</p>
+                  <p className="text-2xl   text-white">{Object.keys(favorites).length}</p>
                 </div>
                 <Star className="w-8 h-8 text-yellow-400" />
               </div>
@@ -294,7 +292,11 @@ export default function ProblemsPage() {
                   </SelectTrigger>
                   <SelectContent className="bg-slate-800 border-blue-400/30">
                     {categories.map((category) => (
-                      <SelectItem key={category} value={category} className="text-white hover:bg-slate-700">
+                      <SelectItem
+                        key={category}
+                        value={category}
+                        className="text-white hover:bg-slate-700"
+                      >
                         {category === "all" ? "所有分類" : category}
                       </SelectItem>
                     ))}
@@ -307,7 +309,11 @@ export default function ProblemsPage() {
                   </SelectTrigger>
                   <SelectContent className="bg-slate-800 border-blue-400/30">
                     {difficulties.map((difficulty) => (
-                      <SelectItem key={difficulty} value={difficulty} className="text-white hover:bg-slate-700">
+                      <SelectItem
+                        key={difficulty}
+                        value={difficulty}
+                        className="text-white hover:bg-slate-700"
+                      >
                         {difficulty === "all" ? "所有難度" : difficulty}
                       </SelectItem>
                     ))}
@@ -348,12 +354,16 @@ export default function ProblemsPage() {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-2">
-                        <Badge className={getCategoryColor(problem.category)}>{problem.category}</Badge>
+                        <Badge className={getCategoryColor(problem.category)}>
+                          {problem.category}
+                        </Badge>
                         <DifficultyBookmarks difficulty={problem.difficulty} />
                         {problem.solved && <CheckCircle className="w-4 h-4 text-green-400" />}
                       </div>
                       <CardTitle className="text-white text-lg mb-2">{problem.title}</CardTitle>
-                      <CardDescription className="text-blue-200">{problem.description}</CardDescription>
+                      <CardDescription className="text-blue-200">
+                        {problem.description}
+                      </CardDescription>
                     </div>
                     <Button
                       variant="ghost"
@@ -364,8 +374,8 @@ export default function ProblemsPage() {
                           : "text-slate-400 hover:text-yellow-400"
                       }`}
                       onClick={(e) => {
-                        e.stopPropagation()
-                        handleFavoriteClick(problem.id)
+                        e.stopPropagation();
+                        handleFavoriteClick(problem.id);
                       }}
                     >
                       <Star className={`w-5 h-5 ${favorites[problem.id] ? "fill-current" : ""}`} />
@@ -373,7 +383,10 @@ export default function ProblemsPage() {
                   </div>
                   <div className="mt-2 h-6 flex items-center">
                     {favorites[problem.id] ? (
-                      <Badge variant="outline" className="text-xs text-yellow-400 border-yellow-400/30">
+                      <Badge
+                        variant="outline"
+                        className="text-xs text-yellow-400 border-yellow-400/30"
+                      >
                         收藏於: {favorites[problem.id]}
                       </Badge>
                     ) : (
@@ -395,7 +408,11 @@ export default function ProblemsPage() {
 
                     <div className="flex flex-wrap gap-1">
                       {problem.tags.slice(0, 3).map((tag, index) => (
-                        <Badge key={`tag-${problem.id}-${index}`} variant="outline" className="text-xs text-blue-300 border-blue-400/30">
+                        <Badge
+                          key={`tag-${problem.id}-${index}`}
+                          variant="outline"
+                          className="text-xs text-blue-300 border-blue-400/30"
+                        >
                           #{tag}
                         </Badge>
                       ))}
@@ -404,8 +421,8 @@ export default function ProblemsPage() {
                     <Button
                       className={`w-full ${problem.solved ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"}`}
                       onClick={(e) => {
-                        e.stopPropagation()
-                        window.location.href = `/problems/${problem.id}`
+                        e.stopPropagation();
+                        window.location.href = `/problems/${problem.id}`;
                       }}
                     >
                       {problem.solved ? "重新挑戰" : "開始挑戰"}
@@ -506,5 +523,5 @@ export default function ProblemsPage() {
         </Dialog>
       </div>
     </div>
-  )
+  );
 }

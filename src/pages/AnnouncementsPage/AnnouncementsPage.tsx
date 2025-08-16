@@ -1,24 +1,15 @@
-"use client"
+"use client";
 
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  AlertTriangle,
-  Bell,
-  Calendar,
-  Info,
-  Megaphone,
-  Pin,
-  Search,
-  Star,
-} from "lucide-react"
-import { useState } from "react"
+import { AlertTriangle, Bell, Calendar, Info, Megaphone, Pin, Search, Star } from "lucide-react";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function AnnouncementsPage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const announcements = [
     {
@@ -93,7 +84,7 @@ export default function AnnouncementsPage() {
       pinned: false,
       tags: ["修復", "LaTeX", "搜尋"],
     },
-  ]
+  ];
 
   const categories = [
     { value: "all", label: "全部", icon: Bell },
@@ -102,51 +93,52 @@ export default function AnnouncementsPage() {
     { value: "系統公告", label: "系統公告", icon: AlertTriangle },
     { value: "內容更新", label: "內容更新", icon: Info },
     { value: "錯誤修復", label: "錯誤修復", icon: Info },
-  ]
+  ];
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "high":
-        return "bg-red-500/10 border-red-400/30 text-red-400"
+        return "bg-red-500/10 border-red-400/30 text-red-400";
       case "medium":
-        return "bg-yellow-500/10 border-yellow-400/30 text-yellow-400"
+        return "bg-yellow-500/10 border-yellow-400/30 text-yellow-400";
       case "low":
-        return "bg-blue-500/10 border-blue-400/30 text-blue-400"
+        return "bg-blue-500/10 border-blue-400/30 text-blue-400";
       default:
-        return "bg-gray-500/10 border-gray-400/30 text-gray-400"
+        return "bg-gray-500/10 border-gray-400/30 text-gray-400";
     }
-  }
+  };
 
   const getCategoryColor = (category: string) => {
     switch (category) {
       case "功能更新":
-        return "bg-green-600"
+        return "bg-green-600";
       case "活動公告":
-        return "bg-purple-600"
+        return "bg-purple-600";
       case "系統公告":
-        return "bg-orange-600"
+        return "bg-orange-600";
       case "內容更新":
-        return "bg-blue-600"
+        return "bg-blue-600";
       case "錯誤修復":
-        return "bg-gray-600"
+        return "bg-gray-600";
       default:
-        return "bg-slate-600"
+        return "bg-slate-600";
     }
-  }
+  };
 
   const filteredAnnouncements = announcements.filter((announcement) => {
     const matchesSearch =
       announcement.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      announcement.content.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesCategory = selectedCategory === "all" || announcement.category === selectedCategory
-    return matchesSearch && matchesCategory
-  })
+      announcement.content.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "all" || announcement.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
 
-  const pinnedAnnouncements = filteredAnnouncements.filter((a) => a.pinned)
-  const regularAnnouncements = filteredAnnouncements.filter((a) => !a.pinned)
+  const pinnedAnnouncements = filteredAnnouncements.filter((a) => a.pinned);
+  const regularAnnouncements = filteredAnnouncements.filter((a) => !a.pinned);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+    <div className="">
       <div className="max-w-6xl mx-auto p-6">
         {/* Search and Filter */}
         <Card className="bg-slate-800/50 border-blue-400/20 mb-6">
@@ -182,7 +174,7 @@ export default function AnnouncementsPage() {
         {/* Pinned Announcements */}
         {pinnedAnnouncements.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-white mb-4 flex items-center">
+            <h2 className="text-xl   text-white mb-4 flex items-center">
               <Pin className="w-5 h-5 mr-2 text-yellow-400" />
               置頂公告
             </h2>
@@ -194,8 +186,13 @@ export default function AnnouncementsPage() {
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-2">
                           <Pin className="w-4 h-4 text-yellow-400" />
-                          <Badge className={getCategoryColor(announcement.category)}>{announcement.category}</Badge>
-                          <Badge variant="outline" className={getPriorityColor(announcement.priority)}>
+                          <Badge className={getCategoryColor(announcement.category)}>
+                            {announcement.category}
+                          </Badge>
+                          <Badge
+                            variant="outline"
+                            className={getPriorityColor(announcement.priority)}
+                          >
                             {announcement.priority === "high"
                               ? "重要"
                               : announcement.priority === "medium"
@@ -203,7 +200,9 @@ export default function AnnouncementsPage() {
                                 : "普通"}
                           </Badge>
                         </div>
-                        <CardTitle className="text-white text-lg mb-2">{announcement.title}</CardTitle>
+                        <CardTitle className="text-white text-lg mb-2">
+                          {announcement.title}
+                        </CardTitle>
                         <CardDescription className="text-blue-200 flex items-center">
                           <Calendar className="w-4 h-4 mr-1" />
                           {announcement.date} • {announcement.author}
@@ -215,7 +214,11 @@ export default function AnnouncementsPage() {
                     <p className="text-blue-100 mb-4 leading-relaxed">{announcement.content}</p>
                     <div className="flex flex-wrap gap-2">
                       {announcement.tags.map((tag, index) => (
-                        <Badge key={`tag-${announcement.id}-${index}`} variant="outline" className="text-blue-300 border-blue-400/30">
+                        <Badge
+                          key={`tag-${announcement.id}-${index}`}
+                          variant="outline"
+                          className="text-blue-300 border-blue-400/30"
+                        >
                           #{tag}
                         </Badge>
                       ))}
@@ -229,7 +232,7 @@ export default function AnnouncementsPage() {
 
         {/* Regular Announcements */}
         <div>
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center">
+          <h2 className="text-xl   text-white mb-4 flex items-center">
             <Bell className="w-5 h-5 mr-2 text-blue-400" />
             所有公告
           </h2>
@@ -243,8 +246,13 @@ export default function AnnouncementsPage() {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-2">
-                        <Badge className={getCategoryColor(announcement.category)}>{announcement.category}</Badge>
-                        <Badge variant="outline" className={getPriorityColor(announcement.priority)}>
+                        <Badge className={getCategoryColor(announcement.category)}>
+                          {announcement.category}
+                        </Badge>
+                        <Badge
+                          variant="outline"
+                          className={getPriorityColor(announcement.priority)}
+                        >
                           {announcement.priority === "high"
                             ? "重要"
                             : announcement.priority === "medium"
@@ -252,7 +260,9 @@ export default function AnnouncementsPage() {
                               : "普通"}
                         </Badge>
                       </div>
-                      <CardTitle className="text-white text-lg mb-2">{announcement.title}</CardTitle>
+                      <CardTitle className="text-white text-lg mb-2">
+                        {announcement.title}
+                      </CardTitle>
                       <CardDescription className="text-blue-200 flex items-center">
                         <Calendar className="w-4 h-4 mr-1" />
                         {announcement.date} • {announcement.author}
@@ -264,7 +274,11 @@ export default function AnnouncementsPage() {
                   <p className="text-blue-100 mb-4 leading-relaxed">{announcement.content}</p>
                   <div className="flex flex-wrap gap-2">
                     {announcement.tags.map((tag, index) => (
-                      <Badge key={`tag-${announcement.id}-${index}`} variant="outline" className="text-blue-300 border-blue-400/30">
+                      <Badge
+                        key={`tag-${announcement.id}-${index}`}
+                        variant="outline"
+                        className="text-blue-300 border-blue-400/30"
+                      >
                         #{tag}
                       </Badge>
                     ))}
@@ -286,5 +300,5 @@ export default function AnnouncementsPage() {
         )}
       </div>
     </div>
-  )
+  );
 }

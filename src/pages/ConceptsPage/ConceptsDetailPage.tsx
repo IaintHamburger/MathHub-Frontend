@@ -1,7 +1,3 @@
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
 import {
   ArrowLeft,
   BookOpen,
@@ -12,19 +8,23 @@ import {
   Play,
   SkipBack,
   SkipForward,
-} from "lucide-react"
-import { useState } from "react"
-import { useParams } from "react-router-dom"
+} from "lucide-react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 
 export default function ConceptDetailPage() {
-  const { conceptId } = useParams<{ conceptId: string }>()
-  const [currentChapter, setCurrentChapter] = useState(1)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [completedChapters, setCompletedChapters] = useState<number[]>([])
+  const { conceptId } = useParams<{ conceptId: string }>();
+  const [currentChapter, setCurrentChapter] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [completedChapters, setCompletedChapters] = useState<number[]>([]);
 
   // 模擬觀念數據
   const concept = {
-    id: Number.parseInt(conceptId || "1"),
+    id: Number.parseInt(conceptId || "1", 10),
     title: "二次函數基礎",
     description: "了解二次函數的定義、圖形特徵和基本性質",
     category: "代數",
@@ -145,20 +145,20 @@ $$f(x) = a(x - r_1)(x - r_2)$$
         completed: false,
       },
     ],
-  }
+  };
 
   const getLevelColor = (level: string) => {
     switch (level) {
       case "基礎":
-        return "bg-green-600"
+        return "bg-green-600";
       case "中等":
-        return "bg-yellow-600"
+        return "bg-yellow-600";
       case "進階":
-        return "bg-red-600"
+        return "bg-red-600";
       default:
-        return "bg-gray-600"
+        return "bg-gray-600";
     }
-  }
+  };
 
   const getCategoryColor = (category: string) => {
     const colors = {
@@ -169,27 +169,24 @@ $$f(x) = a(x - r_1)(x - r_2)$$
       機率統計: "bg-teal-600",
       複數: "bg-indigo-600",
       線性代數: "bg-cyan-600",
-    }
-    return colors[category as keyof typeof colors] || "bg-gray-600"
-  }
+    };
+    return colors[category as keyof typeof colors] || "bg-gray-600";
+  };
 
   const handleChapterComplete = (chapterId: number) => {
     if (!completedChapters.includes(chapterId)) {
-      setCompletedChapters([...completedChapters, chapterId])
+      setCompletedChapters([...completedChapters, chapterId]);
     }
-  }
+  };
 
-  const currentChapterData = concept.chapters.find((ch) => ch.id === currentChapter)
-  const overallProgress = (completedChapters.length / concept.chapters.length) * 100
+  const currentChapterData = concept.chapters.find((ch) => ch.id === currentChapter);
+  const overallProgress = (completedChapters.length / concept.chapters.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+    <div className="">
       <div className="max-w-7xl mx-auto p-6">
         {/* Back Button */}
-        <Button
-          variant="ghost"
-          className="text-blue-400 hover:text-blue-300 mb-6"
-        >
+        <Button variant="ghost" className="text-blue-400 hover:text-blue-300 mb-6">
           <ArrowLeft className="w-4 h-4 mr-2" />
           <a href="/concepts">返回觀念列表</a>
         </Button>
@@ -245,7 +242,7 @@ $$f(x) = a(x - r_1)(x - r_2)$$
                       }`}
                       onClick={() => setCurrentChapter(chapter.id)}
                     >
-                      <div className="flex items-center justify-between" >
+                      <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
                           {completedChapters.includes(chapter.id) || chapter.completed ? (
                             <CheckCircle className="w-4 h-4 text-green-400" />
@@ -293,14 +290,20 @@ $$f(x) = a(x - r_1)(x - r_2)$$
                       className={`${isPlaying ? "bg-yellow-600 hover:bg-yellow-700" : "bg-green-600 hover:bg-green-700"}`}
                       onClick={() => setIsPlaying(!isPlaying)}
                     >
-                      {isPlaying ? <Pause className="w-4 h-4 mr-2" /> : <Play className="w-4 h-4 mr-2" />}
+                      {isPlaying ? (
+                        <Pause className="w-4 h-4 mr-2" />
+                      ) : (
+                        <Play className="w-4 h-4 mr-2" />
+                      )}
                       {isPlaying ? "暫停" : "開始學習"}
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
                       className="border-blue-400/30 text-blue-400 bg-transparent hover:bg-blue-400/10"
-                      onClick={() => setCurrentChapter(Math.min(concept.chapters.length, currentChapter + 1))}
+                      onClick={() =>
+                        setCurrentChapter(Math.min(concept.chapters.length, currentChapter + 1))
+                      }
                       disabled={currentChapter === concept.chapters.length}
                     >
                       <SkipForward className="w-4 h-4" />
@@ -319,7 +322,10 @@ $$f(x) = a(x - r_1)(x - r_2)$$
                     dangerouslySetInnerHTML={{
                       __html:
                         currentChapterData?.content
-                          .replace(/\$\$(.*?)\$\$/g, '<div class="math-block text-center my-4 text-lg">$1</div>')
+                          .replace(
+                            /\$\$(.*?)\$\$/g,
+                            '<div class="math-block text-center my-4 text-lg">$1</div>',
+                          )
                           .replace(/\$(.*?)\$/g, '<span class="math-inline">$1</span>') || "",
                     }}
                   />
@@ -344,7 +350,9 @@ $$f(x) = a(x - r_1)(x - r_2)$$
                     <Button
                       className="bg-green-600 hover:bg-green-700"
                       onClick={() => handleChapterComplete(currentChapter)}
-                      disabled={completedChapters.includes(currentChapter) || currentChapterData?.completed}
+                      disabled={
+                        completedChapters.includes(currentChapter) || currentChapterData?.completed
+                      }
                     >
                       <CheckCircle className="w-4 h-4 mr-2" />
                       {completedChapters.includes(currentChapter) || currentChapterData?.completed
@@ -352,7 +360,9 @@ $$f(x) = a(x - r_1)(x - r_2)$$
                         : "標記完成"}
                     </Button>
                     <Button
-                      onClick={() => setCurrentChapter(Math.min(concept.chapters.length, currentChapter + 1))}
+                      onClick={() =>
+                        setCurrentChapter(Math.min(concept.chapters.length, currentChapter + 1))
+                      }
                       disabled={currentChapter === concept.chapters.length}
                       className="bg-blue-600 hover:bg-blue-700"
                     >
@@ -408,5 +418,5 @@ $$f(x) = a(x - r_1)(x - r_2)$$
         </div>
       </div>
     </div>
-  )
+  );
 }
