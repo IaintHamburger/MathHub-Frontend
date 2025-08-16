@@ -1,12 +1,15 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
 
 export default function UsersPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold">用戶列表</h2>
-        <Button className="bg-blue-600 hover:bg-blue-700">新增用戶</Button>
+        <h2 className="text-xl  ">{t("userPage.title")}</h2>
+        <Button className="bg-blue-600 hover:bg-blue-700">{t("userPage.btn.addUser")}</Button>
       </div>
 
       <Card className="bg-slate-800 border-blue-400/20">
@@ -15,12 +18,12 @@ export default function UsersPage() {
             <table className="w-full">
               <thead className="bg-slate-700">
                 <tr>
-                  <th className="text-left p-4 text-blue-200">ID</th>
-                  <th className="text-left p-4 text-blue-200">用戶名</th>
-                  <th className="text-left p-4 text-blue-200">電子郵件</th>
-                  <th className="text-left p-4 text-blue-200">角色</th>
-                  <th className="text-left p-4 text-blue-200">狀態</th>
-                  <th className="text-left p-4 text-blue-200">操作</th>
+                  <th className="text-left p-4 text-blue-200">{t("userPage.table.id")}</th>
+                  <th className="text-left p-4 text-blue-200">{t("userPage.table.name")}</th>
+                  <th className="text-left p-4 text-blue-200">{t("userPage.table.email")}</th>
+                  <th className="text-left p-4 text-blue-200">{t("userPage.table.role")}</th>
+                  <th className="text-left p-4 text-blue-200">{t("userPage.table.status")}</th>
+                  <th className="text-left p-4 text-blue-200">{t("userPage.table.action")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700">

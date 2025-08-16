@@ -1,29 +1,8 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
-import {
-  BookOpen,
-  CalendarIcon,
-  CheckCircle,
-  ChevronLeft,
-  ChevronRight,
-  Lightbulb,
-  Lock,
-  Target,
-  Trophy,
-} from "lucide-react";
 import { useState } from "react";
 import HeaderSection from "./components/HeaderSection";
 
-import MainSection from "./components/MainSection/index";
 import BottomSection from "./components/BottomSection";
+import MainSection from "./components/MainSection/index";
 
 export default function DailyProblemPage() {
   const [selectedGrade, setSelectedGrade] = useState<string>("國中二年級");

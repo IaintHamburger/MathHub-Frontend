@@ -4,14 +4,17 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { AlertTriangle, Bug, Lightbulb, Send } from "lucide-react"
+import { useTranslation } from "react-i18next"
 
 export default function ReportIssuePage() {
+  const { t } = useTranslation();
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+    <div className="">
       <main className="max-w-4xl mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-4">問題回報</h1>
-          <p className="text-blue-200 text-lg">遇到問題或有建議嗎？請告訴我們，我們會盡快處理您的回饋。</p>
+          <h1 className="text-4xl   text-white mb-4">{t("reportIssue.title")}</h1>
+          <p className="text-blue-200 text-lg">{t("reportIssue.subtitle")}</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 mb-8">
@@ -19,24 +22,24 @@ export default function ReportIssuePage() {
           <Card className="bg-slate-800/50 border-blue-400/20 hover:border-red-400/40 transition-colors">
             <CardContent className="p-6 text-center">
               <Bug className="w-12 h-12 text-red-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">錯誤回報</h3>
-              <p className="text-blue-200 text-sm">回報系統錯誤、功能異常或其他技術問題</p>
+              <h3 className="text-xl font-semibold text-white mb-2">{t("reportIssue.types.bug.title")}</h3>
+              <p className="text-blue-200 text-sm">{t("reportIssue.types.bug.description")}</p>
             </CardContent>
           </Card>
 
           <Card className="bg-slate-800/50 border-blue-400/20 hover:border-yellow-400/40 transition-colors">
             <CardContent className="p-6 text-center">
               <Lightbulb className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">功能建議</h3>
-              <p className="text-blue-200 text-sm">提出新功能想法或改善現有功能的建議</p>
+              <h3 className="text-xl font-semibold text-white mb-2">{t("reportIssue.types.feature.title")}</h3>
+              <p className="text-blue-200 text-sm">{t("reportIssue.types.feature.description")}</p>
             </CardContent>
           </Card>
 
           <Card className="bg-slate-800/50 border-blue-400/20 hover:border-orange-400/40 transition-colors">
             <CardContent className="p-6 text-center">
               <AlertTriangle className="w-12 h-12 text-orange-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">內容問題</h3>
-              <p className="text-blue-200 text-sm">回報題目錯誤、概念說明不清楚等內容問題</p>
+              <h3 className="text-xl font-semibold text-white mb-2">{t("reportIssue.types.content.title")}</h3>
+              <p className="text-blue-200 text-sm">{t("reportIssue.types.content.description")}</p>
             </CardContent>
           </Card>
         </div>
@@ -44,51 +47,51 @@ export default function ReportIssuePage() {
         {/* Report Form */}
         <Card className="bg-slate-800/50 border-blue-400/20">
           <CardHeader>
-            <CardTitle className="text-white text-2xl">提交問題回報</CardTitle>
+            <CardTitle className="text-white text-2xl">{t("reportIssue.form.title")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="issueType" className="block text-white font-medium mb-2">問題類型 *</label>
+                <label htmlFor="issueType" className="block text-white font-medium mb-2">{t("reportIssue.form.issueType")}</label>
                 <Select>
                   <SelectTrigger className="bg-slate-700/50 border-blue-400/30 text-white">
-                    <SelectValue placeholder="選擇問題類型" />
+                    <SelectValue placeholder={t("reportIssue.form.issueTypePlaceholder")} />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-800 border-blue-400/30">
                     <SelectItem value="bug" className="text-white hover:bg-slate-700">
-                      🐛 錯誤回報
+                      {t("reportIssue.options.bug")}
                     </SelectItem>
                     <SelectItem value="feature" className="text-white hover:bg-slate-700">
-                      💡 功能建議
+                      {t("reportIssue.options.feature")}
                     </SelectItem>
                     <SelectItem value="content" className="text-white hover:bg-slate-700">
-                      ⚠️ 內容問題
+                      {t("reportIssue.options.content")}
                     </SelectItem>
                     <SelectItem value="other" className="text-white hover:bg-slate-700">
-                      📝 其他
+                      {t("reportIssue.options.other")}
                     </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div>
-                <label htmlFor="priority" className="block text-white font-medium mb-2">優先級</label>
+                <label htmlFor="priority" className="block text-white font-medium mb-2">{t("reportIssue.form.priority")}</label>
                 <Select>
                   <SelectTrigger className="bg-slate-700/50 border-blue-400/30 text-white">
-                    <SelectValue placeholder="選擇優先級" />
+                    <SelectValue placeholder={t("reportIssue.form.priorityPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-800 border-blue-400/30">
                     <SelectItem value="low" className="text-white hover:bg-slate-700">
-                      🟢 低 - 一般問題
+                      {t("reportIssue.priority.low")}
                     </SelectItem>
                     <SelectItem value="medium" className="text-white hover:bg-slate-700">
-                      🟡 中 - 影響使用體驗
+                      {t("reportIssue.priority.medium")}
                     </SelectItem>
                     <SelectItem value="high" className="text-white hover:bg-slate-700">
-                      🟠 高 - 重要功能異常
+                      {t("reportIssue.priority.high")}
                     </SelectItem>
                     <SelectItem value="critical" className="text-white hover:bg-slate-700">
-                      🔴 緊急 - 系統無法使用
+                      {t("reportIssue.priority.critical")}
                     </SelectItem>
                   </SelectContent>
                 </Select>
@@ -96,17 +99,17 @@ export default function ReportIssuePage() {
             </div>
 
             <div>
-              <label htmlFor="title" className="block text-white font-medium mb-2">問題標題 *</label>
+              <label htmlFor="title" className="block text-white font-medium mb-2">{t("reportIssue.form.issueTitle")}</label>
               <Input
-                placeholder="簡短描述您遇到的問題"
+                placeholder={t("reportIssue.form.issueTitlePlaceholder")}
                 className="bg-slate-700/50 border-blue-400/30 text-white placeholder:text-blue-200"
               />
             </div>
 
             <div>
-              <label htmlFor="description" className="block text-white font-medium mb-2">詳細描述 *</label>
+              <label htmlFor="description" className="block text-white font-medium mb-2">{t("reportIssue.form.description")}</label>
               <Textarea
-                placeholder="請詳細描述問題的情況，包括：&#10;1. 您在做什麼時遇到這個問題？&#10;2. 預期的結果是什麼？&#10;3. 實際發生了什麼？&#10;4. 如何重現這個問題？"
+                placeholder={t("reportIssue.form.descriptionPlaceholder")}
                 rows={8}
                 className="bg-slate-700/50 border-blue-400/30 text-white placeholder:text-blue-200"
               />
@@ -114,31 +117,31 @@ export default function ReportIssuePage() {
 
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="email" className="block text-white font-medium mb-2">您的電子郵件</label>
+                <label htmlFor="email" className="block text-white font-medium mb-2">{t("reportIssue.form.email")}</label>
                 <Input
                   type="email"
-                  placeholder="your@email.com"
+                  placeholder={t("reportIssue.form.emailPlaceholder")}
                   className="bg-slate-700/50 border-blue-400/30 text-white placeholder:text-blue-200"
                 />
-                <p className="text-blue-300 text-sm mt-1">選填，用於回覆您的問題</p>
+                <p className="text-blue-300 text-sm mt-1">{t("reportIssue.form.emailHelp")}</p>
               </div>
 
               <div>
-                <label htmlFor="browser" className="block text-white font-medium mb-2">瀏覽器資訊</label>
+                <label htmlFor="browser" className="block text-white font-medium mb-2">{t("reportIssue.form.browser")}</label>
                 <Input
-                  placeholder="Chrome 120, Safari 17, Firefox 121..."
+                  placeholder={t("reportIssue.form.browserPlaceholder")}
                   className="bg-slate-700/50 border-blue-400/30 text-white placeholder:text-blue-200"
                 />
-                <p className="text-blue-300 text-sm mt-1">選填，有助於我們診斷問題</p>
+                <p className="text-blue-300 text-sm mt-1">{t("reportIssue.form.browserHelp")}</p>
               </div>
             </div>
 
             <div>
-              <label htmlFor="screenshot" className="block text-white font-medium mb-2">螢幕截圖或附件</label>
+              <label htmlFor="screenshot" className="block text-white font-medium mb-2">{t("reportIssue.form.screenshot")}</label>
               <div className="border-2 border-dashed border-blue-400/30 rounded-lg p-8 text-center hover:border-blue-400/50 transition-colors cursor-pointer">
                 <div className="text-blue-300">
-                  <p className="mb-2">點擊上傳檔案或拖拽檔案到此處</p>
-                  <p className="text-sm">支援 PNG, JPG, GIF, PDF 格式，最大 10MB</p>
+                  <p className="mb-2">{t("reportIssue.form.screenshotHelp")}</p>
+                  <p className="text-sm">{t("reportIssue.form.screenshotFormat")}</p>
                 </div>
               </div>
             </div>
@@ -148,30 +151,15 @@ export default function ReportIssuePage() {
                 variant="outline"
                 className="border-blue-400/30 text-blue-300 hover:bg-slate-700/50 bg-transparent"
               >
-                取消
+                {t("reportIssue.form.cancel")}
               </Button>
               <Button className="bg-blue-600 hover:bg-blue-700">
                 <Send className="w-4 h-4 mr-2" />
-                提交回報
+                {t("reportIssue.form.submit")}
               </Button>
             </div>
           </CardContent>
         </Card>
-
-        {/* Contact Info */}
-        {/* <div className="mt-8 text-center">
-          <p className="text-blue-200 mb-4">您也可以透過其他方式聯絡我們：</p>
-          <div className="flex justify-center space-x-6">
-            <Button variant="ghost" className="text-blue-400 hover:text-blue-300">
-              <MessageCircle className="w-5 h-5 mr-2" />
-              Discord 社群
-            </Button>
-            <Button variant="ghost" className="text-blue-400 hover:text-blue-300">
-              <Github className="w-5 h-5 mr-2" />
-              GitHub Issues
-            </Button>
-          </div>
-        </div> */}
       </main>
     </div>
   )

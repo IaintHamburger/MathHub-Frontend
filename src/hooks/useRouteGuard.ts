@@ -8,10 +8,10 @@ export const useRouteGuard = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { isAuthenticated } = useAuth();
-	const hasIdToken = !!tokenUtils.getIdToken();
+	const hasAccessToken = !!tokenUtils.getAccessToken();
 
 	// 檢查是否已登入（優先使用 Redux 狀態，fallback 到 localStorage）
-	const isLoggedIn = isAuthenticated || hasIdToken;
+	const isLoggedIn = isAuthenticated || hasAccessToken;
 
 	useEffect(() => {
 		const currentPath = location.pathname;

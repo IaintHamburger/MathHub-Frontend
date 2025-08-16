@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 export default function SettingsPage() {
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-bold">系統設定</h2>
+      <h2 className="text-xl  ">系統設定</h2>
 
       <Card className="bg-slate-800 border-blue-400/20">
         <CardHeader>

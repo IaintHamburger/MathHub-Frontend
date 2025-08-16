@@ -5,7 +5,7 @@ import { ReactComponent as MathCatLogo } from "@/assets/MathCat_Full.svg"
 
 export default function MaintenancePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <Card className="w-full max-w-2xl bg-slate-800/70 border-blue-400/20 mx-4">
         <CardHeader className="text-center space-y-4">
           <div className="flex justify-center items-center space-x-3">
@@ -21,7 +21,7 @@ export default function MaintenancePage() {
 
         <CardContent className="space-y-6 text-center">
           <div>
-            <h2 className="text-2xl font-bold text-white mb-2">系統維護中</h2>
+            <h2 className="text-2xl text-white mb-2">系統維護中</h2>
             <p className="text-blue-200 text-lg">我們正在進行系統升級和維護，以提供更好的服務體驗</p>
           </div>
 

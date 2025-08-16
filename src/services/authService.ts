@@ -1,3 +1,4 @@
+import { deviceUtils } from '@/lib/utils';
 import { logout, refreshTokenFailure } from '@/redux/slices/AuthSlice';
 import { store } from '@/redux/store/app';
 
@@ -78,39 +79,92 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}): Promise<
 export const authAPI = {
 	// 登入
 	login: async (credentials: { email: string; password: string }) => {
-		return apiRequest('/auth/login', {
+		// 獲取或生成 deviceID
+		const deviceID = deviceUtils.getDeviceID();
+
+		const response = await fetch(`${API_BASE_URL}/auth/login`, {
 			method: 'POST',
-			body: JSON.stringify(credentials),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				...credentials,
+				deviceID,
+			}),
+			// FIXME
+			// credentials: 'include', // 暫時註解掉避免 CORS 錯誤
 		});
+
+		if (!response.ok) {
+			const errorData = await response.json().catch(() => ({}));
+			throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+		}
+
+		const data = await response.json();
+
+		// 檢查回應格式
+		if (!data.success) {
+			throw new Error(data.message || '登入失敗');
+		}
+
+		// 只儲存 accessToken 到 localStorage
+		localStorage.setItem('accessToken', data.data.accessToken);
+
+		// refreshToken 由後端設定為 HttpOnly Cookie，前端不需要手動儲存
+		// 設定過期時間
+		const expiryTime = Date.now() + data.data.expiresIn.millisecond;
+		localStorage.setItem('accessTokenExpiry', expiryTime.toString());
+
+		return data.data;
 	},
 
 	// 登出
 	logout: async () => {
-		return apiRequest('/auth/logout', {
+		// 獲取當前 deviceID
+		const deviceID = deviceUtils.getDeviceID();
+
+		const result = await apiRequest('/auth/logout', {
 			method: 'POST',
+			body: JSON.stringify({ deviceID }),
 		});
+
+		// 登出成功後清除 deviceID
+		deviceUtils.clearDeviceID();
+
+		return result;
 	},
 
 	// 刷新 Token
 	refreshToken: async () => {
 		try {
+			// refreshToken 現在透過 HttpOnly Cookie 自動發送
+			// 不需要手動從 localStorage 讀取
 			const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				credentials: 'include', // 自動發送 HttpOnly Cookie (包含 refresh token)
+				credentials: 'include', // 重要：自動發送包含 refreshToken 的 Cookie
 			});
 
 			if (response.ok) {
 				const data = await response.json();
+
+				// 檢查回應格式
+				if (!data.success) {
+					throw new Error(data.message || 'Token 刷新失敗');
+				}
+
+				// 更新 accessToken
+				localStorage.setItem('accessToken', data.data.accessToken);
+
+				// refreshToken 由後端更新 Cookie，前端不需要手動處理
+				// 設定過期時間
+				const expiryTime = Date.now() + data.data.expiresIn * 1000;
+				localStorage.setItem('accessTokenExpiry', expiryTime.toString());
+
 				store.dispatch({
 					type: 'auth/refreshTokenSuccess',
-					payload: {
-						accessToken: data.accessToken,
-						idToken: data.idToken,
-						expiresIn: data.expiresIn,
-					},
 				});
 				return true;
 			}
@@ -152,7 +206,7 @@ export const authAPI = {
 	},
 
 	// 註冊
-	register: async (userData: { name: string; email: string; password: string; confirmPassword: string }) => {
+	register: async (userData: { username: string; email: string; password: string }) => {
 		return apiRequest('/auth/register', {
 			method: 'POST',
 			body: JSON.stringify(userData),

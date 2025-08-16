@@ -1,14 +1,28 @@
-import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import type React from "react";
+import { useNavigation } from "@/hooks/useNavigation";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
-import { ReactComponent as MathCat } from "@/assets/logo/MathCat.svg";
-
+import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg";
+import { Button } from "@/components/ui/button";
 import { ChevronDown, LogIn, User } from "lucide-react";
 
 const Header: React.FC = () => {
+  const { t } = useTranslation();
   const { isAuthenticated, user, logout } = useAuth();
+  const {
+    goToHome,
+    goToDailyProblem,
+    goToProblems,
+    goToConcepts,
+    goToLeaderBoard,
+    goToAnnouncements,
+    goToFaqs,
+    goToReportIssue,
+    goToRegister,
+    goToLogin
+  } = useNavigation();
+
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   const handleLogout = async () => {
@@ -19,47 +33,45 @@ const Header: React.FC = () => {
   return (
     <header className="w-full px-4 py-4 bg-slate-800/50 backdrop-blur-sm">
       <nav className="flex items-center justify-between max-w-7xl mx-auto">
-        <div className="flex items-center space-x-2">
-          <Button variant="ghost" className="flex items-center space-x-2 hover:bg-transparent" asChild>
-            <a href="/">
-              <MathCat />
-            </a>
-          </Button>
+        <div className="w-[100px] flex items-center cursor-pointer">
+            <MathCatLogo className="mx-auto" onClick={goToHome}/>
         </div>
         <div className="hidden md:flex items-center space-x-6 text-blue-300">
-          <a href="/dailyProblem" className="hover:text-blue-400 transition-colors">
-            每日一題
-          </a>
-          <a href="/problems" className="hover:text-blue-400 transition-colors">
-            題目
-          </a>
-          <a href="/concepts" className="hover:text-blue-400 transition-colors">
-            觀念
-          </a>
-          <a href="/leaderboard" className="hover:text-blue-400 transition-colors">
-            排行榜
-          </a>
-          <a href="/announcements" className="hover:text-blue-400 transition-colors">
-            公告
-          </a>
+          <button type="button" onClick={goToDailyProblem} className="hover:text-blue-400 transition-colors">
+            {t("navigate.dailyProblem")}
+          </button>
+          <button type="button" onClick={goToProblems} className="hover:text-blue-400 transition-colors">
+            {t("navigate.problems")}
+          </button>
+          <button type="button" onClick={goToConcepts} className="hover:text-blue-400 transition-colors">
+            {t("navigate.concepts")}
+          </button>
+          <button type="button" onClick={goToLeaderBoard} className="hover:text-blue-400 transition-colors">
+            {t("navigate.leaderboard")}
+          </button>
+          <button type="button" onClick={goToAnnouncements} className="hover:text-blue-400 transition-colors">
+            {t("navigate.announcements")}
+          </button>
           <div className="relative group">
             <button type="button" className="flex items-center space-x-1 hover:text-blue-400 transition-colors">
-              <span>支援</span>
+              <span>{t("navigate.supports")}</span>
               <ChevronDown className="w-4 h-4" />
             </button>
             <div className="absolute top-full left-0 mt-2 w-48 bg-slate-800 border border-blue-400/20 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-              <a
-                href="/faqs"
-                className="block px-4 py-2 text-blue-300 hover:text-blue-400 hover:bg-slate-700/50 rounded-t-lg transition-colors"
+              <button
+                type="button"
+                onClick={goToFaqs}
+                className="block w-full text-left px-4 py-2 text-blue-300 hover:text-blue-400 hover:bg-slate-700/50 rounded-t-lg transition-colors"
               >
-                FAQ
-              </a>
-              <a
-                href="/reportIssue"
-                className="block px-4 py-2 text-blue-300 hover:text-blue-400 hover:bg-slate-700/50 rounded-b-lg transition-colors"
+                {t("navigate.faqs")}
+              </button>
+              <button
+                type="button"
+                onClick={goToReportIssue}
+                className="block w-full text-left px-4 py-2 text-blue-300 hover:text-blue-400 hover:bg-slate-700/50 rounded-b-lg transition-colors"
               >
-                問題回報
-              </a>
+                {t("navigate.reportIssue")}
+              </button>
             </div>
           </div>
         </div>
@@ -73,7 +85,7 @@ const Header: React.FC = () => {
                 onClick={() => setShowUserMenu(!showUserMenu)}
               >
                 <User className="w-4 h-4 mr-1" />
-                {user?.name || '用戶'}
+                {user?.name || t("header.user")}
               </Button>
               {showUserMenu && (
                 <div className="absolute top-full right-0 mt-2 w-48 bg-slate-800 border border-blue-400/20 rounded-lg shadow-lg z-50">
@@ -82,7 +94,7 @@ const Header: React.FC = () => {
                     onClick={handleLogout}
                     className="block w-full text-left px-4 py-2 text-blue-300 hover:text-blue-400 hover:bg-slate-700/50 transition-colors"
                   >
-                    登出
+                    {t("header.logout")}
                   </button>
                 </div>
               )}
@@ -93,18 +105,14 @@ const Header: React.FC = () => {
                 variant="outline"
                 size="sm"
                 className="text-blue-400 border-blue-400 hover:bg-blue-400 hover:text-white bg-transparent"
-                asChild
+                onClick={goToRegister}
               >
-                <a href="/register">
-                  <User className="w-4 h-4 mr-1" />
-                  註冊
-                </a>
+                <User className="w-4 h-4 mr-1" />
+                {t("header.register")}
               </Button>
-              <Button size="sm" className="bg-blue-600 hover:bg-blue-700" asChild>
-                <a href="/login">
-                  <LogIn className="w-4 h-4 mr-1" />
-                  登入
-                </a>
+              <Button size="sm" className="bg-blue-600 hover:bg-blue-700" onClick={goToLogin}>
+                <LogIn className="w-4 h-4 mr-1" />
+                {t("header.login")}
               </Button>
             </>
           )}

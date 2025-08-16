@@ -89,13 +89,13 @@ export default function AboutPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+    <div className="">
       <div className="max-w-6xl mx-auto p-6">
         {/* Hero Section */}
         <div className="text-center mb-16">
           <div className="mb-8">
             <MathCatLogo className="mx-auto mb-6" />
-            <h1 className="text-4xl font-bold text-white mb-4">讓數學學習變得更簡單</h1>
+            <h1 className="text-4xl   text-white mb-4">讓數學學習變得更簡單</h1>
             <p className="text-xl text-blue-200 max-w-3xl mx-auto leading-relaxed">
               MathHub 致力於為全球數學學習者提供最優質的學習平台，
               透過創新的技術和精心設計的內容，讓每個人都能享受數學的樂趣。
@@ -109,7 +109,7 @@ export default function AboutPage() {
             <Card key={`stat-${stat.label}-${index}`} className="bg-slate-800/50 border-blue-400/20 text-center">
               <CardContent className="p-6">
                 <stat.icon className="w-8 h-8 text-blue-400 mx-auto mb-3" />
-                <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
+                <div className="text-2xl   text-white mb-1">{stat.value}</div>
                 <div className="text-blue-200 text-sm">{stat.label}</div>
               </CardContent>
             </Card>
@@ -153,7 +153,7 @@ export default function AboutPage() {
 
         {/* Features */}
         <div className="mb-16">
-          <h2 className="text-2xl font-bold text-white text-center mb-8">核心功能</h2>
+          <h2 className="text-2xl   text-white text-center mb-8">核心功能</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => (
               <Card
@@ -172,7 +172,7 @@ export default function AboutPage() {
 
         {/* Team */}
         <div className="mb-16">
-          <h2 className="text-2xl font-bold text-white text-center mb-8">開發團隊</h2>
+          <h2 className="text-2xl   text-white text-center mb-8">開發團隊</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {teamMembers.map((member, index) => (
               <Card key={`${member.name}-${index}`} className="bg-slate-800/50 border-blue-400/20">

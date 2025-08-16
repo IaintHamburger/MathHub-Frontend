@@ -146,7 +146,7 @@ export default function AnnouncementsPage() {
   const regularAnnouncements = filteredAnnouncements.filter((a) => !a.pinned)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+    <div className="">
       <div className="max-w-6xl mx-auto p-6">
         {/* Search and Filter */}
         <Card className="bg-slate-800/50 border-blue-400/20 mb-6">
@@ -182,7 +182,7 @@ export default function AnnouncementsPage() {
         {/* Pinned Announcements */}
         {pinnedAnnouncements.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-white mb-4 flex items-center">
+            <h2 className="text-xl   text-white mb-4 flex items-center">
               <Pin className="w-5 h-5 mr-2 text-yellow-400" />
               置頂公告
             </h2>
@@ -229,7 +229,7 @@ export default function AnnouncementsPage() {
 
         {/* Regular Announcements */}
         <div>
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center">
+          <h2 className="text-xl   text-white mb-4 flex items-center">
             <Bell className="w-5 h-5 mr-2 text-blue-400" />
             所有公告
           </h2>

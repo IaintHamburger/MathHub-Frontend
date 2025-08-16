@@ -14,16 +14,18 @@ export interface User {
 export interface LoginRequest {
 	email: string;
 	password: string;
+	deviceID: string;
 }
 
 // 登入回應
 export interface LoginResponse {
 	accessToken: string;
-	idToken: string;
-	refreshToken: string;
 	expiresIn: number;
 	user: User;
 }
+
+// 登入 API 回應（包含 success 包裝）
+export interface LoginApiResponse extends ApiResponse<LoginResponse> {}
 
 // 註冊請求
 export interface RegisterRequest {
