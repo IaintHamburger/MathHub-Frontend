@@ -1,4 +1,4 @@
-import { ReactComponent as MathCatLogo } from "@/assets/MathCat_Full.svg";
+import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { AlertTriangle, Clock, Settings } from "lucide-react";
 
