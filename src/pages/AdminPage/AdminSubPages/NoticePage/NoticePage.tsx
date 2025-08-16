@@ -1,13 +1,15 @@
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 export default function AnnouncementsPage() {
+  const { t } = useTranslation();
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl  ">公告編輯</h2>
-        <Button className="bg-blue-600 hover:bg-blue-700">新增公告</Button>
+        <h2 className="text-xl">{t("noticePage.title")}</h2>
+        <Button className="bg-blue-600 hover:bg-blue-700">{t("noticePage.btn.addNotice")}</Button>
       </div>
 
       <Card className="bg-slate-800 border-blue-400/20">
@@ -16,11 +18,11 @@ export default function AnnouncementsPage() {
             <table className="w-full">
               <thead className="bg-slate-700">
                 <tr>
-                  <th className="text-left p-4 text-blue-200">ID</th>
-                  <th className="text-left p-4 text-blue-200">標題</th>
-                  <th className="text-left p-4 text-blue-200">發布日期</th>
-                  <th className="text-left p-4 text-blue-200">狀態</th>
-                  <th className="text-left p-4 text-blue-200">操作</th>
+                  <th className="text-left p-4 text-blue-200">{t("noticePage.table.id")}</th>
+                  <th className="text-left p-4 text-blue-200">{t("noticePage.table.title")}</th>
+                  <th className="text-left p-4 text-blue-200">{t("noticePage.table.date")}</th>
+                  <th className="text-left p-4 text-blue-200">{t("noticePage.table.status")}</th>
+                  <th className="text-left p-4 text-blue-200">{t("noticePage.table.action")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-700">
@@ -73,9 +75,9 @@ export default function AnnouncementsPage() {
         </CardContent>
       </Card>
 
-      <Card className="bg-slate-800 border-blue-400/20">
+      {/* <Card className="bg-slate-800 border-blue-400/20">
         <CardHeader>
-          <CardTitle className="text-white">編輯公告</CardTitle>
+          <CardTitle className="text-white">{t("noticePage.edit.title")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
@@ -128,7 +130,7 @@ export default function AnnouncementsPage() {
             </Button>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 }

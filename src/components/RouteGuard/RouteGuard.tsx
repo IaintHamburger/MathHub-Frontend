@@ -46,7 +46,7 @@ export const RouteGuard = ({
   requireAllPermissions = false,
   fallback,
 }: RouteGuardProps) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isFetching } = useAuth();
   const hasAccessToken = !!tokenUtils.getAccessToken();
   const { hasPermission, hasAllPermissions } = useRoutePermission(permissions);
 
@@ -56,6 +56,11 @@ export const RouteGuard = ({
   // 檢查認證狀態
   if (requireAuth && !isLoggedIn) {
     return <Navigate to={redirectTo} replace />;
+  }
+
+  // 如果正在載入且需要檢查權限，暫時不顯示
+  if (permissions.length > 0 && isFetching) {
+    return null;
   }
 
   // 檢查權限

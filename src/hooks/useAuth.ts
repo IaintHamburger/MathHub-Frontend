@@ -9,6 +9,7 @@ import {
   loginStart,
   loginSuccess,
   logout,
+  setFetching,
 } from "@/redux/slices/AuthSlice";
 import type { RootState } from "@/redux/store/app";
 import { authAPI, cleanupTokenRefresh, setupTokenRefresh } from "@/services/authService";
@@ -64,6 +65,8 @@ const useAuthInternal = (): AuthContextType => {
       const accessToken = tokenUtils.getAccessToken();
 
       if (accessToken) {
+        // 開始載入時設置 isFetching
+        dispatch(setFetching(true));
         try {
           // 檢查 token 是否過期
           if (!tokenUtils.isTokenExpired(accessToken)) {
@@ -120,8 +123,6 @@ const useAuthInternal = (): AuthContextType => {
         expiresIn: number;
         user: User;
       };
-
-      console.log("response", response);
 
       // 更新 Redux state
       dispatch(

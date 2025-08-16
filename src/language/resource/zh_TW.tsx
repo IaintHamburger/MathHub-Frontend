@@ -24,7 +24,7 @@ const navigate = {
   "navigate.admin.problemsAdd": "審題/新增題目",
   "navigate.admin.problemsStatus": "修改題目狀態",
   "navigate.admin.reports": "檢舉審核",
-  "navigate.admin.announcements": "公告編輯",
+  "navigate.admin.notice": "公告編輯",
   "navigate.admin.settings": "系統設定",
 };
 
@@ -34,6 +34,11 @@ const header = {
   "header.register": "註冊",
   "header.login": "登入",
   "header.logout": "登出",
+};
+
+// 頁腳
+const footer = {
+  "footer.copyright": "© 2025 MathHub. 讓數學學習變得更美好。",
 };
 
 // 登入頁面
@@ -74,13 +79,43 @@ const login = {
   "login.error.rsaNotConfigured": "RSA 加密服務未設定，請檢查環境變數設定",
 };
 
-// 後台 管理員 頁面
-const adminPage = {
-  "adminPage.title": "MathHub 管理",
+// 首頁
+const home = {
+  "home.subtitle": "一個專為自學數學的平台",
+  "home.search.placeholder": "搜尋數學公式、概念或題目...",
+  "home.search.button": "搜尋",
 
-  "adminPage.menuItem.userInfo": "個人資料",
-  "adminPage.menuItem.userStatistics": "解題統計",
-  "adminPage.menuItem.accountSettings": "帳號設定",
+  "home.announcements.title": "最新公告",
+  "home.announcements.more": "更多 →",
+  "home.announcements.maintenance.title": "系統維護通知",
+  "home.announcements.maintenance.preview": "系統將於本週末進行例行維護，預計影響時間...",
+  "home.announcements.feature.title": "新功能上線",
+  "home.announcements.feature.preview": "我們很高興宣布 LaTeX 編輯器新增了更多功能...",
+  "home.announcements.daily.title": "每日一題活動開始",
+  "home.announcements.daily.preview": "全新的每日一題挑戰活動正式開始，歡迎大家參與...",
+
+  "home.features.problems.title": "題庫",
+  "home.features.problems.description": "豐富的數學題目練習",
+  "home.features.problems.button": "開始練習",
+
+  "home.features.daily.title": "每日一題",
+  "home.features.daily.description": "每天挑戰一道精選題目",
+  "home.features.daily.button": "今日挑戰",
+
+  "home.features.concepts.title": "觀念學習",
+  "home.features.concepts.description": "系統化的數學概念",
+  "home.features.concepts.button": "開始學習",
+
+  "home.categories.title": "分類",
+  "home.categories.description": "可以選擇已經編輯/學習的概念/項目",
+
+  "home.problems.title": "問題",
+  "home.problems.description": "簡單feature介紹",
+  "home.problems.search": "搜尋問題",
+
+  "home.concepts.title": "觀念",
+  "home.concepts.description": "簡潔feature介紹",
+  "home.concepts.search": "搜尋觀念",
 };
 
 const userPage = {
@@ -94,11 +129,6 @@ const userPage = {
   "userPage.table.action": "操作",
 
   "userPage.btn.addUser": "新增用戶",
-};
-
-// 頁腳
-const footer = {
-  "footer.copyright": "© 2025 MathHub. 讓數學學習變得更美好。",
 };
 
 // 問題回報頁面
@@ -157,43 +187,27 @@ const playground = {
   "playground.reactMarkdown": "React Markdown 渲染",
 };
 
-// 首頁
-const home = {
-  "home.subtitle": "一個專為自學數學的平台",
-  "home.search.placeholder": "搜尋數學公式、概念或題目...",
-  "home.search.button": "搜尋",
+// 後台 管理員 頁面
+const adminPage = {
+  "adminPage.title": "MathHub 管理",
 
-  "home.announcements.title": "最新公告",
-  "home.announcements.more": "更多 →",
-  "home.announcements.maintenance.title": "系統維護通知",
-  "home.announcements.maintenance.preview": "系統將於本週末進行例行維護，預計影響時間...",
-  "home.announcements.feature.title": "新功能上線",
-  "home.announcements.feature.preview": "我們很高興宣布 LaTeX 編輯器新增了更多功能...",
-  "home.announcements.daily.title": "每日一題活動開始",
-  "home.announcements.daily.preview": "全新的每日一題挑戰活動正式開始，歡迎大家參與...",
+  "adminPage.menuItem.userInfo": "個人資料",
+  "adminPage.menuItem.userStatistics": "解題統計",
+  "adminPage.menuItem.accountSettings": "帳號設定",
 
-  "home.features.problems.title": "題庫",
-  "home.features.problems.description": "豐富的數學題目練習",
-  "home.features.problems.button": "開始練習",
+  // 後台 管理員 頁面 - 公告管理
+  ...{
+    "noticePage.title": "公告編輯",
+    "noticePage.btn.addNotice": "新增公告",
 
-  "home.features.daily.title": "每日一題",
-  "home.features.daily.description": "每天挑戰一道精選題目",
-  "home.features.daily.button": "今日挑戰",
+    "noticePage.table.id": "ID",
+    "noticePage.table.title": "標題",
+    "noticePage.table.date": "發布日期",
+    "noticePage.table.status": "狀態",
+    "noticePage.table.action": "操作",
 
-  "home.features.concepts.title": "觀念學習",
-  "home.features.concepts.description": "系統化的數學概念",
-  "home.features.concepts.button": "開始學習",
-
-  "home.categories.title": "分類",
-  "home.categories.description": "可以選擇已經編輯/學習的概念/項目",
-
-  "home.problems.title": "問題",
-  "home.problems.description": "簡單feature介紹",
-  "home.problems.search": "搜尋問題",
-
-  "home.concepts.title": "觀念",
-  "home.concepts.description": "簡潔feature介紹",
-  "home.concepts.search": "搜尋觀念",
+    "noticePage.edit.title": "編輯公告",
+  },
 };
 
 const zh_TW = Object.assign(
@@ -202,13 +216,15 @@ const zh_TW = Object.assign(
   common,
   navigate,
   header,
-  login,
-  adminPage,
-  userPage,
   footer,
+  login,
+  home,
+  userPage,
   reportIssue,
   playground,
-  home,
+
+  // 後台 管理員 頁面
+  adminPage,
 );
 
 export default zh_TW;

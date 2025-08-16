@@ -19,8 +19,6 @@ const PlaygroundPage = lazy(() => import("@/pages/PlaygroundPage/PlaygroundPage"
 const RegisterPage = lazy(() => import("@/pages/RegisterPage/RegisterPage"));
 const LoginPage = lazy(() => import("@/pages/LoginPage/LoginPage"));
 
-const AdminPage = lazy(() => import("@/pages/AdminPage/AdminPage"));
-
 // 路由配置介面
 export interface RouteConfig {
   path: string;
@@ -129,16 +127,6 @@ export const routes: RouteConfig[] = [
     element: RegisterPage,
     title: "註冊",
     description: "用戶註冊",
-  },
-
-  // 後臺權限路由
-  {
-    path: "/admin",
-    element: AdminPage,
-    // requireAuth: true,
-    permissions: ["admin"],
-    title: "後臺",
-    description: "後臺管理",
   },
 ];
 

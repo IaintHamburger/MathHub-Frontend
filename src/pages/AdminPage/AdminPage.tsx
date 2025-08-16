@@ -16,6 +16,7 @@ import {
 import { type ReactNode, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { Outlet, useLocation } from "react-router-dom";
 import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,16 +27,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useNavigation } from "@/hooks/useNavigation";
 import type { RootState } from "@/redux/store/app";
-// 後台 管理員 頁面 子頁面
-import AnnouncementsPage from "./AdminSubPages/AnnouncementsPage";
-import CommentsPage from "./AdminSubPages/CommentsPage";
-import DashboardPage from "./AdminSubPages/DashboardPage";
-import ProblemsAddPage from "./AdminSubPages/ProblemsAddPage";
-import ProblemsStatusPage from "./AdminSubPages/ProblemsStatusPage";
-import ReportsPage from "./AdminSubPages/ReportsPage";
-import SettingsPage from "./AdminSubPages/SettingsPage";
-import UsersPage from "./AdminSubPages/UsersPage";
 
 // 定義類型
 interface NavItemProps {
@@ -54,7 +47,7 @@ const ADMIN_PAGES = {
   problemsAdd: "problemsAdd",
   problemsStatus: "problemsStatus",
   reports: "reports",
-  announcements: "announcements",
+  notice: "notice",
   settings: "settings",
 } as const;
 
@@ -62,13 +55,24 @@ type AdminPage = keyof typeof ADMIN_PAGES;
 
 export default function AdminPage() {
   const { t } = useTranslation();
+  const location = useLocation();
+  const navigation = useNavigation();
 
   const { user } = useSelector((state: RootState) => state.authSlice);
-
-  const [activeTab, setActiveTab] = useState<AdminPage>(ADMIN_PAGES.dashboard);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-
   const userName = useMemo(() => user?.name || "User", [user]);
+
+  // 從 URL 路徑判斷當前的 active tab
+  const getCurrentActiveTab = (): AdminPage => {
+    const path = location.pathname;
+    if (path === "/admin" || path === "/admin/") {
+      return ADMIN_PAGES.dashboard;
+    }
+    const subPath = path.replace("/admin/", "");
+    return (ADMIN_PAGES as Record<string, AdminPage>)[subPath] || ADMIN_PAGES.dashboard;
+  };
+
+  const activeTab = getCurrentActiveTab();
 
   return (
     <div className="min-h-screen bg-slate-900 text-white flex">
@@ -102,56 +106,56 @@ export default function AdminPage() {
             icon={<Home size={20} />}
             label={t("navigate.admin.dashboard")}
             active={activeTab === ADMIN_PAGES.dashboard}
-            onClick={() => setActiveTab(ADMIN_PAGES.dashboard)}
+            onClick={navigation.goToAdminDashboard}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<Users size={20} />}
             label={t("navigate.admin.users")}
             active={activeTab === ADMIN_PAGES.users}
-            onClick={() => setActiveTab(ADMIN_PAGES.users)}
+            onClick={navigation.goToAdminUsers}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<MessageSquare size={20} />}
             label={t("navigate.admin.comments")}
             active={activeTab === ADMIN_PAGES.comments}
-            onClick={() => setActiveTab(ADMIN_PAGES.comments)}
+            onClick={navigation.goToAdminComments}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<PlusCircle size={20} />}
             label={t("navigate.admin.problemsAdd")}
             active={activeTab === ADMIN_PAGES.problemsAdd}
-            onClick={() => setActiveTab(ADMIN_PAGES.problemsAdd)}
+            onClick={navigation.goToAdminProblemsAdd}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<CheckCircle size={20} />}
             label={t("navigate.admin.problemsStatus")}
             active={activeTab === ADMIN_PAGES.problemsStatus}
-            onClick={() => setActiveTab(ADMIN_PAGES.problemsStatus)}
+            onClick={navigation.goToAdminProblemsStatus}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<Flag size={20} />}
             label={t("navigate.admin.reports")}
             active={activeTab === ADMIN_PAGES.reports}
-            onClick={() => setActiveTab(ADMIN_PAGES.reports)}
+            onClick={navigation.goToAdminReports}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<Bell size={20} />}
-            label={t("navigate.admin.announcements")}
-            active={activeTab === ADMIN_PAGES.announcements}
-            onClick={() => setActiveTab(ADMIN_PAGES.announcements)}
+            label={t("navigate.admin.notice")}
+            active={activeTab === ADMIN_PAGES.notice}
+            onClick={navigation.goToAdminNotice}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<Settings size={20} />}
             label={t("navigate.admin.settings")}
             active={activeTab === ADMIN_PAGES.settings}
-            onClick={() => setActiveTab(ADMIN_PAGES.settings)}
+            onClick={navigation.goToAdminSettings}
             collapsed={!sidebarOpen}
           />
         </div>
@@ -208,14 +212,7 @@ export default function AdminPage() {
 
         {/* 內容區域 */}
         <main className="p-6">
-          {activeTab === ADMIN_PAGES.dashboard && <DashboardPage />}
-          {activeTab === ADMIN_PAGES.users && <UsersPage />}
-          {activeTab === ADMIN_PAGES.comments && <CommentsPage />}
-          {activeTab === ADMIN_PAGES.problemsAdd && <ProblemsAddPage />}
-          {activeTab === ADMIN_PAGES.problemsStatus && <ProblemsStatusPage />}
-          {activeTab === ADMIN_PAGES.reports && <ReportsPage />}
-          {activeTab === ADMIN_PAGES.announcements && <AnnouncementsPage />}
-          {activeTab === ADMIN_PAGES.settings && <SettingsPage />}
+          <Outlet />
         </main>
       </div>
     </div>
