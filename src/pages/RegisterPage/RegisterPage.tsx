@@ -10,8 +10,19 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import SocialIcon from "@/components/ui/social-icon"
 import { useNavigation } from "@/hooks/useNavigation"
+import { authAPI } from "@/services/authService"
 import { ArrowLeft, Eye, EyeOff, Lock, Mail, User } from "lucide-react"
 import { useState } from "react"
+
+// 必填欄位配置 - 方便管理和修改
+const REQUIRED_FIELDS = {
+  username: { required: true, label: "姓名" },
+  email: { required: true, label: "電子郵件" },
+  password: { required: true, label: "密碼" },
+  confirmPassword: { required: false, label: "確認密碼" },
+  grade: { required: false, label: "年級" },
+  agreeTerms: { required: false, label: "服務條款同意" },
+} as const
 
 export default function RegisterPage() {
   const { goToHome, goToLogin } = useNavigation();
@@ -48,39 +59,34 @@ export default function RegisterPage() {
     { value: "other", label: "其他" },
   ]
 
-  const validateForm = () => {
+    const validateForm = () => {
     const newErrors: Record<string, string> = {}
 
-    if (!formData.username.trim()) {
-      newErrors.username = "請輸入用戶名稱"
-    } else if (formData.username.length < 2) {
-      newErrors.username = "用戶名稱至少需要2個字符"
-    }
+    // 只檢查必填欄位
+    for (const [field, config] of Object.entries(REQUIRED_FIELDS)) {
+      if (config.required) {
+        const value = formData[field as keyof typeof formData]
 
-    if (!formData.email.trim()) {
-      newErrors.email = "請輸入電子郵件"
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "請輸入有效的電子郵件格式"
-    }
-
-    if (!formData.password) {
-      newErrors.password = "請輸入密碼"
-    } else if (formData.password.length < 6) {
-      newErrors.password = "密碼至少需要6個字符"
-    }
-
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "請確認密碼"
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "密碼確認不一致"
-    }
-
-    if (!formData.grade) {
-      newErrors.grade = "請選擇您的年級"
-    }
-
-    if (!formData.agreeTerms) {
-      newErrors.agreeTerms = "請同意服務條款和隱私政策"
+        if (field === 'username') {
+          if (!value || (typeof value === 'string' && !value.trim())) {
+            newErrors[field] = `請輸入${config.label}`
+          } else if (typeof value === 'string' && value.length < 2) {
+            newErrors[field] = `${config.label}至少需要2個字符`
+          }
+        } else if (field === 'email') {
+          if (!value || (typeof value === 'string' && !value.trim())) {
+            newErrors[field] = `請輸入${config.label}`
+          } else if (typeof value === 'string' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            newErrors[field] = "請輸入有效的電子郵件格式"
+          }
+        } else if (field === 'password') {
+          if (!value) {
+            newErrors[field] = `請輸入${config.label}`
+          } else if (typeof value === 'string' && value.length < 6) {
+            newErrors[field] = `${config.label}至少需要6個字符`
+          }
+        }
+      }
     }
 
     setErrors(newErrors)
@@ -96,14 +102,26 @@ export default function RegisterPage() {
 
     setIsLoading(true)
 
-    // 模擬註冊過程
-    setTimeout(() => {
-      setIsLoading(false)
-      // 這裡可以添加實際的註冊邏輯
-      console.log("註冊資訊:", formData)
-      // 註冊成功後跳轉到登入頁面
+    try {
+      // 呼叫實際的註冊 API
+      await authAPI.register({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+      })
+
+      // 註冊成功，跳轉到登入頁面
+      console.log("註冊成功!")
       goToLogin()
-    }, 2000)
+    } catch (error) {
+      console.error("註冊失敗:", error)
+      // 處理註冊錯誤
+      setErrors({
+        general: error instanceof Error ? error.message : "註冊失敗，請稍後再試"
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleInputChange = (field: string, value: string | boolean) => {
@@ -111,6 +129,10 @@ export default function RegisterPage() {
     // 清除該欄位的錯誤訊息
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }))
+    }
+    // 清除通用錯誤訊息
+    if (errors.general) {
+      setErrors((prev) => ({ ...prev, general: "" }))
     }
   }
 
@@ -149,17 +171,24 @@ export default function RegisterPage() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* General Error Message */}
+              {errors.general && (
+                <div className="bg-red-400/10 border border-red-400/20 rounded-md p-3">
+                  <p className="text-red-400 text-sm">{errors.general}</p>
+                </div>
+              )}
+
               {/* Username Input */}
               <div className="space-y-2">
                 <Label htmlFor="username" className="text-blue-200">
-                  用戶名稱 *
+                  姓名 *
                 </Label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-400 w-4 h-4" />
                   <Input
                     id="username"
                     type="text"
-                    placeholder="請輸入用戶名稱"
+                    placeholder="請輸入您的姓名"
                     value={formData.username}
                     onChange={(e) => handleInputChange("username", e.target.value)}
                     className={`pl-10 bg-slate-700/50 border-blue-400/30 text-white placeholder:text-blue-200 focus:border-blue-400 focus:ring-blue-400/20 ${
@@ -194,7 +223,7 @@ export default function RegisterPage() {
               {/* Grade Selection */}
               <div className="space-y-2">
                 <Label htmlFor="grade" className="text-blue-200">
-                  年級 *
+                  年級
                 </Label>
                 <Select value={formData.grade} onValueChange={(value) => handleInputChange("grade", value)}>
                   <SelectTrigger
@@ -246,7 +275,7 @@ export default function RegisterPage() {
               {/* Confirm Password Input */}
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword" className="text-blue-200">
-                  確認密碼 *
+                  確認密碼
                 </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-400 w-4 h-4" />
@@ -301,7 +330,6 @@ export default function RegisterPage() {
                     >
                       隱私政策
                     </button>
-                    *
                   </Label>
                 </div>
                 {errors.agreeTerms && <p className="text-red-400 text-sm">{errors.agreeTerms}</p>}

@@ -48,12 +48,26 @@ interface NavItemProps {
   collapsed: boolean;
 }
 
+// 定義後台頁面名稱
+const ADMIN_PAGES = {
+  dashboard: "dashboard",
+  users: "users",
+  comments: "comments",
+  problemsAdd: "problemsAdd",
+  problemsStatus: "problemsStatus",
+  reports: "reports",
+  announcements: "announcements",
+  settings: "settings",
+} as const;
+
+type AdminPage = keyof typeof ADMIN_PAGES;
+
 export default function AdminPage() {
   const { t } = useTranslation();
 
   const { user } = useSelector((state: RootState) => state.authSlice);
 
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [activeTab, setActiveTab] = useState<AdminPage>(ADMIN_PAGES.dashboard);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const userName = useMemo(() => user?.name || "User", [user]);
@@ -89,57 +103,57 @@ export default function AdminPage() {
           <NavItem
             icon={<Home size={20} />}
             label={t("navigate.admin.dashboard")}
-            active={activeTab === "dashboard"}
-            onClick={() => setActiveTab("dashboard")}
+            active={activeTab === ADMIN_PAGES.dashboard}
+            onClick={() => setActiveTab(ADMIN_PAGES.dashboard)}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<Users size={20} />}
             label={t("navigate.admin.users")}
-            active={activeTab === "users"}
-            onClick={() => setActiveTab("users")}
+            active={activeTab === ADMIN_PAGES.users}
+            onClick={() => setActiveTab(ADMIN_PAGES.users)}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<MessageSquare size={20} />}
             label={t("navigate.admin.comments")}
-            active={activeTab === "comments"}
-            onClick={() => setActiveTab("comments")}
+            active={activeTab === ADMIN_PAGES.comments}
+            onClick={() => setActiveTab(ADMIN_PAGES.comments)}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<PlusCircle size={20} />}
             label={t("navigate.admin.problemsAdd")}
-            active={activeTab === "problems-add"}
-            onClick={() => setActiveTab("problemsAdd")}
+            active={activeTab === ADMIN_PAGES.problemsAdd}
+            onClick={() => setActiveTab(ADMIN_PAGES.problemsAdd)}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<CheckCircle size={20} />}
             label={t("navigate.admin.problemsStatus")}
-            active={activeTab === "problems-status"}
-            onClick={() => setActiveTab("problemsStatus")}
+            active={activeTab === ADMIN_PAGES.problemsStatus}
+            onClick={() => setActiveTab(ADMIN_PAGES.problemsStatus)}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<Flag size={20} />}
             label={t("navigate.admin.reports")}
-            active={activeTab === "reports"}
-            onClick={() => setActiveTab("reports")}
+            active={activeTab === ADMIN_PAGES.reports}
+            onClick={() => setActiveTab(ADMIN_PAGES.reports)}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<Bell size={20} />}
             label={t("navigate.admin.announcements")}
-            active={activeTab === "announcements"}
-            onClick={() => setActiveTab("announcements")}
+            active={activeTab === ADMIN_PAGES.announcements}
+            onClick={() => setActiveTab(ADMIN_PAGES.announcements)}
             collapsed={!sidebarOpen}
           />
           <NavItem
             icon={<Settings size={20} />}
             label={t("navigate.admin.settings")}
-            active={activeTab === "settings"}
-            onClick={() => setActiveTab("settings")}
+            active={activeTab === ADMIN_PAGES.settings}
+            onClick={() => setActiveTab(ADMIN_PAGES.settings)}
             collapsed={!sidebarOpen}
           />
         </div>
@@ -196,14 +210,14 @@ export default function AdminPage() {
 
         {/* 內容區域 */}
         <main className="p-6">
-          {activeTab === "dashboard" && <DashboardPage />}
-          {activeTab === "users" && <UsersPage />}
-          {activeTab === "comments" && <CommentsPage />}
-          {activeTab === "problemsAdd" && <ProblemsAddPage />}
-          {activeTab === "problemsStatus" && <ProblemsStatusPage />}
-          {activeTab === "reports" && <ReportsPage />}
-          {activeTab === "announcements" && <AnnouncementsPage />}
-          {activeTab === "settings" && <SettingsPage />}
+          {activeTab === ADMIN_PAGES.dashboard && <DashboardPage />}
+          {activeTab === ADMIN_PAGES.users && <UsersPage />}
+          {activeTab === ADMIN_PAGES.comments && <CommentsPage />}
+          {activeTab === ADMIN_PAGES.problemsAdd && <ProblemsAddPage />}
+          {activeTab === ADMIN_PAGES.problemsStatus && <ProblemsStatusPage />}
+          {activeTab === ADMIN_PAGES.reports && <ReportsPage />}
+          {activeTab === ADMIN_PAGES.announcements && <AnnouncementsPage />}
+          {activeTab === ADMIN_PAGES.settings && <SettingsPage />}
         </main>
       </div>
     </div>

@@ -18,9 +18,9 @@ function AppContent(): React.JSX.Element {
 
   return (
     <AuthProvider>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+      <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
         {!isAdminPage && <Header />}
-        <main className="max-w-7xl mx-auto px-4 py-8">
+        <main className={isAdminPage ? "flex-1" : "flex-1 max-w-7xl mx-auto px-4 py-8"}>
           <AppRoutes />
         </main>
         {!isAdminPage && <Footer />}

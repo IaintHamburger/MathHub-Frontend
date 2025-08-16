@@ -21,7 +21,7 @@ export default function MaintenancePage() {
 
         <CardContent className="space-y-6 text-center">
           <div>
-            <h2 className="text-2xl   text-white mb-2">系統維護中</h2>
+            <h2 className="text-2xl text-white mb-2">系統維護中</h2>
             <p className="text-blue-200 text-lg">我們正在進行系統升級和維護，以提供更好的服務體驗</p>
           </div>
 

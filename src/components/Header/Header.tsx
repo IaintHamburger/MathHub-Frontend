@@ -3,7 +3,7 @@ import { useNavigation } from "@/hooks/useNavigation";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { ReactComponent as MathCat } from "@/assets/logo/MathCat.svg";
+import { ReactComponent as MathCatLogo } from "@/assets/logo/MathCat_Full.svg";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, LogIn, User } from "lucide-react";
 
@@ -33,10 +33,8 @@ const Header: React.FC = () => {
   return (
     <header className="w-full px-4 py-4 bg-slate-800/50 backdrop-blur-sm">
       <nav className="flex items-center justify-between max-w-7xl mx-auto">
-        <div className="flex items-center space-x-2">
-          <Button variant="ghost" className="flex items-center space-x-2 hover:bg-transparent" onClick={goToHome}>
-            <MathCat />
-          </Button>
+        <div className="w-[100px] flex items-center cursor-pointer">
+            <MathCatLogo className="mx-auto" onClick={goToHome}/>
         </div>
         <div className="hidden md:flex items-center space-x-6 text-blue-300">
           <button type="button" onClick={goToDailyProblem} className="hover:text-blue-400 transition-colors">

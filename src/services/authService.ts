@@ -1,3 +1,4 @@
+import { deviceUtils } from '@/lib/utils';
 import { logout, refreshTokenFailure } from '@/redux/slices/AuthSlice';
 import { store } from '@/redux/store/app';
 
@@ -78,13 +79,20 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}): Promise<
 export const authAPI = {
 	// 登入
 	login: async (credentials: { email: string; password: string }) => {
+		// 獲取或生成 deviceID
+		const deviceID = deviceUtils.getDeviceID();
+
 		const response = await fetch(`${API_BASE_URL}/auth/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(credentials),
-			credentials: 'include', // 重要：啟用 Cookie 傳遞
+			body: JSON.stringify({
+				...credentials,
+				deviceID,
+			}),
+			// FIXME
+			// credentials: 'include', // 暫時註解掉避免 CORS 錯誤
 		});
 
 		if (!response.ok) {
@@ -104,7 +112,7 @@ export const authAPI = {
 
 		// refreshToken 由後端設定為 HttpOnly Cookie，前端不需要手動儲存
 		// 設定過期時間
-		const expiryTime = Date.now() + data.data.expiresIn * 1000;
+		const expiryTime = Date.now() + data.data.expiresIn.millisecond;
 		localStorage.setItem('accessTokenExpiry', expiryTime.toString());
 
 		return data.data;
@@ -112,9 +120,18 @@ export const authAPI = {
 
 	// 登出
 	logout: async () => {
-		return apiRequest('/auth/logout', {
+		// 獲取當前 deviceID
+		const deviceID = deviceUtils.getDeviceID();
+
+		const result = await apiRequest('/auth/logout', {
 			method: 'POST',
+			body: JSON.stringify({ deviceID }),
 		});
+
+		// 登出成功後清除 deviceID
+		deviceUtils.clearDeviceID();
+
+		return result;
 	},
 
 	// 刷新 Token
@@ -189,7 +206,7 @@ export const authAPI = {
 	},
 
 	// 註冊
-	register: async (userData: { name: string; email: string; password: string; confirmPassword: string }) => {
+	register: async (userData: { username: string; email: string; password: string }) => {
 		return apiRequest('/auth/register', {
 			method: 'POST',
 			body: JSON.stringify(userData),

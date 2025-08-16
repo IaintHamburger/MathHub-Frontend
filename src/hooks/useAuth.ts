@@ -1,8 +1,9 @@
 import { tokenUtils } from '@/lib/cookieUtils';
+import { deviceUtils } from '@/lib/utils';
 import { initializeAuth, loginFailure, loginStart, loginSuccess, logout } from '@/redux/slices/AuthSlice';
 import type { RootState } from '@/redux/store/app';
 import { authAPI, cleanupTokenRefresh, setupTokenRefresh } from '@/services/authService';
-import type { LoginRequest, UpdateProfileResponse, User } from '@/types/auth';
+import type { UpdateProfileResponse, User } from '@/types/auth';
 import React, { createContext, useContext, useEffect, type ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +17,7 @@ interface AuthContextType {
 	error: string | null;
 
 	// 操作
-	login: (credentials: LoginRequest) => Promise<{ success: boolean; error?: string }>;
+	login: (credentials: { email: string; password: string }) => Promise<{ success: boolean; error?: string }>;
 	logout: () => Promise<void>;
 	refreshToken: () => Promise<boolean>;
 	updateUserInfo: (userData: Partial<User>) => Promise<{ success: boolean; user?: User; error?: string }>;
@@ -41,6 +42,11 @@ const useAuthInternal = (): AuthContextType => {
 	// 初始化認證狀態
 	useEffect(() => {
 		const initializeAuthState = async () => {
+			// 如果已經認證且有用戶資料，不重複初始化
+			if (authState.isAuthenticated && authState.user) {
+				return;
+			}
+
 			const accessToken = tokenUtils.getAccessToken();
 
 			if (accessToken) {
@@ -48,13 +54,18 @@ const useAuthInternal = (): AuthContextType => {
 					// 檢查 token 是否過期
 					if (!tokenUtils.isTokenExpired(accessToken)) {
 						// 獲取用戶資訊
-						const userData = (await authAPI.getCurrentUser()) as User;
+						const userDataRes = (await authAPI.getCurrentUser()) as {
+							success: boolean;
+							data: User;
+						};
 
-						dispatch(
-							initializeAuth({
-								user: userData,
-							})
-						);
+						if (userDataRes.success) {
+							dispatch(
+								initializeAuth({
+									user: userDataRes?.data || null,
+								})
+							);
+						}
 					} else {
 						// Token 過期，嘗試刷新
 						const refreshResult = await authAPI.refreshToken();
@@ -71,7 +82,7 @@ const useAuthInternal = (): AuthContextType => {
 		};
 
 		initializeAuthState();
-	}, [dispatch]);
+	}, [dispatch, authState.isAuthenticated, authState.user]);
 
 	// 設定自動刷新 token
 	useEffect(() => {
@@ -86,7 +97,7 @@ const useAuthInternal = (): AuthContextType => {
 	}, [authState.isAuthenticated]);
 
 	// 登入
-	const login = async (credentials: LoginRequest) => {
+	const login = async (credentials: { email: string; password: string }) => {
 		dispatch(loginStart());
 
 		try {
@@ -95,6 +106,8 @@ const useAuthInternal = (): AuthContextType => {
 				expiresIn: number;
 				user: User;
 			};
+
+			console.log('response', response);
 
 			// 更新 Redux state
 			dispatch(
@@ -118,8 +131,9 @@ const useAuthInternal = (): AuthContextType => {
 		} catch (error) {
 			console.error('Logout error:', error);
 		} finally {
-			// 清除本地 tokens
+			// 清除本地 tokens 和 deviceID
 			tokenUtils.clearTokens();
+			deviceUtils.clearDeviceID();
 			dispatch(logout());
 			navigate('/');
 		}

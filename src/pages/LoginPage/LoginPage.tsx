@@ -5,14 +5,13 @@ import type React from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { ReactComponent as GitHubIcon } from "@/assets/icons/icon_github.svg";
 import { ReactComponent as GoogleIcon } from "@/assets/icons/icon_google.svg";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Eye, EyeOff, Lock, Mail, MessageCircle } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, Lock, Mail } from "lucide-react";
 
 const LoginPage: React.FC = () => {
   const { t } = useTranslation();
@@ -87,8 +86,7 @@ const LoginPage: React.FC = () => {
 
       const result = await login({
         email: encryptedCredentials[0],
-        password: encryptedCredentials[1],
-        deviceID: 'test',
+        password: encryptedCredentials[1]
       });
 
       if (result.success) {
@@ -268,27 +266,6 @@ const LoginPage: React.FC = () => {
           </p>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="fixed bottom-0 left-0 right-0 bg-slate-800/50 backdrop-blur-sm border-t border-blue-400/20 py-4">
-        <div className="max-w-7xl mx-auto px-4 flex justify-center space-x-6">
-          <Button variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300">
-            <MessageCircle className="w-5 h-5" />
-          </Button>
-          <Button variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300">
-            <GitHubIcon className="w-4 h-4 mr-2" />
-          </Button>
-          <Button variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300" asChild>
-            <a href="/faq">{t("navigate.faqs")}</a>
-          </Button>
-          <Button variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300" asChild>
-            <a href="/about">{t("navigate.about")}</a>
-          </Button>
-        </div>
-        <div className="text-center mt-2">
-          <p className="text-blue-200 text-sm">{t("footer.copyright")}</p>
-        </div>
-      </footer>
     </div>
   );
 };
