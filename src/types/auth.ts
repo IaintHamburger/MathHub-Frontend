@@ -14,6 +14,7 @@ export interface User {
 export interface LoginRequest {
 	email: string;
 	password: string;
+	deviceID: string;
 }
 
 // 登入回應

@@ -87,7 +87,8 @@ const LoginPage: React.FC = () => {
 
       const result = await login({
         email: encryptedCredentials[0],
-        password: encryptedCredentials[1]
+        password: encryptedCredentials[1],
+        deviceID: 'test',
       });
 
       if (result.success) {
