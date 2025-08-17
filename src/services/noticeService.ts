@@ -15,7 +15,7 @@ export const noticeAPI = {
     const queryParams = buildQueryString(postData);
 
     const response: BaseItem<NoticeListResponse> = await apiRequest<BaseItem<NoticeListResponse>>(
-      `/admin/noticeBoards?${queryParams}`,
+      `/admin/noticeBoards${queryParams ? `?${queryParams}` : ""}`,
       {
         method: "GET",
       },

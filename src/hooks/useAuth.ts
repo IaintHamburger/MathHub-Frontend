@@ -57,8 +57,12 @@ const useAuthInternal = (): AuthContextType => {
   // 初始化認證狀態
   useEffect(() => {
     const initializeAuthState = async () => {
-      // 如果已經認證且有用戶資料，不重複初始化
+      if (!localStorage.getItem("csrfToken")) {
+        await authAPI.getCsrfToken();
+      }
+
       if (authState.isAuthenticated && authState.user) {
+        // 如果已經認證且有用戶資料，不重複初始化
         return;
       }
 

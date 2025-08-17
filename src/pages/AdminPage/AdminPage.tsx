@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useNavigation } from "@/hooks/useNavigation";
 import type { RootState } from "@/redux/store/app";
+import { authAPI } from "@/services/authService";
 
 // 定義類型
 interface NavItemProps {
@@ -201,7 +202,12 @@ export default function AdminPage() {
                   <span>{t("adminPage.menuItem.accountSettings")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-blue-400/20" />
-                <DropdownMenuItem className="text-red-400 hover:bg-red-900/20 hover:text-red-300">
+                <DropdownMenuItem
+                  className="text-red-400 hover:bg-red-900/20 hover:text-red-300"
+                  onClick={() => {
+                    authAPI.logout();
+                  }}
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>{t("header.logout")}</span>
                 </DropdownMenuItem>

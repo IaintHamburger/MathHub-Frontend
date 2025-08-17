@@ -35,6 +35,7 @@ export const deviceUtils = {
   // 清除 deviceID（登出時使用）
   clearDeviceID: (): void => {
     localStorage.removeItem("deviceID");
+    localStorage.removeItem("csrfToken");
   },
 
   // 重新生成 deviceID（登入時可能需要）

@@ -60,14 +60,14 @@ export function useDataTable<T>(
         setLoading(true);
 
         const postData = {
-          limit: params.limit,
-          skip: params.skip,
-          filter: {
-            ...(params.filter || {}),
-            ...(searchConditions?.filter || {}),
-          },
-          sort: params.sort || { createdAt: -1 },
-          projection: params.projection || {},
+          // limit: params.limit,
+          // skip: params.skip,
+          // filter: {
+          //   ...(params.filter || {}),
+          //   ...(searchConditions?.filter || {}),
+          // },
+          // sort: params.sort || { createdAt: -1 },
+          // projection: params.projection || {},
         };
 
         console.log("API call params:", postData);

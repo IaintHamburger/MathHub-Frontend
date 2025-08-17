@@ -79,11 +79,19 @@ class AuthQueue {
   // 增加刷新嘗試次數
   incrementRefreshAttempts() {
     this.refreshAttempts++;
+    console.log(`Refresh attempt ${this.refreshAttempts}/${this.MAX_REFRESH_ATTEMPTS}`);
+
+    // 如果達到最大嘗試次數，自動登出
+    if (this.hasExceededMaxAttempts()) {
+      console.log("Max refresh attempts reached, logging out user");
+      store.dispatch(logout());
+    }
   }
 
   // 重置刷新嘗試次數
   resetRefreshAttempts() {
     this.refreshAttempts = 0;
+    console.log("Refresh attempts reset to 0");
   }
 
   // 檢查是否超過最大嘗試次數
@@ -95,6 +103,11 @@ class AuthQueue {
   getRefreshAttempts() {
     return this.refreshAttempts;
   }
+
+  // 獲取最大嘗試次數
+  getMaxRefreshAttempts() {
+    return this.MAX_REFRESH_ATTEMPTS;
+  }
 }
 
 // 全域 Queue 實例
@@ -103,18 +116,24 @@ const authQueue = new AuthQueue();
 // 請求攔截器：自動添加 token
 const createAuthHeaders = (): HeadersInit => {
   const accessToken = localStorage.getItem("accessToken");
+  const csrfToken = localStorage.getItem("csrfToken");
 
   return {
     "Content-Type": "application/json",
+    ...(csrfToken && { "x-csrf-token": csrfToken }),
     ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
   };
 };
 
 // 響應攔截器：處理 token 過期
-const handleResponse = async (response: Response, originalRequest?: Request): Promise<unknown> => {
+const handleResponse = async (
+  response: Response,
+  isRetryRequest = false,
+  originalMethod?: string,
+): Promise<unknown> => {
   if (response.status === 401) {
-    // 如果這是已經嘗試過刷新的請求，直接登出
-    if (originalRequest) {
+    // 如果這是重試請求，直接登出
+    if (isRetryRequest) {
       store.dispatch(logout());
       throw new Error("認證已過期，請重新登入");
     }
@@ -126,15 +145,50 @@ const handleResponse = async (response: Response, originalRequest?: Request): Pr
       throw new Error("登入認證已失效，請重新登入後再試");
     }
 
+    // 如果正在刷新 token，將當前請求加入 queue
+    if (authQueue.getRefreshing()) {
+      console.log("Token refresh in progress, queuing current request");
+      // 等待 refresh 完成後重新發送
+      return new Promise((resolve, reject) => {
+        const checkAndRetry = async () => {
+          if (!authQueue.getRefreshing()) {
+            try {
+              const accessToken = localStorage.getItem("accessToken");
+              if (accessToken) {
+                const newRequest = new Request(response.url, {
+                  method: originalMethod || "GET",
+                  headers: {
+                    ...Object.fromEntries(response.headers.entries()),
+                    Authorization: `Bearer ${accessToken}`,
+                  },
+                  body: response.body,
+                });
+                const retryResponse = await fetch(newRequest);
+                const result = await handleResponse(retryResponse, true, originalMethod);
+                resolve(result);
+              } else {
+                reject(new Error("No access token available"));
+              }
+            } catch (error) {
+              reject(error);
+            }
+          } else {
+            setTimeout(checkAndRetry, 100);
+          }
+        };
+        checkAndRetry();
+      });
+    }
+
     // Token 過期，嘗試刷新
     const refreshResult = await authAPI.refreshToken();
     if (refreshResult) {
       // 重新發送原始請求
       const accessToken = localStorage.getItem("accessToken");
       const newRequest = new Request(response.url, {
-        method: response.type === "opaqueredirect" ? "GET" : "POST",
+        method: originalMethod || "GET",
         headers: {
-          "Content-Type": "application/json",
+          ...Object.fromEntries(response.headers.entries()),
           Authorization: `Bearer ${accessToken}`,
         },
         body: response.body,
@@ -142,8 +196,9 @@ const handleResponse = async (response: Response, originalRequest?: Request): Pr
 
       // 標記這是重試請求，避免無限循環
       const retryResponse = await fetch(newRequest);
-      return handleResponse(retryResponse, newRequest);
+      return handleResponse(retryResponse, true, originalMethod);
     }
+
     // 刷新失敗，登出用戶
     store.dispatch(logout());
     throw new Error("認證已過期，請重新登入");
@@ -162,6 +217,18 @@ export const apiRequest = async <T = unknown>(
   endpoint: string,
   options: RequestInit = {},
 ): Promise<T> => {
+  // 檢查是否超過最大嘗試次數
+  if (authQueue.hasExceededMaxAttempts()) {
+    store.dispatch(logout());
+    throw new Error("登入認證已失效，請重新登入後再試");
+  }
+
+  // 如果正在刷新 token，將請求加入 queue
+  if (authQueue.getRefreshing()) {
+    console.log("Token refresh in progress, queuing request:", endpoint);
+    return authQueue.enqueue(endpoint, options) as Promise<T>;
+  }
+
   const url = `${API_BASE_URL}${endpoint}`;
   const config: RequestInit = {
     ...options,
@@ -173,7 +240,7 @@ export const apiRequest = async <T = unknown>(
 
   try {
     const response = await fetch(url, config);
-    return (await handleResponse(response)) as T;
+    return (await handleResponse(response, false, options.method)) as T;
   } catch (error) {
     console.error("API request failed:", error);
     throw error;
@@ -219,6 +286,9 @@ export const authAPI = {
     const expiryTime = Date.now() + data.data.expiresIn.millisecond;
     localStorage.setItem("accessTokenExpiry", expiryTime.toString());
 
+    // 獲取 csrf token
+    await authAPI.getCsrfToken();
+
     // 重置刷新嘗試次數
     authQueue.resetRefreshAttempts();
 
@@ -247,8 +317,17 @@ export const authAPI = {
 
   // 刷新 Token
   refreshToken: async () => {
+    // 檢查是否超過最大嘗試次數
+    if (authQueue.hasExceededMaxAttempts()) {
+      console.log("Max refresh attempts reached, cannot refresh token");
+      // 強制登出
+      store.dispatch(logout());
+      return false;
+    }
+
     // 如果正在刷新，將請求加入 Queue
     if (authQueue.getRefreshing()) {
+      console.log("Token refresh already in progress, queuing request");
       return new Promise((resolve, reject) => {
         authQueue.enqueue("/auth/refresh", { method: "POST" }).then(resolve).catch(reject);
       });
@@ -256,6 +335,9 @@ export const authAPI = {
 
     // 設定刷新狀態
     authQueue.setRefreshing(true);
+    console.log(
+      `Starting token refresh (attempt ${authQueue.getRefreshAttempts() + 1}/${authQueue.getMaxRefreshAttempts()})`,
+    );
 
     try {
       // 增加刷新嘗試次數
@@ -288,6 +370,7 @@ export const authAPI = {
 
         // 重置刷新嘗試次數
         authQueue.resetRefreshAttempts();
+        console.log("Token refresh successful");
 
         // 處理 Queue 中的所有請求
         await authQueue.processQueue(data.data.accessToken);
@@ -300,15 +383,25 @@ export const authAPI = {
       }
 
       // 刷新失敗
+      console.log(`Token refresh failed with status: ${response.status}`);
       store.dispatch(refreshTokenFailure("Token 刷新失敗"));
       return false;
     } catch (error) {
+      console.error("Token refresh error:", error);
       store.dispatch(refreshTokenFailure("Token 刷新失敗"));
       return false;
     } finally {
       // 重置刷新狀態
       authQueue.setRefreshing(false);
     }
+  },
+
+  // 獲取 csrf token
+  getCsrfToken: async () => {
+    const response = await apiRequest<{ csrfToken: string }>("/security/csrf-token");
+    localStorage.setItem("csrfToken", response?.csrfToken as string);
+
+    return response?.csrfToken;
   },
 
   // 獲取當前用戶資訊
@@ -396,6 +489,13 @@ export const setupTokenRefresh = () => {
     const state = store.getState();
     const { isAuthenticated } = state.authSlice;
     const accessToken = localStorage.getItem("accessToken");
+
+    // 檢查是否超過最大重試次數
+    if (authQueue.hasExceededMaxAttempts()) {
+      console.log("Max refresh attempts reached, stopping automatic token refresh");
+      cleanupTokenRefresh();
+      return;
+    }
 
     if (isAuthenticated && accessToken) {
       // 檢查 token 是否即將過期

@@ -9,7 +9,6 @@ import type { NoticeItem } from "@/types/noticeApi";
 export default function NoticePage() {
   const { t } = useTranslation();
 
-  // 直接抄你的 NoticeRecordPage 邏輯
   const apiCall = async (postData: any) => {
     const res = await noticeAPI.getNoticeByPagination(postData);
 
