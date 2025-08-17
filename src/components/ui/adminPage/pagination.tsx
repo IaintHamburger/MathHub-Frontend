@@ -1,4 +1,5 @@
-import { Button } from "./button";
+import { useTranslation } from "react-i18next";
+import { Button } from "../button";
 
 interface PaginationProps {
   currentPage: number;
@@ -23,6 +24,7 @@ export function Pagination({
   pageSizeOptions = [10, 20, 50, 100],
   className = "",
 }: PaginationProps) {
+  const { t } = useTranslation();
   const startItem = (currentPage - 1) * pageSize + 1;
   const endItem = Math.min(currentPage * pageSize, totalItems);
 
@@ -41,13 +43,14 @@ export function Pagination({
   return (
     <div className={`flex justify-between items-center ${className}`}>
       <div className="text-sm text-slate-400">
-        顯示 {startItem}-{endItem} / 共 {totalItems} 筆
+        {t("pagination.show")} {startItem}-{endItem} / {t("pagination.total")} {totalItems}
+        {t("pagination.page")}
       </div>
 
       <div className="flex items-center space-x-2">
         {showPageSizeSelector && onPageSizeChange && (
           <div className="flex items-center space-x-2 mr-4">
-            <span className="text-sm text-slate-400">每頁顯示</span>
+            <span className="text-sm text-slate-400">{t("pagination.pageSize")}</span>
             <select
               value={pageSize}
               onChange={(e) => onPageSizeChange(Number(e.target.value))}
@@ -69,7 +72,7 @@ export function Pagination({
           disabled={currentPage <= 1}
           className="border-blue-400/30 text-blue-400 bg-transparent disabled:opacity-50"
         >
-          上一頁
+          {t("pagination.previous")}
         </Button>
 
         <div className="flex items-center space-x-1">
@@ -110,7 +113,7 @@ export function Pagination({
           disabled={currentPage >= totalPages}
           className="border-blue-400/30 text-blue-400 bg-transparent disabled:opacity-50"
         >
-          下一頁
+          {t("pagination.next")}
         </Button>
       </div>
     </div>

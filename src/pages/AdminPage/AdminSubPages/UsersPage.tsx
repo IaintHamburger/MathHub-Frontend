@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { AdminPageLayout } from "@/components/admin/AdminPageLayout";
 import type { TableColumn } from "@/components/ui/data-table";
 import { ActionButtonsRenderer, StatusRenderer } from "@/components/ui/table-renderers";
 import { useDataTable } from "@/hooks/useDataTable";
+import { AdminPageLayout } from "@/pages/AdminPage/AdminPageLayout";
 
 interface User {
   id: number;

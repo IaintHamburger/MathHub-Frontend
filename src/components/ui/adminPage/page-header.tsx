@@ -1,8 +1,7 @@
 import type { ReactNode } from "react";
-import { Button } from "./button";
+import { Button } from "../button";
 
 interface PageHeaderProps {
-  title: string;
   actionButton?: {
     label: string;
     onClick: () => void;
@@ -12,10 +11,9 @@ interface PageHeaderProps {
   children?: ReactNode;
 }
 
-export function PageHeader({ title, actionButton, children }: PageHeaderProps) {
+export function PageHeader({ actionButton, children }: PageHeaderProps) {
   return (
     <div className="flex justify-between items-center">
-      <h2 className="text-xl">{title}</h2>
       <div className="flex items-center space-x-2">
         {children}
         {actionButton && (

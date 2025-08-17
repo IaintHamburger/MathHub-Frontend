@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Button } from "./button";
 
 // 狀態標籤渲染器
@@ -8,8 +9,9 @@ export function StatusRenderer({
   value: string | number;
   statusMap: Record<string | number, { label: string; className: string }>;
 }) {
+  const { t } = useTranslation();
   const status = statusMap[value];
-  if (!status) return <span className="text-slate-400">未知狀態</span>;
+  if (!status) return <span className="text-slate-400">{t("common.unknown")}</span>;
 
   return (
     <span className={`px-2 py-1 rounded-full text-xs ${status.className}`}>{status.label}</span>
@@ -52,10 +54,13 @@ export function ActionButtonsRenderer({
 
 // 日期渲染器
 export function DateRenderer({ value }: { value: string | Date }) {
+  const { t } = useTranslation();
+
   if (!value) return <span className="text-slate-400">-</span>;
 
   const date = new Date(value);
-  if (isNaN(date.getTime())) return <span className="text-slate-400">無效日期</span>;
+  if (isNaN(date.getTime()))
+    return <span className="text-slate-400">{t("common.invalidDate")}</span>;
 
   return <span>{date.toLocaleDateString("zh-TW")}</span>;
 }

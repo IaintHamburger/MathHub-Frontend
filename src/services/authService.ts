@@ -158,7 +158,10 @@ const handleResponse = async (response: Response, originalRequest?: Request): Pr
 };
 
 // 通用 API 請求函數
-const apiRequest = async (endpoint: string, options: RequestInit = {}): Promise<unknown> => {
+export const apiRequest = async <T = unknown>(
+  endpoint: string,
+  options: RequestInit = {},
+): Promise<T> => {
   const url = `${API_BASE_URL}${endpoint}`;
   const config: RequestInit = {
     ...options,
@@ -170,7 +173,7 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}): Promise<
 
   try {
     const response = await fetch(url, config);
-    return await handleResponse(response);
+    return (await handleResponse(response)) as T;
   } catch (error) {
     console.error("API request failed:", error);
     throw error;

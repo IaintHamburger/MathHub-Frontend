@@ -8,7 +8,7 @@
 整合了頁面標題、表格和分頁的完整佈局組件。
 
 ```tsx
-import { AdminPageLayout } from "@/components/admin/AdminPageLayout";
+import { AdminPageLayout } from "@/pages/AdminPage/AdminPageLayout";
 
 <AdminPageLayout
   title="用戶管理"

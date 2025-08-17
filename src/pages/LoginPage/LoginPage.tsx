@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigation } from "@/hooks/useNavigation";
-import { encryptDataWithRSA } from "@/lib/rsaService";
+import { encryptDataWithRSA } from "@/services/rsaService";
 
 const LoginPage: React.FC = () => {
   const { t } = useTranslation();

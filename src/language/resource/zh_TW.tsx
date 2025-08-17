@@ -4,6 +4,22 @@ const env = {
 
 const common = {
   "common.backToHome": "返回首頁",
+
+  "common.loading": "載入中...",
+  "common.noData": "沒有資料",
+
+  "common.notice": "公告",
+
+  // 操作按鈕
+  "common.actions": "操作",
+  "common.edit": "編輯",
+  "common.delete": "刪除",
+  "common.publish": "發布",
+  "common.unpublish": "取消發布",
+  "common.view": "查看",
+  "common.custom": "自定義",
+  "common.unknown": "未知",
+  "common.invalidDate": "無效日期",
 };
 
 const navigate = {
@@ -28,6 +44,12 @@ const navigate = {
   "navigate.admin.settings": "系統設定",
 };
 
+const slot = {
+  "slot.create": "新增{label}成功",
+  "slot.delete": "刪除{label}成功",
+  "slot.edit": "編輯{label}成功",
+};
+
 const header = {
   "header.user": "用戶",
 
@@ -39,6 +61,16 @@ const header = {
 // 頁腳
 const footer = {
   "footer.copyright": "© 2025 MathHub. 讓數學學習變得更美好。",
+};
+
+// 分頁
+const pagination = {
+  "pagination.show": "顯示",
+  "pagination.total": "共",
+  "pagination.page": "頁",
+  "pagination.pageSize": "每頁顯示",
+  "pagination.previous": "上一頁",
+  "pagination.next": "下一頁",
 };
 
 // 登入頁面
@@ -215,8 +247,10 @@ const zh_TW = Object.assign(
   env,
   common,
   navigate,
+  slot,
   header,
   footer,
+  pagination,
   login,
   home,
   userPage,

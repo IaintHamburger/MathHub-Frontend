@@ -1,51 +1,62 @@
 import { useTranslation } from "react-i18next";
-import { AdminPageLayout } from "@/components/admin/AdminPageLayout";
-import type { TableColumn } from "@/components/ui/data-table";
-import { ActionButtonsRenderer, StatusRenderer } from "@/components/ui/table-renderers";
+import type { TableColumn } from "@/components/ui/adminPage/data-table";
+import { StatusRenderer } from "@/components/ui/table-renderers";
 import { useDataTable } from "@/hooks/useDataTable";
-
-interface Notice {
-  id: number;
-  title: string;
-  date: string;
-  status: "published" | "draft";
-}
+import { type ActionConfig, AdminPageLayout } from "@/pages/AdminPage/AdminPageLayout";
+import { noticeAPI } from "@/services/noticeService";
+import type { NoticeItem } from "@/types/noticeApi";
 
 export default function NoticePage() {
   const { t } = useTranslation();
 
-  // 模擬數據
-  const mockData: Notice[] = [
-    { id: 1, title: "系統公告 #1", date: "2023/06/11", status: "published" },
-    { id: 2, title: "系統公告 #2", date: "2023/06/12", status: "draft" },
-    { id: 3, title: "系統公告 #3", date: "2023/06/13", status: "published" },
-    { id: 4, title: "系統公告 #4", date: "2023/06/14", status: "draft" },
-  ];
+  // 直接抄你的 NoticeRecordPage 邏輯
+  const apiCall = async (postData: any) => {
+    const res = await noticeAPI.getNoticeByPagination(postData);
 
-  const { data, currentPage, pageSize, totalItems, totalPages, setCurrentPage, setPageSize } =
-    useDataTable<Notice>(mockData, 10);
+    return {
+      rows: res?.data || [],
+      totalNum: res?.totalNum || 0,
+    };
+  };
+
+  // 使用 useDataTable hook，設定初始參數
+  const {
+    data,
+    loading,
+    currentPage,
+    pageSize,
+    totalItems,
+    handlePaginationChange,
+    handleSearchChange,
+    handleSortChange,
+    refreshData,
+  } = useDataTable<NoticeItem>(apiCall, {
+    filter: {},
+    sort: { createdAt: -1 },
+    projection: {},
+  });
 
   const handleAddNotice = () => {
     console.log("新增公告");
     // TODO: 實作新增公告邏輯
   };
 
-  const handleEdit = (row: Notice) => {
+  const handleEdit = (row: NoticeItem) => {
     console.log("編輯公告:", row.id);
     // TODO: 實作編輯邏輯
   };
 
-  const handlePublish = (row: Notice) => {
+  const handlePublish = (row: NoticeItem) => {
     console.log("發布公告:", row.id);
     // TODO: 實作發布邏輯
   };
 
-  const handleDelete = (row: Notice) => {
+  const handleDelete = (row: NoticeItem) => {
     console.log("刪除公告:", row.id);
     // TODO: 實作刪除邏輯
   };
 
-  const columns: TableColumn<Notice>[] = [
+  const columns: TableColumn<NoticeItem>[] = [
     {
       fieldKey: "id",
       label: t("noticePage.table.id"),
@@ -56,8 +67,9 @@ export default function NoticePage() {
       label: t("noticePage.table.title"),
     },
     {
-      fieldKey: "date",
-      label: t("noticePage.table.date"),
+      fieldKey: "creator",
+      label: t("noticePage.table.creator"),
+      render: (value) => value?.name || "",
     },
     {
       fieldKey: "status",
@@ -66,58 +78,66 @@ export default function NoticePage() {
         <StatusRenderer
           value={value}
           statusMap={{
-            published: { label: "已發布", className: "bg-green-500/20 text-green-400" },
+            public: { label: "已發布", className: "bg-green-500/20 text-green-400" },
             draft: { label: "草稿", className: "bg-slate-500/20 text-slate-400" },
           }}
         />
       ),
     },
     {
-      fieldKey: "actions",
-      label: t("noticePage.table.action"),
-      width: "200px",
-      render: (value, row) => (
-        <ActionButtonsRenderer
-          actions={[
-            {
-              label: "編輯",
-              onClick: handleEdit,
-              className: "text-blue-400 hover:text-blue-300",
-            },
-            {
-              label: "發布",
-              onClick: handlePublish,
-              className: "text-green-400 hover:text-green-300",
-            },
-            {
-              label: "刪除",
-              onClick: handleDelete,
-              className: "text-red-400 hover:text-red-300",
-            },
-          ]}
-          row={row}
-          rowIndex={row.id}
-        />
-      ),
+      fieldKey: "createdAt",
+      label: t("noticePage.table.createdAt"),
+      render: (value) => new Date(value).toLocaleDateString("zh-TW"),
     },
   ];
 
+  const actions: ActionConfig<NoticeItem>[] = [
+    {
+      type: "edit",
+      label: t("common.edit"),
+      onClick: handleEdit,
+      className: "text-blue-400 hover:text-blue-300",
+    },
+    {
+      type: "publish",
+      label: t("common.publish"),
+      onClick: handlePublish,
+      className: "text-green-400 hover:text-green-300",
+    },
+    {
+      type: "delete",
+      label: t("common.delete"),
+      onClick: handleDelete,
+      className: "text-red-400 hover:text-red-300",
+    },
+  ];
+
+  // 分頁處理函數
+  const onPageChange = (page: number) => {
+    const skip = (page - 1) * pageSize;
+    handlePaginationChange(pageSize, skip);
+  };
+
+  const onPageSizeChange = (size: number) => {
+    handlePaginationChange(size, 0);
+  };
+
   return (
     <AdminPageLayout
-      title={t("noticePage.title")}
-      actionButton={{
-        label: t("noticePage.btn.addNotice"),
-        onClick: handleAddNotice,
-      }}
+      // actionButton={{
+      //   label: t("noticePage.btn.addNotice"),
+      //   onClick: handleAddNotice,
+      // }}
       columns={columns}
       data={data}
+      loading={loading}
       currentPage={currentPage}
-      totalPages={totalPages}
+      totalPages={Math.ceil(totalItems / pageSize)}
       totalItems={totalItems}
       pageSize={pageSize}
-      onPageChange={setCurrentPage}
-      onPageSizeChange={setPageSize}
-      showPageSizeSelector
+      onPageChange={onPageChange}
+      onPageSizeChange={onPageSizeChange}
+      actions={actions}
     />
   );
 }

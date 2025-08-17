@@ -1,126 +1,179 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-export interface SortConfig {
-  field: string;
-  direction: "asc" | "desc";
+export interface ApiParams {
+  limit: number;
+  skip: number;
+  filter?: Record<string, any>;
+  sort?: Record<string, 1 | -1>;
+  projection?: Record<string, any>;
 }
 
-export interface FilterConfig {
-  field: string;
-  value: string | number | boolean;
-  operator: "eq" | "ne" | "gt" | "lt" | "gte" | "lte" | "contains" | "startsWith";
-}
-
-export interface DataTableState<T> {
+export interface UseDataTableReturn<T> {
+  // 資料和狀態
   data: T[];
-  currentPage: number;
-  pageSize: number;
   totalItems: number;
   loading: boolean;
-  sortConfig: SortConfig | null;
-  filters: FilterConfig[];
-}
 
-export interface UseDataTableReturn<T> extends DataTableState<T> {
-  setData: (data: T[]) => void;
-  setCurrentPage: (page: number) => void;
-  setPageSize: (size: number) => void;
-  setTotalItems: (total: number) => void;
-  setLoading: (loading: boolean) => void;
-  setSortConfig: (config: SortConfig | null) => void;
-  addFilter: (filter: FilterConfig) => void;
-  removeFilter: (field: string) => void;
-  clearFilters: () => void;
-  resetToPage: (page: number) => void;
-  paginatedData: T[];
-  totalPages: number;
+  // 分頁相關
+  currentPage: number;
+  pageSize: number;
+
+  // 操作方法
+  handlePaginationChange: (pageSize: number, skip: number) => void;
+  handleSearchChange: (searchConditions: any) => void;
+  handleSortChange: (sortModel: any) => void;
+  refreshData: () => void;
+
+  // 當前狀態
+  queryParams: ApiParams;
+  currentSearchConditions: any;
 }
 
 export function useDataTable<T>(
-  initialData: T[] = [],
-  initialPageSize: number = 10,
+  apiCall: (params: ApiParams) => Promise<{ rows: T[]; totalNum: number }>,
+  initialParams: Partial<ApiParams> = {},
 ): UseDataTableReturn<T> {
-  const [state, setState] = useState<DataTableState<T>>({
-    data: initialData,
-    currentPage: 1,
-    pageSize: initialPageSize,
-    totalItems: initialData.length,
-    loading: false,
-    sortConfig: null,
-    filters: [],
-  });
+  const initializeOnceRef = useRef(false);
 
-  const setData = useCallback((data: T[]) => {
-    setState((prev) => ({ ...prev, data, totalItems: data.length }));
-  }, []);
+  // 查詢參數狀態
+  const [queryParams, setQueryParams] = useState<ApiParams>(() => ({
+    limit: 10,
+    skip: 0,
+    filter: {},
+    sort: { createdAt: -1 },
+    projection: {},
+    ...initialParams,
+  }));
 
-  const setCurrentPage = useCallback((page: number) => {
-    setState((prev) => ({ ...prev, currentPage: page }));
-  }, []);
+  // 搜尋條件狀態
+  const [searchConditions, setSearchConditions] = useState<any>(null);
 
-  const setPageSize = useCallback((size: number) => {
-    setState((prev) => ({ ...prev, pageSize: size, currentPage: 1 }));
-  }, []);
+  // 資料狀態
+  const [data, setData] = useState<T[]>([]);
+  const [totalItems, setTotalItems] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-  const setTotalItems = useCallback((total: number) => {
-    setState((prev) => ({ ...prev, totalItems: total }));
-  }, []);
+  // API 調用方法
+  const performSearch = useCallback(
+    async (params: ApiParams) => {
+      try {
+        setLoading(true);
 
-  const setLoading = useCallback((loading: boolean) => {
-    setState((prev) => ({ ...prev, loading }));
-  }, []);
+        const postData = {
+          limit: params.limit,
+          skip: params.skip,
+          filter: {
+            ...(params.filter || {}),
+            ...(searchConditions?.filter || {}),
+          },
+          sort: params.sort || { createdAt: -1 },
+          projection: params.projection || {},
+        };
 
-  const setSortConfig = useCallback((config: SortConfig | null) => {
-    setState((prev) => ({ ...prev, sortConfig: config, currentPage: 1 }));
-  }, []);
+        console.log("API call params:", postData);
 
-  const addFilter = useCallback((filter: FilterConfig) => {
-    setState((prev) => ({
-      ...prev,
-      filters: [...prev.filters.filter((f) => f.field !== filter.field), filter],
-      currentPage: 1,
-    }));
-  }, []);
+        const response = await apiCall(postData);
 
-  const removeFilter = useCallback((field: string) => {
-    setState((prev) => ({
-      ...prev,
-      filters: prev.filters.filter((f) => f.field !== field),
-      currentPage: 1,
-    }));
-  }, []);
+        setData(response.rows || []);
+        setTotalItems(response.totalNum || 0);
+      } catch (error) {
+        console.error("API調用失敗:", error);
+        setData([]);
+        setTotalItems(0);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [apiCall, searchConditions],
+  );
 
-  const clearFilters = useCallback(() => {
-    setState((prev) => ({ ...prev, filters: [], currentPage: 1 }));
-  }, []);
+  // 初始化 - 只執行一次
+  useEffect(() => {
+    if (!initializeOnceRef.current) {
+      initializeOnceRef.current = true;
+      performSearch(queryParams);
+    }
+  }, [performSearch, queryParams]);
 
-  const resetToPage = useCallback((page: number) => {
-    setState((prev) => ({ ...prev, currentPage: page }));
-  }, []);
+  // 分頁變更
+  const handlePaginationChange = useCallback(
+    (pageSize: number, skip: number) => {
+      setQueryParams((prev) => ({
+        ...prev,
+        limit: pageSize,
+        skip: skip,
+      }));
 
-  const totalPages = useMemo(() => {
-    return Math.ceil(state.totalItems / state.pageSize);
-  }, [state.totalItems, state.pageSize]);
+      // 直接調用 API
+      performSearch({
+        ...queryParams,
+        limit: pageSize,
+        skip: skip,
+      });
+    },
+    [queryParams, performSearch],
+  );
 
-  const paginatedData = useMemo(() => {
-    const startIndex = (state.currentPage - 1) * state.pageSize;
-    const endIndex = startIndex + state.pageSize;
-    return state.data.slice(startIndex, endIndex);
-  }, [state.data, state.currentPage, state.pageSize]);
+  // 搜尋條件變更
+  const handleSearchChange = useCallback(
+    (searchConditions: any) => {
+      setSearchConditions(searchConditions);
+
+      // 直接調用 API
+      performSearch({
+        ...queryParams,
+        skip: 0,
+      });
+    },
+    [queryParams, performSearch],
+  );
+
+  // 排序變更
+  const handleSortChange = useCallback(
+    (sortModel: any) => {
+      let newSort: Record<string, 1 | -1> = { createdAt: -1 };
+
+      if (sortModel && sortModel.length > 0) {
+        const { field, sort: direction } = sortModel[0];
+        newSort = {
+          [field]: direction === "asc" ? 1 : -1,
+        };
+      }
+
+      setQueryParams((prev) => ({
+        ...prev,
+        sort: newSort,
+      }));
+
+      // 直接調用 API
+      performSearch({
+        ...queryParams,
+        sort: newSort,
+        skip: 0,
+      });
+    },
+    [queryParams, performSearch],
+  );
+
+  // 重新整理資料
+  const refreshData = useCallback(() => {
+    performSearch(queryParams);
+  }, [performSearch, queryParams]);
+
+  // 計算當前頁面
+  const currentPage = Math.floor(queryParams.skip / queryParams.limit) + 1;
 
   return {
-    ...state,
-    setData,
-    setCurrentPage,
-    setPageSize,
-    setTotalItems,
-    setLoading,
-    setSortConfig,
-    addFilter,
-    removeFilter,
-    clearFilters,
-    resetToPage,
-    paginatedData,
-    totalPages,
+    data,
+    totalItems,
+    loading,
+    currentPage,
+    pageSize: queryParams.limit,
+    handlePaginationChange,
+    handleSearchChange,
+    handleSortChange,
+    refreshData,
+    queryParams,
+    currentSearchConditions: searchConditions,
   };
 }

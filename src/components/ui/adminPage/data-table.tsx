@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { Card, CardContent } from "./card";
+import { useTranslation } from "react-i18next";
+import { Card, CardContent } from "../card";
 
 export interface TableColumn<T = any> {
   fieldKey: keyof T | string;
@@ -20,13 +21,15 @@ export function DataTable<T>({
   columns,
   data,
   loading = false,
-  emptyMessage = "沒有資料",
+  emptyMessage,
   className = "",
 }: DataTableProps<T>) {
+  const { t } = useTranslation();
+
   if (loading) {
     return (
       <Card className={`bg-slate-800 border-blue-400/20 ${className}`}>
-        <CardContent className="p-8 text-center text-slate-400">載入中...</CardContent>
+        <CardContent className="p-8 text-center text-slate-400">{t("common.loading")}</CardContent>
       </Card>
     );
   }
@@ -34,15 +37,17 @@ export function DataTable<T>({
   if (data.length === 0) {
     return (
       <Card className={`bg-slate-800 border-blue-400/20 ${className}`}>
-        <CardContent className="p-8 text-center text-slate-400">{emptyMessage}</CardContent>
+        <CardContent className="p-8 text-center text-slate-400">
+          {emptyMessage || t("common.noData")}
+        </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className={`bg-slate-800 border-blue-400/20 ${className}`}>
+    <Card className={`bg-slate-800 border-blue-400/20 py-0 ${className}`}>
       <CardContent className="p-0">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto rounded-t-xl">
           <table className="w-full">
             <thead className="bg-slate-700">
               <tr>
