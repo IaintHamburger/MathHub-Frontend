@@ -9,6 +9,7 @@ import {
   MessageSquare,
   PlusCircle,
   Settings,
+  Shield,
   User,
   Users,
   X,
@@ -49,6 +50,7 @@ const ADMIN_PAGES = {
   problemsStatus: "problemsStatus",
   reports: "reports",
   notice: "notice",
+  permission: "permission",
   settings: "settings",
 } as const;
 
@@ -150,6 +152,13 @@ export default function AdminPage() {
             label={t("navigate.admin.notice")}
             active={activeTab === ADMIN_PAGES.notice}
             onClick={navigation.goToAdminNotice}
+            collapsed={!sidebarOpen}
+          />
+          <NavItem
+            icon={<Shield size={20} />}
+            label={t("navigate.admin.permission")}
+            active={activeTab === ADMIN_PAGES.permission}
+            onClick={navigation.goToAdminPermission}
             collapsed={!sidebarOpen}
           />
           <NavItem

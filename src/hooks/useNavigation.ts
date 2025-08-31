@@ -35,6 +35,7 @@ export const useNavigation = () => {
     goToAdminProblemsStatus: () => navigate("/admin/problemsStatus"),
     goToAdminReports: () => navigate("/admin/reports"),
     goToAdminNotice: () => navigate("/admin/notice"),
+    goToAdminPermission: () => navigate("/admin/permission"),
     goToAdminSettings: () => navigate("/admin/settings"),
 
     // 通用導航

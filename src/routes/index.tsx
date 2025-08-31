@@ -6,6 +6,7 @@ import AdminPage from "@/pages/AdminPage/AdminPage";
 import CommentsPage from "@/pages/AdminPage/AdminSubPages/CommentsPage";
 import DashboardPage from "@/pages/AdminPage/AdminSubPages/DashboardPage";
 import NoticePage from "@/pages/AdminPage/AdminSubPages/NoticePage";
+import PermissionPage from "@/pages/AdminPage/AdminSubPages/PermissionPage";
 import ProblemsAddPage from "@/pages/AdminPage/AdminSubPages/ProblemsAddPage";
 import ProblemsStatusPage from "@/pages/AdminPage/AdminSubPages/ProblemsStatusPage";
 import ReportsPage from "@/pages/AdminPage/AdminSubPages/ReportsPage";
@@ -90,6 +91,7 @@ export default function AppRoutes() {
           <Route path="problemsStatus" element={<ProblemsStatusPage />} />
           <Route path="reports" element={<ReportsPage />} />
           <Route path="notice" element={<NoticePage />} />
+          <Route path="permission" element={<PermissionPage />} />
           <Route path="settings" element={<SettingsPage />} />
 
           {/* 無效的 admin 子路徑重定向到 /admin */}

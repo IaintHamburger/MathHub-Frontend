@@ -41,6 +41,7 @@ const navigate = {
   "navigate.admin.problemsStatus": "修改題目狀態",
   "navigate.admin.reports": "檢舉審核",
   "navigate.admin.notice": "公告編輯",
+  "navigate.admin.permission": "權限管理",
   "navigate.admin.settings": "系統設定",
 };
 
