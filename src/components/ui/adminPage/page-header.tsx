@@ -1,0 +1,29 @@
+import type { ReactNode } from "react";
+import { Button } from "../button";
+
+interface PageHeaderProps {
+  actionButton?: {
+    label: string;
+    onClick: () => void;
+    variant?: "default" | "outline" | "ghost";
+    className?: string;
+  };
+  children?: ReactNode;
+}
+
+export function PageHeader({ actionButton, children }: PageHeaderProps) {
+  return (
+    <div className="flex items-center justify-between">
+      {children || <div />}
+      {actionButton && (
+        <Button
+          onClick={actionButton.onClick}
+          variant={actionButton.variant || "default"}
+          className={actionButton.className || "bg-blue-600 hover:bg-blue-700"}
+        >
+          {actionButton.label}
+        </Button>
+      )}
+    </div>
+  );
+}

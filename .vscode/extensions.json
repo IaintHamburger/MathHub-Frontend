@@ -1,0 +1,4 @@
+{
+  "recommendations": ["biomejs.biome", "Gruntfuggly.todo-tree"],
+  "unwantedRecommendations": ["esbenp.prettier-vscode", "ms-vscode.vscode-eslint"]
+}

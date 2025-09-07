@@ -3,7 +3,6 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  account: string;
   permissionList: string[];
   createdAt?: string;
   updatedAt?: string;
@@ -23,9 +22,6 @@ export interface LoginResponse {
   expiresIn: number;
   user: User;
 }
-
-// 登入 API 回應（包含 success 包裝）
-export interface LoginApiResponse extends ApiResponse<LoginResponse> {}
 
 // 註冊請求
 export interface RegisterRequest {
@@ -115,19 +111,4 @@ export interface ResendVerificationResponse {
 // 獲取用戶權限回應
 export interface GetPermissionsResponse {
   permissions: string[];
-}
-
-// 錯誤回應
-export interface ErrorResponse {
-  message: string;
-  code?: string;
-  details?: Record<string, unknown>;
-}
-
-// API 回應通用格式
-export interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: ErrorResponse;
-  message?: string;
 }

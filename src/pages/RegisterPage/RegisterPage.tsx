@@ -122,7 +122,6 @@ export default function RegisterPage() {
       });
 
       // 註冊成功，跳轉到登入頁面
-      console.log("註冊成功!");
       goToLogin();
     } catch (error) {
       console.error("註冊失敗:", error);

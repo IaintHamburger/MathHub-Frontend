@@ -28,6 +28,15 @@ export const useNavigation = () => {
 
     // 管理頁面
     goToAdmin: () => navigate("/admin"),
+    goToAdminDashboard: () => navigate("/admin/dashboard"),
+    goToAdminUsers: () => navigate("/admin/user"),
+    goToAdminComments: () => navigate("/admin/comments"),
+    goToAdminProblemsAdd: () => navigate("/admin/problemsAdd"),
+    goToAdminProblemsStatus: () => navigate("/admin/problemsStatus"),
+    goToAdminReports: () => navigate("/admin/reports"),
+    goToAdminNotice: () => navigate("/admin/notice"),
+    goToAdminPermission: () => navigate("/admin/permission"),
+    goToAdminSettings: () => navigate("/admin/settings"),
 
     // 通用導航
     goTo: (path: string) => navigate(path),

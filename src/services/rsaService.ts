@@ -26,7 +26,6 @@ const getPublicKey = (): string => {
 export const encryptWithRSA = async (data: string): Promise<string> => {
   // 如果 RSA 加密被禁用，直接返回原始資料
   if (!RSA_ENCRYPTION_ENABLED) {
-    console.log("RSA 加密已禁用，返回原始資料");
     return data;
   }
 

@@ -4,7 +4,6 @@ interface User {
   id: string;
   name: string;
   email: string;
-  account: string;
   permissionList: string[];
 }
 
@@ -92,15 +91,21 @@ const authSlice = createSlice({
       state.error = null;
     },
 
+    // 設置載入狀態
+    setFetching: (state, action: PayloadAction<boolean>) => {
+      state.isFetching = action.payload;
+    },
+
     // 初始化認證狀態（從 localStorage 恢復）
     initializeAuth: (
       state,
       action: PayloadAction<{
-        user: User;
+        user: User | null;
       }>,
     ) => {
       state.user = action.payload.user;
-      state.isAuthenticated = true;
+      state.isAuthenticated = !!action.payload.user;
+      state.isFetching = false; // 載入完成
     },
   },
 });
@@ -115,6 +120,7 @@ export const {
   refreshTokenFailure,
   updateUserInfo,
   clearError,
+  setFetching,
   initializeAuth,
 } = authSlice.actions;
 

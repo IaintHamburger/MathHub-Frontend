@@ -9,7 +9,8 @@ import toastSlice from "../slices/ToastSlice.js";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: [],
+  whitelist: [], // 暫時不持久化任何 slice，避免干擾
+  blacklist: ["authSlice"], // 明確排除 authSlice
 };
 
 const rootReducer = combineReducers({
