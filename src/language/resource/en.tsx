@@ -15,7 +15,7 @@ const navigate = {
 
   "navigate.admin": "Admin",
   "navigate.admin.dashboard": "Dashboard",
-  "navigate.admin.users": "User Management",
+  "navigate.admin.user": "User Management",
   "navigate.admin.comments": "Comment Management",
   "navigate.admin.problems": "Problem Management",
   "navigate.admin.reports": "Report Management",

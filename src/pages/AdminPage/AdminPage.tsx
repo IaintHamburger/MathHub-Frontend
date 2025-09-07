@@ -44,7 +44,7 @@ interface NavItemProps {
 // 定義後台頁面名稱
 const ADMIN_PAGES = {
   dashboard: "dashboard",
-  users: "users",
+  user: "user",
   comments: "comments",
   problemsAdd: "problemsAdd",
   problemsStatus: "problemsStatus",
@@ -114,8 +114,8 @@ export default function AdminPage() {
           />
           <NavItem
             icon={<Users size={20} />}
-            label={t("navigate.admin.users")}
-            active={activeTab === ADMIN_PAGES.users}
+            label={t("navigate.admin.user")}
+            active={activeTab === ADMIN_PAGES.user}
             onClick={navigation.goToAdminUsers}
             collapsed={!sidebarOpen}
           />

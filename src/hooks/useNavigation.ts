@@ -29,7 +29,7 @@ export const useNavigation = () => {
     // 管理頁面
     goToAdmin: () => navigate("/admin"),
     goToAdminDashboard: () => navigate("/admin/dashboard"),
-    goToAdminUsers: () => navigate("/admin/users"),
+    goToAdminUsers: () => navigate("/admin/user"),
     goToAdminComments: () => navigate("/admin/comments"),
     goToAdminProblemsAdd: () => navigate("/admin/problemsAdd"),
     goToAdminProblemsStatus: () => navigate("/admin/problemsStatus"),

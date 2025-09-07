@@ -36,7 +36,7 @@ const navigate = {
   "navigate.about": "關於我們",
 
   "navigate.admin.dashboard": "儀表板",
-  "navigate.admin.users": "帳號管理",
+  "navigate.admin.user": "帳號管理",
   "navigate.admin.comments": "留言管理",
   "navigate.admin.problemsAdd": "審題/新增題目",
   "navigate.admin.problemsStatus": "修改題目狀態",

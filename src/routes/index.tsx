@@ -11,7 +11,7 @@ import ProblemsAddPage from "@/pages/AdminPage/AdminSubPages/ProblemsAddPage";
 import ProblemsStatusPage from "@/pages/AdminPage/AdminSubPages/ProblemsStatusPage";
 import ReportsPage from "@/pages/AdminPage/AdminSubPages/ReportsPage";
 import SettingsPage from "@/pages/AdminPage/AdminSubPages/SettingsPage";
-import UsersPage from "@/pages/AdminPage/AdminSubPages/UsersPage";
+import UserPage from "@/pages/AdminPage/AdminSubPages/UserPage";
 import { type RouteConfig, routes } from "./routeConfig";
 
 // 載入中組件
@@ -85,7 +85,7 @@ export default function AppRoutes() {
 
           {/* Admin 子路由 */}
           <Route path="dashboard" element={<DashboardPage />} />
-          <Route path="users" element={<UsersPage />} />
+          <Route path="user" element={<UserPage />} />
           <Route path="comments" element={<CommentsPage />} />
           <Route path="problemsAdd" element={<ProblemsAddPage />} />
           <Route path="problemsStatus" element={<ProblemsStatusPage />} />

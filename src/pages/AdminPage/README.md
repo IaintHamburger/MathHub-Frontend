@@ -98,7 +98,7 @@ const {
 import { AdminPageLayout } from "@/components/admin/AdminPageLayout";
 import { useDataTable } from "@/hooks/useDataTable";
 
-export default function UsersPage() {
+export default function UserPage() {
   const {
     data,
     currentPage,

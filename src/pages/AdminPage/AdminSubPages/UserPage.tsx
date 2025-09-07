@@ -12,7 +12,7 @@ interface User {
   status: "active" | "inactive";
 }
 
-export default function UsersPage() {
+export default function UserPage() {
   const { t } = useTranslation();
 
   // 模擬數據
