@@ -4,7 +4,6 @@ interface User {
   id: string;
   name: string;
   email: string;
-  account: string;
   permissionList: string[];
 }
 

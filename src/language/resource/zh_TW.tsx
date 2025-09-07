@@ -12,15 +12,23 @@ const common = {
 
   // 操作按鈕
   "common.actions": "操作",
-  "common.edit": "編輯",
-  "common.delete": "刪除",
-  "common.publish": "發布",
+
   "common.cancel": "取消",
-  "common.unpublish": "取消發布",
-  "common.view": "查看",
   "common.custom": "自定義",
-  "common.unknown": "未知",
+
+  "common.delete": "刪除",
+
+  "common.edit": "編輯",
+
   "common.invalidDate": "無效日期",
+
+  "common.publish": "發布",
+
+  "common.unpublish": "取消發布",
+  "common.unknown": "未知",
+  "common.user": "用戶",
+
+  "common.view": "查看",
 };
 
 const navigate = {
@@ -56,6 +64,7 @@ const slot = {
   "slot.delete.success": "刪除{{label}}成功",
 
   "slot.input.placeholder": "請輸入{{label}}",
+  "slot.input.invalidEmail": "請輸入有效的電子郵件格式",
   "slot.select.placeholder": "請選擇{{label}}",
 };
 
@@ -63,9 +72,17 @@ const status = {
   "status.public": "已發布",
   "status.draft": "草稿",
 
+  "status.active": "啟用",
+  "status.inactive": "停用",
+
   "status.undefined": "未知",
   "status.null": "未知",
   "status.unknown": "未知",
+};
+
+const role = {
+  "role.admin": "管理員",
+  "role.general": "一般用戶",
 };
 
 const header = {
@@ -168,19 +185,6 @@ const home = {
   "home.concepts.search": "搜尋觀念",
 };
 
-const userPage = {
-  "userPage.title": "用戶列表",
-
-  "userPage.table.id": "ID",
-  "userPage.table.name": "用戶名",
-  "userPage.table.email": "電子郵件",
-  "userPage.table.role": "角色",
-  "userPage.table.status": "狀態",
-  "userPage.table.action": "操作",
-
-  "userPage.btn.addUser": "新增用戶",
-};
-
 // 問題回報頁面
 const reportIssue = {
   "reportIssue.title": "問題回報",
@@ -244,6 +248,24 @@ const adminPage = {
   "adminPage.menuItem.userStatistics": "解題統計",
   "adminPage.menuItem.accountSettings": "帳號設定",
 
+  // 後台 管理員 頁面 - 用戶管理
+  ...{
+    "userPage.title": "用戶列表",
+
+    "userPage.table.id": "ID",
+    "userPage.table.name": "用戶名",
+    "userPage.table.email": "電子郵件",
+    "userPage.table.role": "角色",
+    "userPage.table.status": "狀態",
+    "userPage.table.action": "操作",
+
+    "userPage.form.role": "角色",
+    "userPage.form.birthday": "生日",
+    "userPage.form.grade": "年級",
+
+    "userPage.btn.addUser": "新增用戶",
+  },
+
   // 後台 管理員 頁面 - 公告管理
   ...{
     "noticePage.title": "公告編輯",
@@ -271,12 +293,12 @@ const zh_TW = Object.assign(
   navigate,
   slot,
   status,
+  role,
   header,
   footer,
   pagination,
   login,
   home,
-  userPage,
   reportIssue,
   playground,
 

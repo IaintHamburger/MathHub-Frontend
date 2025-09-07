@@ -181,10 +181,9 @@ export default function NoticePage() {
     >
       <NoticeForm
         currentData={currentData as NoticeCreateRequest | NoticeUpdateRequest | null}
-        setCurrentData={
-          setCurrentData as (data: NoticeCreateRequest | NoticeUpdateRequest | null) => void
-        }
+        setCurrentData={setCurrentData}
         onSubmitData={onSubmitData}
+        onClearData={() => setCurrentData(initialCreateData as NoticeCreateRequest)}
       />
     </AdminPageLayout>
   );

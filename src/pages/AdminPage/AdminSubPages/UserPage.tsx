@@ -1,48 +1,101 @@
+import dayjs from "dayjs";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { TableColumn } from "@/components/ui/data-table";
-import { ActionButtonsRenderer, StatusRenderer } from "@/components/ui/table-renderers";
+import UserForm from "@/components/UserForm/UserForm";
+import type { TableColumn } from "@/components/ui/adminPage/data-table";
+import { StatusRenderer } from "@/components/ui/table-renderers";
 import { useDataTable } from "@/hooks/useDataTable";
-import { AdminPageLayout } from "@/pages/AdminPage/AdminPageLayout";
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: "admin" | "user";
-  status: "active" | "inactive";
-}
+import { type ActionConfig, AdminPageLayout } from "@/pages/AdminPage/AdminPageLayout";
+import { userAPI } from "@/services/userService";
+import type { UserCreateRequest, UserItem, UserUpdateRequest } from "@/types/userApi";
 
 export default function UserPage() {
   const { t } = useTranslation();
 
-  // 模擬數據
-  const mockData: User[] = [
-    { id: 1, name: "用戶1", email: "user1@example.com", role: "admin", status: "active" },
-    { id: 2, name: "用戶2", email: "user2@example.com", role: "user", status: "active" },
-    { id: 3, name: "用戶3", email: "user3@example.com", role: "user", status: "inactive" },
-    { id: 4, name: "用戶4", email: "user4@example.com", role: "user", status: "active" },
-    { id: 5, name: "用戶5", email: "user5@example.com", role: "user", status: "inactive" },
-  ];
+  const initialCreateData = useMemo(
+    () => ({
+      name: "",
+      email: "",
+      password: "",
+      status: "",
+      role: ["general"],
+      birthday: Date.now(),
+      grade: "",
+      isActive: false,
+    }),
+    [],
+  );
 
-  const { data, currentPage, pageSize, totalItems, totalPages, setCurrentPage, setPageSize } =
-    useDataTable<User>(mockData, 10);
+  const [currentData, setCurrentData] = useState<UserCreateRequest | UserUpdateRequest | null>(
+    initialCreateData as UserCreateRequest,
+  );
 
-  const handleAddUser = () => {
-    console.log("新增用戶");
-    // TODO: 實作新增用戶邏輯
+  const apiCall = async (postData: any) => {
+    const res = await userAPI.getUserByPagination(postData);
+
+    return {
+      rows: res?.data || [],
+      totalNum: res?.totalNum || 0,
+    };
   };
 
-  const handleEdit = (row: User) => {
-    console.log("編輯用戶:", row.id);
-    // TODO: 實作編輯邏輯
+  // 使用 useDataTable hook，設定初始參數
+  const {
+    data,
+    loading,
+    currentPage,
+    pageSize,
+    totalItems,
+    handlePaginationChange,
+    // biome-ignore lint/correctness/noUnusedVariables: 搜尋功能暫時未實作
+    handleSearchChange,
+    // biome-ignore lint/correctness/noUnusedVariables: 排序功能暫時未實作
+    handleSortChange,
+    refreshData,
+  } = useDataTable<UserItem>(apiCall, {
+    filter: {},
+    sort: { createdAt: -1 },
+    projection: {},
+  });
+
+  const handleNew = () => {
+    setCurrentData(initialCreateData as UserCreateRequest);
   };
 
-  const handleDelete = (row: User) => {
-    console.log("刪除用戶:", row.id);
-    // TODO: 實作刪除邏輯
+  const handleEdit = (row: UserItem) => {
+    // biome-ignore lint/correctness/noUnusedVariables: creator 欄位不需要在編輯時使用
+    const { createdAt, updatedAt, creator, ...rest } = row;
+
+    setCurrentData(rest as UserUpdateRequest);
   };
 
-  const columns: TableColumn<User>[] = [
+  const handleDelete = async (row: UserItem) => {
+    const res = await userAPI.deleteUser({ id: row.id });
+    if (res?.success) {
+      refreshData();
+    }
+  };
+
+  const onSubmitData = async (data: UserCreateRequest | UserUpdateRequest) => {
+    data.birthday = data.birthday ? dayjs(data.birthday).startOf("day").valueOf() : 0;
+
+    console.log("onSubmitData", data);
+
+    return;
+    if ("id" in data) {
+      const res = await userAPI.updateUser(data as UserUpdateRequest);
+      if (res?.success) {
+        refreshData();
+      }
+    } else {
+      const res = await userAPI.createUser(data as UserCreateRequest);
+      if (res?.success) {
+        refreshData();
+      }
+    }
+  };
+
+  const columns: TableColumn<UserItem>[] = [
     {
       fieldKey: "id",
       label: t("userPage.table.id"),
@@ -59,7 +112,7 @@ export default function UserPage() {
     {
       fieldKey: "role",
       label: t("userPage.table.role"),
-      render: (value) => (value === "admin" ? "管理員" : "一般用戶"),
+      render: (value) => (value.includes("admin") ? t("role.admin") : t("role.general")),
     },
     {
       fieldKey: "status",
@@ -68,53 +121,62 @@ export default function UserPage() {
         <StatusRenderer
           value={value}
           statusMap={{
-            active: { label: "啟用", className: "bg-green-500/20 text-green-400" },
-            inactive: { label: "停用", className: "bg-red-500/20 text-red-400" },
+            active: { label: t("status.active"), className: "bg-green-500/20 text-green-400" },
+            inactive: { label: t("status.inactive"), className: "bg-red-500/20 text-red-400" },
           }}
-        />
-      ),
-    },
-    {
-      fieldKey: "actions",
-      label: t("userPage.table.action"),
-      width: "200px",
-      render: (value, row) => (
-        <ActionButtonsRenderer
-          actions={[
-            {
-              label: "編輯",
-              onClick: handleEdit,
-              className: "text-blue-400 hover:text-blue-300",
-            },
-            {
-              label: "刪除",
-              onClick: handleDelete,
-              className: "text-red-400 hover:text-red-300",
-            },
-          ]}
-          row={row}
-          rowIndex={row.id}
         />
       ),
     },
   ];
 
+  const actions: ActionConfig<UserItem>[] = [
+    {
+      type: "edit",
+      label: t("common.edit"),
+      onClick: handleEdit,
+      className: "text-blue-400 hover:text-blue-300",
+    },
+    {
+      type: "delete",
+      label: t("common.delete"),
+      onClick: handleDelete,
+      className: "text-red-400 hover:text-red-300",
+    },
+  ];
+
+  // 分頁處理函數
+  const onPageChange = (page: number) => {
+    const skip = (page - 1) * pageSize;
+    handlePaginationChange(pageSize, skip);
+  };
+
+  const onPageSizeChange = (size: number) => {
+    handlePaginationChange(size, 0);
+  };
+
   return (
     <AdminPageLayout
-      title={t("userPage.title")}
       actionButton={{
         label: t("userPage.btn.addUser"),
-        onClick: handleAddUser,
+        onClick: handleNew,
       }}
       columns={columns}
       data={data}
+      loading={loading}
       currentPage={currentPage}
-      totalPages={totalPages}
+      totalPages={Math.ceil(totalItems / pageSize)}
       totalItems={totalItems}
       pageSize={pageSize}
-      onPageChange={setCurrentPage}
-      onPageSizeChange={setPageSize}
-      showPageSizeSelector
-    />
+      onPageChange={onPageChange}
+      onPageSizeChange={onPageSizeChange}
+      actions={actions}
+    >
+      <UserForm
+        currentData={currentData}
+        setCurrentData={setCurrentData}
+        onSubmitData={onSubmitData}
+        onClearData={() => setCurrentData(initialCreateData as UserCreateRequest)}
+      />
+    </AdminPageLayout>
   );
 }

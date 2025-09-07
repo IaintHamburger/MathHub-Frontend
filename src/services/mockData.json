@@ -1,4 +1,18 @@
 {
+  "user": [
+    {
+      "id": 1,
+      "name": "用戶1",
+      "email": "user1@example.com",
+      "status": "active",
+      "role": ["admin"],
+      "birthday": 1755340878000,
+      "grade": "國小一年級",
+      "isActive": true,
+      "createdAt": 1755340878000,
+      "updatedAt": 1755340878000
+    }
+  ],
   "notice": [
     {
       "id": 1,

@@ -21,6 +21,20 @@ export const validateForm = (
       );
       return false;
     }
+
+    if (
+      field.key?.toLowerCase().includes("email") &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data[field.key])
+    ) {
+      const errorMessage = t("slot.input.invalidEmail");
+      dispatch(
+        AddToast({
+          type: "error",
+          message: errorMessage,
+        }),
+      );
+      return false;
+    }
   }
   return true;
 };

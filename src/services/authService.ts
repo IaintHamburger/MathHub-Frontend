@@ -456,24 +456,6 @@ export const authAPI = {
       body: JSON.stringify({ email }),
     });
   },
-
-  // 更新用戶資料
-  updateProfile: async (
-    userData: Partial<{
-      name: string;
-      email: string;
-    }>,
-  ) => {
-    return apiRequest("/auth/profile", {
-      method: "PUT",
-      body: JSON.stringify(userData),
-    });
-  },
-
-  // 獲取用戶權限
-  getUserPermissions: async () => {
-    return apiRequest("/auth/permissions");
-  },
 };
 
 // 自動刷新 token 的函數

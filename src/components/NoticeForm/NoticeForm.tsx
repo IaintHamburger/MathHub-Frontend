@@ -12,6 +12,7 @@ const NoticeForm = (props: {
   currentData: NoticeCreateRequest | NoticeUpdateRequest | null;
   setCurrentData: (data: NoticeCreateRequest | NoticeUpdateRequest | null) => void;
   onSubmitData: (data: NoticeCreateRequest | NoticeUpdateRequest) => void;
+  onClearData: () => void;
 }) => {
   const { currentData, setCurrentData } = props;
   const { t } = useTranslation();
@@ -96,7 +97,11 @@ const NoticeForm = (props: {
           >
             {t("noticePage.btn.draft")}
           </Button>
-          <Button variant="outline" className="border-red-400/30 text-red-400 bg-transparent">
+          <Button
+            variant="outline"
+            className="border-red-400/30 text-red-400 bg-transparent"
+            onClick={props.onClearData}
+          >
             {t("common.cancel")}
           </Button>
         </div>

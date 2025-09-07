@@ -13,7 +13,7 @@ import {
 } from "@/redux/slices/AuthSlice";
 import type { RootState } from "@/redux/store/app";
 import { authAPI, cleanupTokenRefresh, setupTokenRefresh } from "@/services/authService";
-import type { UpdateProfileResponse, User } from "@/types/auth";
+import type { User } from "@/types/auth";
 
 // 定義 Auth Context 的類型
 interface AuthContextType {
@@ -30,9 +30,6 @@ interface AuthContextType {
   }) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
   refreshToken: () => Promise<boolean>;
-  updateUserInfo: (
-    userData: Partial<User>,
-  ) => Promise<{ success: boolean; user?: User; error?: string }>;
   changePassword: (
     currentPassword: string,
     newPassword: string,
@@ -163,17 +160,6 @@ const useAuthInternal = (): AuthContextType => {
     return await authAPI.refreshToken();
   };
 
-  // 更新用戶資訊
-  const updateUserInfo = async (userData: Partial<User>) => {
-    try {
-      const response = (await authAPI.updateProfile(userData)) as UpdateProfileResponse;
-      return { success: true, user: response.user };
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "更新失敗";
-      return { success: false, error: errorMessage };
-    }
-  };
-
   // 更改密碼
   const changePassword = async (currentPassword: string, newPassword: string) => {
     try {
@@ -222,7 +208,6 @@ const useAuthInternal = (): AuthContextType => {
     login,
     logout: logoutUser,
     refreshToken,
-    updateUserInfo,
     changePassword,
     forgotPassword,
 
