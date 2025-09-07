@@ -1,0 +1,34 @@
+{
+  "notice": [
+    {
+      "id": 1,
+      "title": "公告1",
+      "content": "公告1內容",
+      "status": "public",
+      "pinOrder": 1,
+      "scheduleAt": 0,
+      "createdAt": 1755340878000,
+      "updatedAt": 1755340878000
+    },
+    {
+      "id": 2,
+      "title": "公告2",
+      "content": "公告2內容",
+      "status": "draft",
+      "pinOrder": null,
+      "scheduleAt": 0,
+      "createdAt": 1756723278000,
+      "updatedAt": 1756723278000
+    },
+    {
+      "id": 3,
+      "title": "公告3",
+      "content": "公告3內容公告3內容公告3內容公告3內容公告3內容公告3內容公告3內容公告3內容公告3內容",
+      "status": "draft",
+      "pinOrder": null,
+      "scheduleAt": 0,
+      "createdAt": 1756118478000,
+      "updatedAt": 1756118478000
+    }
+  ]
+}

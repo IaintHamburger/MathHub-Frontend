@@ -177,7 +177,7 @@ export default function ReportIssuePage() {
                 variant="outline"
                 className="border-blue-400/30 text-blue-300 hover:bg-slate-700/50 bg-transparent"
               >
-                {t("reportIssue.form.cancel")}
+                {t("common.cancel")}
               </Button>
               <Button className="bg-blue-600 hover:bg-blue-700">
                 <Send className="w-4 h-4 mr-2" />

@@ -1,13 +1,30 @@
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import NoticeForm from "@/components/NoticeForm/NoticeForm";
 import type { TableColumn } from "@/components/ui/adminPage/data-table";
 import { StatusRenderer } from "@/components/ui/table-renderers";
 import { useDataTable } from "@/hooks/useDataTable";
 import { type ActionConfig, AdminPageLayout } from "@/pages/AdminPage/AdminPageLayout";
 import { noticeAPI } from "@/services/noticeService";
-import type { NoticeItem } from "@/types/noticeApi";
+import type { NoticeCreateRequest, NoticeItem, NoticeUpdateRequest } from "@/types/noticeApi";
 
 export default function NoticePage() {
   const { t } = useTranslation();
+
+  const initialCreateData = useMemo(
+    () => ({
+      title: "",
+      content: "",
+      status: "draft",
+      pin: false,
+      scheduleAt: 0,
+    }),
+    [],
+  );
+
+  const [currentData, setCurrentData] = useState<NoticeCreateRequest | NoticeUpdateRequest | null>(
+    initialCreateData as NoticeCreateRequest,
+  );
 
   const apiCall = async (postData: any) => {
     const res = await noticeAPI.getNoticeByPagination(postData);
@@ -26,7 +43,9 @@ export default function NoticePage() {
     pageSize,
     totalItems,
     handlePaginationChange,
+    // biome-ignore lint/correctness/noUnusedVariables: 搜尋功能暫時未實作
     handleSearchChange,
+    // biome-ignore lint/correctness/noUnusedVariables: 排序功能暫時未實作
     handleSortChange,
     refreshData,
   } = useDataTable<NoticeItem>(apiCall, {
@@ -35,24 +54,51 @@ export default function NoticePage() {
     projection: {},
   });
 
-  const handleAddNotice = () => {
-    console.log("新增公告");
-    // TODO: 實作新增公告邏輯
+  const handleNew = () => {
+    setCurrentData(initialCreateData as NoticeCreateRequest);
   };
 
   const handleEdit = (row: NoticeItem) => {
-    console.log("編輯公告:", row.id);
-    // TODO: 實作編輯邏輯
+    // biome-ignore lint/correctness/noUnusedVariables: creator 欄位不需要在編輯時使用
+    const { createdAt, updatedAt, creator, ...rest } = row;
+
+    setCurrentData(rest as NoticeUpdateRequest);
   };
 
-  const handlePublish = (row: NoticeItem) => {
-    console.log("發布公告:", row.id);
-    // TODO: 實作發布邏輯
+  const handlePublish = async (row: NoticeItem) => {
+    // biome-ignore lint/correctness/noUnusedVariables: creator 欄位不需要在發布時使用
+    const { createdAt, updatedAt, creator, ...rest } = row;
+
+    const postData = {
+      ...rest,
+      status: "public",
+    };
+
+    const res = await noticeAPI.updateNotice(postData as NoticeUpdateRequest);
+    if (res.success) {
+      refreshData();
+    }
   };
 
-  const handleDelete = (row: NoticeItem) => {
-    console.log("刪除公告:", row.id);
-    // TODO: 實作刪除邏輯
+  const handleDelete = async (row: NoticeItem) => {
+    const res = await noticeAPI.deleteNotice({ id: row.id });
+    if (res.success) {
+      refreshData();
+    }
+  };
+
+  const onSubmitData = async (data: NoticeCreateRequest | NoticeUpdateRequest) => {
+    if ("id" in data) {
+      const res = await noticeAPI.updateNotice(data as NoticeUpdateRequest);
+      if (res?.success) {
+        refreshData();
+      }
+    } else {
+      const res = await noticeAPI.createNotice(data as NoticeCreateRequest);
+      if (res?.success) {
+        refreshData();
+      }
+    }
   };
 
   const columns: TableColumn<NoticeItem>[] = [
@@ -66,9 +112,9 @@ export default function NoticePage() {
       label: t("noticePage.table.title"),
     },
     {
-      fieldKey: "creator",
-      label: t("noticePage.table.creator"),
-      render: (value) => value?.name || "",
+      fieldKey: "createdAt",
+      label: t("noticePage.table.createdAt"),
+      render: (value) => new Date(value).toLocaleDateString("zh-TW"),
     },
     {
       fieldKey: "status",
@@ -77,16 +123,11 @@ export default function NoticePage() {
         <StatusRenderer
           value={value}
           statusMap={{
-            public: { label: "已發布", className: "bg-green-500/20 text-green-400" },
-            draft: { label: "草稿", className: "bg-slate-500/20 text-slate-400" },
+            public: { label: t("status.public"), className: "bg-green-500/20 text-green-400" },
+            draft: { label: t("status.draft"), className: "bg-slate-500/20 text-slate-400" },
           }}
         />
       ),
-    },
-    {
-      fieldKey: "createdAt",
-      label: t("noticePage.table.createdAt"),
-      render: (value) => new Date(value).toLocaleDateString("zh-TW"),
     },
   ];
 
@@ -123,10 +164,10 @@ export default function NoticePage() {
 
   return (
     <AdminPageLayout
-      // actionButton={{
-      //   label: t("noticePage.btn.addNotice"),
-      //   onClick: handleAddNotice,
-      // }}
+      actionButton={{
+        label: t("noticePage.btn.addNotice"),
+        onClick: handleNew,
+      }}
       columns={columns}
       data={data}
       loading={loading}
@@ -137,6 +178,14 @@ export default function NoticePage() {
       onPageChange={onPageChange}
       onPageSizeChange={onPageSizeChange}
       actions={actions}
-    />
+    >
+      <NoticeForm
+        currentData={currentData as NoticeCreateRequest | NoticeUpdateRequest | null}
+        setCurrentData={
+          setCurrentData as (data: NoticeCreateRequest | NoticeUpdateRequest | null) => void
+        }
+        onSubmitData={onSubmitData}
+      />
+    </AdminPageLayout>
   );
 }

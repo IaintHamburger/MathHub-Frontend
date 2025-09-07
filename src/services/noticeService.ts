@@ -7,11 +7,13 @@ import type {
   NoticeUpdateRequest,
 } from "@/types/noticeApi";
 import { apiRequest } from "./authService";
-import { apiResponse } from "./responseService";
+import { apiResponse, mockApiResponse } from "./responseService";
 
 export const noticeAPI = {
   // 取得公告列表
   getNoticeByPagination: async (postData: object) => {
+    return mockApiResponse("notice");
+
     const queryParams = buildQueryString(postData);
 
     const response: BaseItem<NoticeListResponse> = await apiRequest<BaseItem<NoticeListResponse>>(
@@ -34,7 +36,7 @@ export const noticeAPI = {
       },
     );
 
-    return apiResponse(response, i18n.t("slot.create", { label: i18n.t("common.notice") }));
+    return apiResponse(response, i18n.t("slot.create.success", { label: i18n.t("common.notice") }));
   },
 
   // 更新公告

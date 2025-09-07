@@ -72,7 +72,7 @@ export function useDataTable<T>(
 
         console.log("API call params:", postData);
 
-        const response = await apiCall(postData);
+        const response = await apiCall(postData as ApiParams);
 
         setData(response.rows || []);
         setTotalItems(response.totalNum || 0);
@@ -84,7 +84,7 @@ export function useDataTable<T>(
         setLoading(false);
       }
     },
-    [apiCall, searchConditions],
+    [apiCall],
   );
 
   // 初始化 - 只執行一次

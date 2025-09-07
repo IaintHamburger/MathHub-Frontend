@@ -1,9 +1,6 @@
-export { type ApiParams, type ApiResponse, type UseApiDataOptions, useApiData } from "./useApiData";
+export type { ApiParams, ApiResponse, UseApiDataOptions } from "./useApiData";
 export { useAuth } from "./useAuth";
 export {
-  type DataTableState,
-  type FilterConfig,
-  type SortConfig,
   type UseDataTableReturn,
   useDataTable,
 } from "./useDataTable";

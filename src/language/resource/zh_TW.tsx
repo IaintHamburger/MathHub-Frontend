@@ -15,6 +15,7 @@ const common = {
   "common.edit": "編輯",
   "common.delete": "刪除",
   "common.publish": "發布",
+  "common.cancel": "取消",
   "common.unpublish": "取消發布",
   "common.view": "查看",
   "common.custom": "自定義",
@@ -46,9 +47,25 @@ const navigate = {
 };
 
 const slot = {
-  "slot.create": "新增{label}成功",
-  "slot.delete": "刪除{label}成功",
-  "slot.edit": "編輯{label}成功",
+  "slot.create": "新增{{label}}",
+  "slot.edit": "編輯{{label}}",
+  "slot.delete": "刪除{{label}}",
+
+  "slot.create.success": "新增{{label}}成功",
+  "slot.edit.success": "編輯{{label}}成功",
+  "slot.delete.success": "刪除{{label}}成功",
+
+  "slot.input.placeholder": "請輸入{{label}}",
+  "slot.select.placeholder": "請選擇{{label}}",
+};
+
+const status = {
+  "status.public": "已發布",
+  "status.draft": "草稿",
+
+  "status.undefined": "未知",
+  "status.null": "未知",
+  "status.unknown": "未知",
 };
 
 const header = {
@@ -198,7 +215,6 @@ const reportIssue = {
   "reportIssue.form.screenshotHelp": "點擊上傳檔案或拖拽檔案到此處",
   "reportIssue.form.screenshotFormat": "支援 PNG, JPG, GIF, PDF 格式，最大 10MB",
 
-  "reportIssue.form.cancel": "取消",
   "reportIssue.form.submit": "提交回報",
 
   "reportIssue.options.bug": "🐛 錯誤回報",
@@ -235,11 +251,16 @@ const adminPage = {
 
     "noticePage.table.id": "ID",
     "noticePage.table.title": "標題",
-    "noticePage.table.date": "發布日期",
+    "noticePage.table.createdAt": "發布日期",
     "noticePage.table.status": "狀態",
     "noticePage.table.action": "操作",
 
-    "noticePage.edit.title": "編輯公告",
+    "noticePage.form.title": "公告標題",
+    "noticePage.form.content": "公告內容",
+    "noticePage.form.pin": "置頂公告",
+
+    "noticePage.btn.publish": "發布公告",
+    "noticePage.btn.draft": "儲存草稿",
   },
 };
 
@@ -249,6 +270,7 @@ const zh_TW = Object.assign(
   common,
   navigate,
   slot,
+  status,
   header,
   footer,
   pagination,

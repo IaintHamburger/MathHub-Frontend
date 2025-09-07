@@ -50,6 +50,10 @@ export const RouteGuard = ({
   const hasAccessToken = !!tokenUtils.getAccessToken();
   const { hasPermission, hasAllPermissions } = useRoutePermission(permissions);
 
+  if (import.meta.env.VITE_BUILD_MODE === "develop") {
+    return <>{children}</>;
+  }
+
   // 檢查是否已登入
   const isLoggedIn = isAuthenticated || hasAccessToken;
 

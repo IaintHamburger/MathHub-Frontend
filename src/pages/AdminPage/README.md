@@ -91,28 +91,6 @@ const {
 } = useDataTable<User>(initialData, 10);
 ```
 
-#### useApiData
-處理 API 調用和數據獲取的 hook。
-
-```tsx
-import { useApiData } from "@/hooks/useApiData";
-
-const {
-  data,
-  loading,
-  currentPage,
-  totalPages,
-  handlePageChange,
-  handlePageSizeChange,
-  handleSort,
-  handleFilter,
-  handleSearch,
-} = useApiData(fetchUsers, {
-  initialPageSize: 20,
-  autoFetch: true,
-});
-```
-
 ## 使用範例
 
 ### 基本表格頁面

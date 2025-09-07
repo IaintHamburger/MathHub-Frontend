@@ -38,6 +38,8 @@ export interface AdminPageLayoutProps<T> {
   showPageSizeSelector?: boolean;
   pageSizeOptions?: number[];
   className?: string;
+
+  children?: ReactNode;
 }
 
 export function AdminPageLayout<T>({
@@ -57,6 +59,7 @@ export function AdminPageLayout<T>({
   showPageSizeSelector = false,
   pageSizeOptions = [10, 20, 50, 100],
   className = "",
+  children,
 }: AdminPageLayoutProps<T>) {
   const { t } = useTranslation();
   // 自動添加 actions column
@@ -105,6 +108,8 @@ export function AdminPageLayout<T>({
         showPageSizeSelector={showPageSizeSelector}
         pageSizeOptions={pageSizeOptions}
       />
+
+      {children}
     </div>
   );
 }

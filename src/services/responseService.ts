@@ -3,6 +3,8 @@ import { AddToast } from "@/redux/slices/ToastSlice";
 import { store } from "@/redux/store/app";
 import type { BaseItem } from "@/types/baseApi";
 
+import mockData from "./mockData.json";
+
 const dispatch = store.dispatch;
 
 export const apiResponse = (response: BaseItem, callbackStr = "", hiddenToast = false) => {
@@ -28,6 +30,17 @@ export const apiResponse = (response: BaseItem, callbackStr = "", hiddenToast = 
   }
 
   return response || new ApiResponseModel(response);
+};
+
+export const mockApiResponse = (key: string) => {
+  const data = mockData[key as keyof typeof mockData];
+  const totalNum = data.length;
+  return {
+    success: true,
+    message: "success",
+    data: data,
+    totalNum: totalNum,
+  };
 };
 
 export class ApiResponseModel {
